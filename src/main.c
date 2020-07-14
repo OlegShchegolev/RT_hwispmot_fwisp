@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
+/*   By: shchegolev <shchegolev@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/01/29 22:02:29 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/14 23:15:48 by shchegolev       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void				wait_quit(t_sdl sdl, t_scene scene)
 					break ;
 				
 			}
-				
 		}
 	}
 	SDL_FreeSurface(sdl.screen);
@@ -210,14 +209,12 @@ int					main(int argc, char **argv)
 							0x0000FF00, 0x000000FF, 0xFF000000);
 	sdl.texture = SDL_CreateTexture(sdl.renderer, SDL_PIXELFORMAT_ARGB8888, \
 								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
-
 	if (argc == 2)
 	{
-		sdl.cl_inst = initcl();
+		// sdl.cl_inst = initcl();
 		scene = construct_scene(argv[1]);
 		wait_quit(sdl, scene);
 	}
-	
 	SDL_Quit();
 	return (0);
 }

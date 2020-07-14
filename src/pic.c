@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pic.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hwispmot <hwispmot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shchegolev <shchegolev@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 01:38:58 by hwispmot          #+#    #+#             */
-/*   Updated: 2019/11/20 22:55:16 by hwispmot         ###   ########.fr       */
+/*   Updated: 2020/07/14 23:08:06 by shchegolev       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@ void	ft_put_pixel(SDL_Surface *surface, int x, int y, cl_int4 ccolor)
 
 cl_int4	*ft_draw(t_sdl sdl, t_scene scene)
 {
-	t_lim		lim;
 	int			x;
 	int			y;
 	cl_int4		ccolor;
 	cl_int4		*z;
 
-	lim.min = 1;
-	lim.max = DMAX;
-	z = rt_cl(&(sdl.cl_inst), scene);
+	// z = rt_cl(&(sdl.cl_inst), scene);
 	if (scene.effect != 0)
 		effect(z, scene);
 	x =  - 1;	
@@ -56,7 +53,10 @@ cl_int4	*ft_draw(t_sdl sdl, t_scene scene)
 		y = - 1;
 		while (++y < C_H)
 		{
-			ccolor = z[x * C_H + y];
+			ccolor.s0 = 255;
+			ccolor.s1 = 255;
+			ccolor.s2 = 255;
+			// ccolor = z[x * C_H + y];
 			ft_put_pixel(sdl.screen, x , y, ccolor);
 		}
 	}

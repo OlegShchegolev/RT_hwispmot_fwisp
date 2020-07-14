@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   construct_scene.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
+/*   By: shchegolev <shchegolev@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:23:40 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/01/29 22:02:48 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/14 23:27:04 by shchegolev       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@
 // 	}
 // }
 
+void	print_object(t_cl_object object)
+{
+	printf("%c %f\n", (char)object.type, (float)object.radius);
+}
+
 t_scene	construct_scene(char *fname)
 {
 	t_scene		scene;
 	cl_float3	cam_ang;
 	// ft_parse_scene(fname, &scene);
 	// check_sources(scene.sources);
-	fname[0] = 1;
 	
 	scene.cl_lim.max = 1.0f;
 	scene.cl_lim.min = 0.001f;
@@ -218,14 +222,20 @@ t_scene	construct_scene(char *fname)
 	// scene.objects[10].scale = (cl_float2){{ 1.0f, 1.0f}};
 	// scene.objects[10].shift = (cl_float2){{ 0.0f, 0.0f}};
 		
-	scene.sources[0].position = (cl_float3){{0.0f, 3.0f, -20.0f}};//scene.viewpoint;//(cl_float3){{5 * cos(phi), 5 * sin(phi), -25.0f}};
-	scene.sources[0].intensity = 0.2f;
-	scene.sources[0].type = 'p';
+	// scene.sources[0].position = (cl_float3){{0.0f, 3.0f, -20.0f}};//scene.viewpoint;//(cl_float3){{5 * cos(phi), 5 * sin(phi), -25.0f}};
+	// scene.sources[0].intensity = 0.2f;
+	// scene.sources[0].type = 'p';
 	
-	scene.sources[1].position = (cl_float3){{-20.0f, 10.0f, -50.0f}};
-	scene.sources[1].intensity = 0.4f;
-	scene.sources[1].type = 'p';
-
+	// scene.sources[1].position = (cl_float3){{-20.0f, 10.0f, -50.0f}};
+	// scene.sources[1].intensity = 0.4f;
+	// scene.sources[1].type = 'p';
+	ft_parse_scene(fname, &scene);
+	printf("here %s\n", fname);
+	for (int i = 0; i < 20; i++)
+	{
+		printf("%d ", i);
+		print_object(scene.objects[i]);	
+	}
 
 
 	return (scene);
