@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 03:15:14 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 14:52:15 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,38 @@ void	check_sources(t_cl_source *sources)
     i = -1;
 	while (++i < N_SRC)
 		sources[i].intensity /= sum;
+}
+
+t_matrix		return_eig_rot_m(cl_float3 cam_ang)
+{
+	int			i;
+	int			j;
+	t_matrix	zero;
+
+	ft_memset(zero.m, 0, sizeof(zero.m)); 
+	i = -1;
+	while (++i < 3)
+		zero.m[i][i] = 1;
+	cam_ang.s[0] = cam_ang.s[0] * (3.14 / 180);
+	cam_ang.s[1] = cam_ang.s[1] * (3.14 / 180);
+	zero.m[0][0] = cos(cam_ang.s[1]);
+	zero.m[0][1] = 0;
+	zero.m[0][2] = sin(cam_ang.s[1]);
+	zero.m[1][0] = sin(cam_ang.s[1]) * sin(cam_ang.s[0]);
+	zero.m[1][1] = cos(cam_ang.s[0]);
+	zero.m[1][2] = -sin(cam_ang.s[0]) * cos(cam_ang.s[1]);
+	zero.m[2][0] = -sin(cam_ang.s[1]) * cos(cam_ang.s[0]);
+	zero.m[2][1] = sin(cam_ang.s[0]);
+	zero.m[2][2] = cos(cam_ang.s[0]) * cos(cam_ang.s[1]);
+	return (zero);
+}
+
+cl_float3	ft_vrot(cl_float3 a, t_matrix rot)
+{
+	cl_float3	res;
+
+	res.s[0] = rot.m[0][0] * a.s[0] + rot.m[0][1] * a.s[1] + rot.m[0][2] * a.s[2];
+	res.s[1] = rot.m[1][0] * a.s[0] + rot.m[1][1] * a.s[1] + rot.m[1][2] * a.s[2];
+	res.s[2] = rot.m[2][0] * a.s[0] + rot.m[2][1] * a.s[1] + rot.m[2][2] * a.s[2];
+	return (res);
 }

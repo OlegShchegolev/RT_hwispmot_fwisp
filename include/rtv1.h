@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/15 03:15:34 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 14:53:56 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct			s_scene
 	t_lim				tr_lim;
 	cl_int				effect;
 	cl_int				effect_int;
+	cl_float3			cam_angles;
 }						t_scene;	
 
 
@@ -109,6 +110,7 @@ cl_float3				return_zero_vector(void);
 cl_float2				return_zero_2dvector(void);
 cl_float4				return_zero_4dvector(void);
 cl_int3 				return_zero_color(void);
+t_matrix				return_eig_rot_m(cl_float3 cam_ang);
 cl_float3				parse_vector(char *str);
 cl_float2				parse_2dvector(char *str);
 cl_float4				parse_4dvector(char *str);
@@ -123,8 +125,8 @@ cl_float3				ft_vrot(cl_float3, t_matrix rot);
 t_scene					construct_scene(char *str);
 cl_int4					*ft_draw(t_sdl sdl, t_scene scene);
 void					effect(cl_int4 *z, t_scene scene);
-t_matrix				return_eig_rot_m(cl_float3 cam_ang);
 t_cl					initcl(void);
 void					set_ker_arg(t_cl *cl);
 void					ft_parse_scene(char *filename, t_scene *scene);
+void    				controls(t_sdl sdl, t_scene scene);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:44:08 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 03:16:11 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 12:43:57 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ void			parse_sources(t_cl_source *sources, char *str)
 	}
 }
 
-void		parse_camera(cl_float3 *vp, t_matrix *rot, char *str)
+void		parse_camera(cl_float3 *vp, cl_float3 *angles, t_matrix *rot, char *str)
 {
-	cl_float3   angles;
 	char		*end;
 
 	if (!(str = ft_strstr(str, "camera")))
@@ -77,10 +76,10 @@ void		parse_camera(cl_float3 *vp, t_matrix *rot, char *str)
 	end = ft_strstr(str, "}");
 	*end = '\0';
 	if (ft_strstr(str, "camera_angles:"))
-		angles = parse_vector(ft_strstr(str, "camera_angles:"));
+		*angles = parse_vector(ft_strstr(str, "camera_angles:"));
 	else
-		angles = return_zero_vector();
-	*rot = return_eig_rot_m(angles);
+		*angles = return_zero_vector();
+	*rot = return_eig_rot_m(*angles);
 	if (ft_strstr(str, "viewpoint:"))
 		*vp = parse_vector(ft_strstr(str, "viewpoint:"));
 }
@@ -105,13 +104,16 @@ void		ft_parse_scene(char *filename, t_scene *scene)
     int     n;
 
     n = 0;
+	zero_objects_and_sources(scene->objects, scene->sources);
+	parse_object(scene->objects, buffer);
 	fd = open(filename, O_RDONLY);
+	if (!fd)
+		return ;
 	out = read(fd, buffer, 100000);
 	buffer[out] = '\0';
-    zero_objects_and_sources(scene->objects, scene->sources);
-	parse_object(scene->objects, buffer);
 	parse_sources(scene->sources, buffer);
 	check_sources(scene->sources);
-	parse_camera(&(scene->viewpoint), &(scene->rot_matrix), buffer);
+	parse_camera(&(scene->viewpoint), &(scene->cam_angles), \
+								&(scene->rot_matrix), buffer);
 	close(fd);
 }
