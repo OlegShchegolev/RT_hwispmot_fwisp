@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shchegolev <shchegolev@student.42.fr>      +#+  +:+       +#+        */
+/*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/15 00:37:31 by shchegolev       ###   ########.fr       */
+/*   Updated: 2020/07/15 03:15:34 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,20 @@ typedef struct			s_scene
 	cl_int				effect_int;
 }						t_scene;	
 
+
+cl_float3				return_zero_vector(void);
+cl_float2				return_zero_2dvector(void);
+cl_float4				return_zero_4dvector(void);
+cl_int3 				return_zero_color(void);
+cl_float3				parse_vector(char *str);
+cl_float2				parse_2dvector(char *str);
+cl_float4				parse_4dvector(char *str);
+cl_int3		    		parse_color(char *str);
+char					parse_type(char *str);
+void					get_slices(t_cl_object *object, char *str0);
+void					get_object_parameters(t_cl_object *object, char *str);
+char					parse_object_type(char *str);
+void					check_sources(t_cl_source *sources);
 cl_int3					*rt_cl(t_cl *cl, t_scene scene);
 cl_float3				ft_vrot(cl_float3, t_matrix rot);
 t_scene					construct_scene(char *str);
