@@ -1,14 +1,15 @@
 #include "rtv1.h"
 
-void box_blur(cl_int4 *z, int r) {
+void box_blur(cl_int4 *z, int r)
+{
     cl_int4		sum;
 	int			x;
 	int			y;
 	int			i;
 	int			j;
-	cl_int4*	tmp;
+	cl_int4		*tmp;
 
-	tmp = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
+	tmp = (cl_int4 *)malloc(sizeof(cl_int4) * C_H * C_W);
 	tmp = ft_memcpy(tmp, z, sizeof(cl_int4) * C_H * C_W);
 	x =  - 1;	
 	while (++x < C_W)
@@ -16,11 +17,7 @@ void box_blur(cl_int4 *z, int r) {
 		y = - 1;
 		while (++y < C_H)
 		{
-			
-			sum.s[0] = 0;
-			sum.s[1] = 0;
-			sum.s[2] = 0;
-			sum.s[3] = 1;
+			sum = (cl_int4){{0, 0, 0, 1}};
 			i = -r - 1;
 			while (++i < r+1)
 			{
@@ -171,24 +168,12 @@ void dodge(cl_int4*	front,cl_int4*	back)
 		y = - 1;
 		while (++y < C_H)
 		{
-			if (back[x * C_H + y].s[0] == 255)
-			{
-				front[x * C_H + y].s[0] = 255;
-				continue;
-			}
-            if (back[x * C_H + y].s[1] == 255)
-			{
-				front[x * C_H + y].s[1] = 255;
-				continue;
-			}
-            if (back[x * C_H + y].s[2] == 255)
-			{
-				front[x * C_H + y].s[2] = 255;
-				continue;
-			}
-			front[x * C_H + y].s[0] = front[x * C_H + y].s[0] * 255 / (255 - back[x * C_H + y].s[0]);
-			front[x * C_H + y].s[1] = front[x * C_H + y].s[1] * 255 / (255 - back[x * C_H + y].s[1]);
-			front[x * C_H + y].s[2] = front[x * C_H + y].s[2] * 255 / (255 - back[x * C_H + y].s[2]);
+			front[x * C_H + y].s[0] = back[x * C_H + y].s[0] == 255 ? 255 : \
+				front[x * C_H + y].s[0] * 255 / (255 - back[x * C_H + y].s[0]);
+			front[x * C_H + y].s[1] = back[x * C_H + y].s[1] == 255 ? 255 : \
+				front[x * C_H + y].s[1] * 255 / (255 - back[x * C_H + y].s[1]);
+			front[x * C_H + y].s[2] = back[x * C_H + y].s[2] == 255 ? 255 : \
+				front[x * C_H + y].s[2] * 255 / (255 - back[x * C_H + y].s[2]);
 		}
 	}
 }
