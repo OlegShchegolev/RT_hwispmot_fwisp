@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 12:02:23 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 14:47:05 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 15:09:27 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void    mouse_controls(t_sdl sdl, t_scene scene, SDL_Event event)
 		scene.viewpoint.s[2] -= shift.s[2];
 	}
 	z = ft_draw(sdl, scene);
-	free(z);
+	// free(z);
 }
 
 static void    camera_movement(t_sdl sdl, t_scene scene, SDL_Event event)
@@ -53,7 +53,7 @@ static void    camera_movement(t_sdl sdl, t_scene scene, SDL_Event event)
 	scene.viewpoint.s[1] += shift.s[1];
 	scene.viewpoint.s[2] += shift.s[2];
 	z = ft_draw(sdl, scene);
-	free(z);
+	// free(z);
 }
 
 static void    camera_rotation(t_sdl sdl, t_scene scene, SDL_Event event)
@@ -77,13 +77,15 @@ static void    camera_rotation(t_sdl sdl, t_scene scene, SDL_Event event)
 	}
 	scene.rot_matrix = return_eig_rot_m(scene.cam_angles);
 	z = ft_draw(sdl, scene);
-	free(z);
+	// free(z);
 }
 
 static void    keyboard_effects(t_sdl sdl, t_scene scene, const Uint8	*keystate)
 {
     cl_int4			*z;
     
+	if (keystate[SDL_SCANCODE_RETURN])
+		SDL_SaveBMP(sdl.screen, "screenshot.bmp");
 	if (keystate[SDL_SCANCODE_SPACE] && keystate[SDL_SCANCODE_O])
 		scene.effect = scene.effect != 's' ? 's' : 0;
 	if (keystate[SDL_SCANCODE_SPACE] && keystate[SDL_SCANCODE_G])
@@ -103,7 +105,7 @@ static void    keyboard_effects(t_sdl sdl, t_scene scene, const Uint8	*keystate)
 									&& keystate[SDL_SCANCODE_KP_MINUS])
 		scene.effect_int -= scene.effect_int > 1 ? 1 : 0;
     z = ft_draw(sdl, scene);
-	free(z);
+	// free(z);
 }
 
 void		controls(t_sdl sdl, t_scene scene)
