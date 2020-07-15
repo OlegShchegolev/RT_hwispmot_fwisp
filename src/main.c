@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 19:04:38 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 21:24:01 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void				manage_processes(t_sdl sdl, int argc, char **argv)
 {
-	cl_int4			*z;
 	int				i;
 	t_scene			scene;
+	SDL_Event		event;
 	
 	sdl.cl_inst = initcl();
-	scene = construct_scene(argv[1]);
-	z = ft_draw(sdl, scene);
-	//  free(z);
+	SDL_PollEvent(&event);
+	if (!construct_scene(argv[1], &scene))
+		ft_draw(sdl, scene);
 	if (argc > 2)
 	{
 		i = 1;
 		while (++i < argc)
 		{
+			SDL_PollEvent(&event);
 			sleep(1);
-			scene = construct_scene(argv[i]);
-			z = ft_draw(sdl, scene);
-			// free(z);
+			if (!construct_scene(argv[i], &scene))
+				ft_draw(sdl, scene);
 		}
 	}
 	controls(sdl, scene);

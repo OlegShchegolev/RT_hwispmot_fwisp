@@ -12,6 +12,10 @@ object:
     color:  (255, 0, 255)
     specular: 10
     reflective: 0.5
+	tex_num: 8
+	tex_type: o
+	scale: (1, 1)
+	shift: (0, 0)
 
 }
 

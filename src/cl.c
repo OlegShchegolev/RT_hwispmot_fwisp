@@ -9,7 +9,6 @@ t_cl	initcl()
 	cl_uint		ret_num_platforms;
 	int			fd;
 
-    printf("ok");
 	fd = open("src/ray_trace.cl", O_RDONLY);
 	cl.source_str = (char*)malloc(100000000);
 	cl.source_size = read(fd, cl.source_str, 100000000);

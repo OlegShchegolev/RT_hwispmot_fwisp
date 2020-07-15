@@ -1,0 +1,27 @@
+camera:
+{
+    viewpoint: (0, 0, -5)
+    camera_angles: (10, 20, 30)
+}
+
+object:
+{
+    type: sphere
+    center: (0., 0., 0)
+    radius: 0.5
+    color:  (255, 0, 255)
+    specular: 10
+    reflective: 0.5
+	tex_num: 6
+	tex_type: b
+    scale: (1, 1)
+	shift: (0, 0)
+
+}
+
+light:
+{
+    type: p
+    position: (0, 0, -3)
+    intensity: 1.
+}

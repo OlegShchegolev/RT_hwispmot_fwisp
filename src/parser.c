@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:44:08 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 19:57:07 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 21:25:51 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void        zero_objects_and_sources(t_cl_object *objects, t_cl_source *sources)
 		ft_memset(&(sources[i]), 0, sizeof(sources[i]));
 }
 
-void		ft_parse_scene(char *filename, t_scene *scene)
+int			ft_parse_scene(char *filename, t_scene *scene)
 {
 	int		fd;
 	int		out;
@@ -104,10 +104,10 @@ void		ft_parse_scene(char *filename, t_scene *scene)
     int     n;
 
     n = 0;
-	zero_objects_and_sources(scene->objects, scene->sources);
 	fd = open(filename, O_RDONLY);
-	if (!fd)
-		return ;
+	if (fd < 0)
+		return (1);
+	zero_objects_and_sources(scene->objects, scene->sources);
 	out = read(fd, buffer, 100000);
 	buffer[out] = '\0';
 	parse_objects(scene->objects, buffer);
@@ -116,4 +116,5 @@ void		ft_parse_scene(char *filename, t_scene *scene)
 	parse_camera(&(scene->viewpoint), &(scene->cam_angles), \
 								&(scene->rot_matrix), buffer);
 	close(fd);
+	return (0);
 }
