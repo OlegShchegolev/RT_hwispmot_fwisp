@@ -6,18 +6,19 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 15:08:44 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 19:04:38 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void				manage_processes(t_sdl sdl, t_scene scene, int argc, char **argv)
+void				manage_processes(t_sdl sdl, int argc, char **argv)
 {
 	cl_int4			*z;
 	int				i;
+	t_scene			scene;
 	
-	//sdl.cl_inst = initcl();
+	sdl.cl_inst = initcl();
 	scene = construct_scene(argv[1]);
 	z = ft_draw(sdl, scene);
 	//  free(z);
@@ -40,7 +41,6 @@ void				manage_processes(t_sdl sdl, t_scene scene, int argc, char **argv)
 int					main(int argc, char **argv)
 {
 	t_sdl			sdl;
-	t_scene			scene;
 
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_CreateWindowAndRenderer(C_W, C_H, 0, &(sdl.window), &(sdl.renderer));
@@ -49,8 +49,8 @@ int					main(int argc, char **argv)
 	sdl.texture = SDL_CreateTexture(sdl.renderer, SDL_PIXELFORMAT_ARGB8888, \
 								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
 	if (argc < 2)
-		return ;
-	manage_processes(sdl, scene, argc, argv);
+		return (0);
+	manage_processes(sdl, argc, argv);
 	SDL_Quit();
 	return (0);
 }

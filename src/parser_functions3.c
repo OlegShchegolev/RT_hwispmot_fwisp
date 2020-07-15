@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 14:52:15 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 19:18:00 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	check_sources(t_cl_source *sources)
 t_matrix		return_eig_rot_m(cl_float3 cam_ang)
 {
 	int			i;
-	int			j;
 	t_matrix	zero;
 
 	ft_memset(zero.m, 0, sizeof(zero.m)); 

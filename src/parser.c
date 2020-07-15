@@ -6,13 +6,13 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:44:08 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 12:43:57 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 19:57:07 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void			parse_object(t_cl_object *objects, char *str)
+void			parse_objects(t_cl_object *objects, char *str)
 {
 	char	*end;
 	int		n;
@@ -53,9 +53,9 @@ void			parse_sources(t_cl_source *sources, char *str)
 		if (ft_strstr(str, "position:"))
 			sources[k].position = parse_vector(ft_strstr(str, "position:") \
 												+ ft_strlen("position:"));
-		if (ft_strstr(str, "direction:"))
-			sources[k].position = parse_vector(ft_strstr(str, "direction:") \
-												+ ft_strlen("direction:"));
+		// if (ft_strstr(str, "direction:"))
+		// 	sources[k].position = parse_vector(ft_strstr(str, "direction:") \
+		// 										+ ft_strlen("direction:"));
 		if (ft_strstr(str, "intensity:"))
 			sources[k].intensity = ft_atof(ft_strstr(str, "intensity:") \
 												+ ft_strlen("intensity:"));
@@ -90,10 +90,10 @@ void        zero_objects_and_sources(t_cl_object *objects, t_cl_source *sources)
 
     i = -1;
     while (++i < N_OBJ)
-        objects[i] = (const t_cl_object){0};
+		ft_memset(&(objects[i]), 0, sizeof(objects[i]));
 	i = -1;
 	while (++i < N_SRC)
-		sources[i] = (const t_cl_source){0};
+		ft_memset(&(sources[i]), 0, sizeof(sources[i]));
 }
 
 void		ft_parse_scene(char *filename, t_scene *scene)
@@ -105,12 +105,12 @@ void		ft_parse_scene(char *filename, t_scene *scene)
 
     n = 0;
 	zero_objects_and_sources(scene->objects, scene->sources);
-	parse_object(scene->objects, buffer);
 	fd = open(filename, O_RDONLY);
 	if (!fd)
 		return ;
 	out = read(fd, buffer, 100000);
 	buffer[out] = '\0';
+	parse_objects(scene->objects, buffer);
 	parse_sources(scene->sources, buffer);
 	check_sources(scene->sources);
 	parse_camera(&(scene->viewpoint), &(scene->cam_angles), \

@@ -1,56 +1,25 @@
 camera:
 {
-    viewpoint: (0, 0, 0)
-    camera_angles: (0, 0, 0)
+    viewpoint: (0, 0, -5)
+    camera_angles: (10, 20, 30)
 }
 
 object:
 {
     type: sphere
-    center: (-0.5, -0.5, 2.5)
-    radius: 0.5.
+    center: (0., 0., 0)
+    radius: 0.5
     color:  (255, 0, 255)
     specular: 10
-    reflective: 0.5;
+    reflective: 0.5
+
 }
 
 light:
 {
-    type: point
-    position: (-5, 5, 0)
-    intensity: 100.
-}
-
-object:
-{
-    type: plane
-    center: (0, 0, 30)
-    norm: (0, 0, 1)
-    color:  (255, 255, 255)
-    specular: 1000
-    reflective: 0.5;
-}
-
-object:
-{
-    type: cyl
-    center: (0, 0, 0)
-    direction: (4, -5, 20)
-    radius: 2
-    color:  (255, 255, 255)
-    specular: 1000
-    reflective: 0.5;
-}
-
-object:
-{
-    type: cone
-    center: (0, 7, 20)
-    direction: (1, 0, 0)
-    alpha: 0.3
-    color:  (255, 0, 255)
-    specular: 1000
-    reflective: 0.5;
+    type: p
+    position: (0, 0, -3)
+    intensity: 1.
 }
 
 	// scene.objects[0].center = (cl_float3){{ 0., 0., 10. }};

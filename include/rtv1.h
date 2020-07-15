@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/15 14:53:56 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/15 19:40:13 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define V_H 1.
 # define N_OBJ 20
 # define N_SRC 10
-// # include <OpenCL/opencl.h>
-# include <CL/cl.h>
+# include <OpenCL/opencl.h>
+// # include <CL/cl.h>
 
 typedef struct			s_cl
 {
@@ -86,7 +86,7 @@ typedef struct			s_cl_object
 typedef struct			s_cl_source
 {
 	cl_float3			position;
-	cl_float3			direction;
+	// cl_float3			direction;
 	cl_float			intensity;
 	cl_char				type;
 }						t_cl_source;
