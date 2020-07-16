@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/16 17:35:00 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/16 17:51:43 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int					main(int argc, char **argv)
 
 	if (argc < 2)
 		return (0);
+	SDL_Init(SDL_INIT_VIDEO);
 	gtk_init(&argc, &argv);
 
 	builder = gtk_builder_new();
@@ -75,15 +76,15 @@ int					main(int argc, char **argv)
     gdk_window = gtk_widget_get_window(GTK_WIDGET(gtk_builder_get_object (builder, "gdkda")));
     window_id = (void*)(intptr_t)GDK_WINDOW_XID(gdk_window);
 
-	// SDL_Init(SDL_INIT_VIDEO);
-	// sdl.window = SDL_CreateWindowFrom(window_id);
-	// SDL_SetWindowSize(sdl.window, C_W, C_H);
-	// sdl.renderer = SDL_CreateRenderer(sdl.window, -1, 0);
-	// sdl.screen = SDL_CreateRGBSurface(0, C_W, C_H, 32, 0x00FF0000, \
-	// 						0x0000FF00, 0x000000FF, 0xFF000000);
-	// sdl.texture = SDL_CreateTexture(sdl.renderer, SDL_PIXELFORMAT_ARGB8888, \
-	// 							SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
-	// manage_processes(sdl, argc, argv);
+	
+	sdl.window = SDL_CreateWindowFrom(window_id);
+	SDL_SetWindowSize(sdl.window, C_W, C_H);
+	sdl.renderer = SDL_CreateRenderer(sdl.window, -1, 0);
+	sdl.screen = SDL_CreateRGBSurface(0, C_W, C_H, 32, 0x00FF0000, \
+							0x0000FF00, 0x000000FF, 0xFF000000);
+	sdl.texture = SDL_CreateTexture(sdl.renderer, SDL_PIXELFORMAT_ARGB8888, \
+								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
+	manage_processes(sdl, argc, argv);
 	
 	g_signal_connect (G_OBJECT (gtk_window), "delete_event", G_CALLBACK (gtk_main_quit), NULL);
 	g_signal_connect (G_OBJECT (gtk_window), "destroy", G_CALLBACK (gtk_main_quit), NULL);
