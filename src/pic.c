@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 01:38:58 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/16 16:27:29 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/16 23:16:04 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 	cl_int4		ccolor;
 	cl_int4		*z;
 
-	// z = rt_cl(&(sdl.cl_inst), scene);
+	// // z = rt_cl(&(sdl.cl_inst), scene);
 	if (scene.effect != 0)
 		effect(z, scene);
 	x =  - 1;	
@@ -49,7 +49,7 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 		{
 			// ccolor = z[x * C_H + y];
 			ccolor.s[0] = 255;
-			ccolor.s[1] = 0;
+			ccolor.s[1] = 255;
 			ccolor.s[2] = 0;
 			ft_put_pixel(sdl.screen, x , y, ccolor);
 		}

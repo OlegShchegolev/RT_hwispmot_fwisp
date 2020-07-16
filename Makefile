@@ -6,13 +6,13 @@
 #    By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/29 07:14:58 by hwispmot          #+#    #+#              #
-#    Updated: 2020/07/16 12:47:42 by fwisp            ###   ########.fr        #
+#    Updated: 2020/07/16 22:45:37 by fwisp            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=gcc
 
-NAME=RTv1
+NAME=RT
 
 vpath %.c src
 OBJ_DIR=obj/
@@ -23,7 +23,7 @@ FLAGS=-Wall -Wextra #-Werror
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 # FRAMEWORKS=-framework OpenGL -framework AppKit -framework OpenCL
 
-SRC=main.c pic.c construct_scene.c cl.c effect.c parser.c parser_functions1.c parser_functions2.c parser_functions3.c controls.c
+SRC=main.c pic.c construct_scene.c cl.c effect.c parser.c parser_functions1.c parser_functions2.c parser_functions3.c controls.c controls2.c
 
 OBJ=${addprefix obj/, ${SRC:%.c=%.o}}
 

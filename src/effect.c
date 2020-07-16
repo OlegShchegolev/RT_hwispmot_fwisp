@@ -40,54 +40,50 @@ void box_blur(cl_int4 *z, int r)
 	free(tmp);
 }
 
-void pixelize(cl_int4 *z, int r) {
+void pixelize(cl_int4 *z, int r)
+{
     cl_int4		sum;
-	int			x;
-	int			y;
-	int			i;
-	int			j;
+	int			c[2];
+	int			i[2];
 	cl_int4*	tmp;
 
 	tmp = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
 	tmp = ft_memcpy(tmp, z, sizeof(cl_int4) * C_H * C_W);
-	x =  - 1;	
-	while (++x * r < C_W)
+	c[0] =  - 1;	
+	while (++c[0] * r < C_W)
 	{
-		y = - 1;
-		while (++y * r < C_H)
+		c[1] = - 1;
+		while (++c[1] * r < C_H)
 		{
-			sum.s[0] = 0;
-			sum.s[1] = 0;
-			sum.s[2] = 0;
-			sum.s[3] = 1;
-			i = - 1;
-			while (++i < r + 1)
+			sum = (cl_int4){{0, 0, 0, 1}};
+			i[0] = - 1;
+			while (++i[0] < r + 1)
 			{
-				j = - 1;
-				while (++j < r + 1)
+				i[1] = - 1;
+				while (++i[1] < r + 1)
 				{
-					if (x * r + i >= C_W || y * r + j >= C_H || x * r + i <= 0 || y * r + j <= 0)
+					if (c[0] * r + i[0] >= C_W || c[1] * r + i[1] >= C_H || \
+									c[0] * r + i[0] <= 0 || c[1] * r + i[1] <= 0)
 						continue;
-					sum.s[0] += tmp[(x * r + i) * C_H + (y * r +j)].s[0];
-					sum.s[1] += tmp[(x * r + i) * C_H + (y * r +j)].s[1];
-					sum.s[2] += tmp[(x * r + i) * C_H + (y * r +j)].s[2];
+					sum.s[0] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[0];
+					sum.s[1] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[1];
+					sum.s[2] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[2];
 					sum.s[3]++;
 				}
 			}
-			i = - 1;
-			while (++i < r)
+			i[0] = - 1;
+			while (++i[0] < r)
 			{
-				j = - 1;
-				while (++j < r)
+				i[1] = - 1;
+				while (++i[1] < r)
 				{
-					if (x * r + i >= C_W || y * r + j >= C_H || x * r + i <= 0 || y * r + j <= 0)
+					if (c[0] * r + i[0] >= C_W || c[1] * r + i[1] >= C_H || c[0] * r + i[0] <= 0 || c[1] * r + i[1] <= 0)
 						continue;
-					z[(x * r + i)  * C_H + (y * r + j)].s[0] = sum.s[0] / sum.s[3];
-					z[(x * r + i)  * C_H + (y * r + j)].s[1] = sum.s[1] / sum.s[3];
-					z[(x * r + i)  * C_H + (y * r + j)].s[2] = sum.s[2] / sum.s[3];
+					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[0] = sum.s[0] / sum.s[3];
+					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[1] = sum.s[1] / sum.s[3];
+					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[2] = sum.s[2] / sum.s[3];
 				}
 			}
-			
 		}
 	}
 	free(tmp);

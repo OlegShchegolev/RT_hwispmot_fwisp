@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/16 11:51:43 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/17 01:35:53 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # define N_SRC 10
 // # include <OpenCL/opencl.h>
 # include <CL/cl.h>
+# include <gtk/gtk.h>
+# include <gdk/gdkx.h>
+
 
 typedef struct			s_cl
 {
@@ -105,6 +108,12 @@ typedef struct			s_scene
 	cl_float3			cam_angles;
 }						t_scene;	
 
+typedef struct			s_controls
+{
+	t_sdl				sdl;
+	t_scene				scene;
+}						t_controls;
+
 
 cl_float3				return_zero_vector(void);
 cl_float2				return_zero_2dvector(void);
@@ -129,4 +138,5 @@ t_cl					initcl(void);
 void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);
 void    				controls(t_sdl sdl, t_scene scene);
+void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
 #endif
