@@ -48,8 +48,8 @@ typedef struct	s_source
 
 typedef struct	s_roots
 {
-	float	t1;
-	float	t2;
+	float	root1;
+	float	root2;
 }				t_roots;
 
 typedef struct	s_matrix

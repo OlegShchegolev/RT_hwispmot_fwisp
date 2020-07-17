@@ -9,116 +9,98 @@
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 {
 	int obj;
-	t_roots	t;
+	t_roots	roots;
 	int i = 0;
 	float3		texture;
 	t_roots	tmp;
 
-
 	*dist = INF;
 	obj = -1;
-	t.t1 = INF;
-	t.t2 = INF;
+	roots.root1 = INF;
+	roots.root2 = INF;
 	while (i < 20)
 	{
 		if (objects[i].type == 's')
-			t = ft_intersect_ray_sphere(od.o, od.d, objects[i]);
+			roots = ft_intersect_ray_sphere(od.o, od.d, objects[i]);
 		if (objects[i].type == 'p')
-			t = ft_intersect_ray_plane(od.o, od.d, objects[i]);
+			roots = ft_intersect_ray_plane(od.o, od.d, objects[i]);
 		if (objects[i].type == 'c')
-			t = ft_intersect_ray_cyl(od.o, od.d, objects[i]);
+			roots = ft_intersect_ray_cyl(od.o, od.d, objects[i]);
 		if (objects[i].type == 't')
-			t = ft_intersect_ray_cone(od.o, od.d, objects[i]);
+			roots = ft_intersect_ray_cone(od.o, od.d, objects[i]);
 		//black inside
 		
-		// if ((t.t1 < -0.001 && t.t2 > 0.001) || (t.t1 > 0.001 && t.t2 < -0.001) )
+		// if ((t.root1 < -0.001 && t.root2 > 0.001) || (t.root1 > 0.001 && t.root2 < -0.001) )
 		// 	return(-1);
 
 		
-		if (t.t1 < *dist && t.t1 >= lim.min && t.t1 <= lim.max)
+		if (roots.root1 < *dist && roots.root1 >= lim.min && roots.root1 <= lim.max)
 		{
-			*dist = t.t1;
+			*dist = roots.root1;
 			obj = i;
-			tmp.t2 = t.t2;
-			tmp.t1 = t.t1;
+			tmp.root2 = roots.root2;
+			tmp.root1 = roots.root1;
 		}
-		if (t.t2 < *dist && t.t2 >= lim.min && t.t2 <= lim.max)
+		if (roots.root2 < *dist && roots.root2 >= lim.min && roots.root2 <= lim.max)
 		{
-			*dist = t.t2;
+			*dist = roots.root2;
 			obj = i;
-			tmp.t2 = t.t2;
-			tmp.t1 = t.t1;
+			tmp.root2 = roots.root2;
+			tmp.root1 = roots.root1;
 		}
 
 		i++;
 	}
 	if (obj != -1 && objects[obj].negative == 1)
 	{
-		if (tmp.t1  > 0 &&  tmp.t2 >0)
+		if (tmp.root1  > 0 &&  tmp.root2 > 0)
 		{
-			if (tmp.t1 < tmp.t2)
-				*dist = tmp.t2;
+			if (tmp.root1 < tmp.root2)
+				*dist = tmp.root2;
 			else
-				*dist = tmp.t1;
+				*dist = tmp.root1;
 		}
 		
 	}
 	return (obj);
 }
 
-
 int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 {
 	int			closest;
-	int			obj;
-	t_object	tmp;
+	float		dist;
 	float3		back;
 	float3		tmp_o;
 
 	back = (float3)(0.0f, 0.0f, 0.0f);
-	closest = get_closest(od, scene.objects, &(tmp.dist), lim);
-	
+	closest = get_closest(od, scene.objects, &(dist), lim);
 	if (closest != -1 && scene.objects[closest].negative == 1)
 	{
-		od.o = od.o + od.d * tmp.dist * 1.0001f;
-		closest = get_closest(od, scene.objects, &(tmp.dist), lim);
+		od.o = od.o + od.d * dist * 1.001f;
+		closest = get_closest(od, scene.objects, &(dist), lim);
 	}
-	// if (scene.objects[closest].negative == 1)
-	// {
-	// 	return ((int4)(255,0,0,0));
-	// }
-	// if (scene.objects[closest].type == 'c')
-	// {
-	// 	return ((int4)(0,255,0,0));
-	// }
-	// if (scene.objects[closest].type == 'p')
-	// {
-	// 	return ((int4)(0,0,255,0));
-	// }
-	obj = closest;
 	if (closest == -1)
-		return ((int4)(convert_int3(back), obj));
-	else	
+		return ((int4)(convert_int3(back), closest));
+	else
 	{
-		scene.objects[closest].dist = tmp.dist;
-	
+		scene.objects[closest].dist = dist;
 		back = obj_col(&od, closest, scene, depth);
 		int me = closest;
-			while (depth > 0)
-			{
-				me = closest;
-				closest = get_closest(od, scene.objects, &(tmp.dist), lim);
-				
-				scene.objects[closest].dist = tmp.dist;
-				if (closest >= 0 &&  scene.objects[me].reflective > 0)
-			 		back = back * (1 - scene.objects[me].reflective) +	obj_col(&od, closest, scene, depth) * scene.objects[me].reflective ;
-				else depth = 0;
-			 	depth = depth - 1;
-			}
-	 		return ((int4)(convert_int3(back), obj));
-	
+		int obj = closest;
+		while (depth > 0)
+		{
+			me = closest;
+			closest = get_closest(od, scene.objects, &(dist), lim);
+			
+			scene.objects[closest].dist = dist;
+			if (closest >= 0 &&  scene.objects[me].reflective > 0)
+		 		back = back * (1 - scene.objects[me].reflective) +	obj_col(&od, closest, scene, depth) * scene.objects[me].reflective ;
+			else depth = 0;
+		 	depth = depth - 1;
+		}
+	 	return ((int4)(convert_int3(back), obj));
 	}
-	return ((int4)(convert_int3(back), obj));
+	return ((int4)(convert_int3(back), closest));
 }
 
 float3		ft_vrot(float3 a, t_matrix rot)

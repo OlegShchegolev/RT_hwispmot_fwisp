@@ -13,12 +13,12 @@ t_roots	ft_intersect_ray_cone(float3 o, float3 d, t_object cone)
 	disc = k.y * k.y - 4.0f * k.x * k.z;
 	if (disc < 0)
 	{
-		t.t1 = INF;
-		t.t2 = INF;
+		t.root1 = INF;
+		t.root2 = INF;
 		return (t);
 	}
-	t.t1 = (-k.y + sqrt(disc)) / (2 * k.x);
-	t.t2 = (-k.y - sqrt(disc)) / (2 * k.x);
+	t.root1 = (-k.y + sqrt(disc)) / (2 * k.x);
+	t.root2 = (-k.y - sqrt(disc)) / (2 * k.x);
 	slicer(cone, &t,	o, d);
 	return (t);
 }
@@ -39,16 +39,16 @@ t_roots	ft_intersect_ray_cyl(float3 o, float3 d, t_object cyl)
 	disc = k.y * k.y - 4.0f * k.x * k.z;
 	if (disc < 0)
 	{
-		t.t1 = INF;
-		t.t2 = INF;
+		t.root1 = INF;
+		t.root2 = INF;
 		return (t);
 	}
-	t.t1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
-	t.t2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
+	t.root1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
+	t.root2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
 
 	if (cyl.textype == 'o')
 	{
-		pr.o = o + (d * (t.t1));
+		pr.o = o + (d * (t.root1));
 		pr.d = pr.o - (cyl.center);
 		pr.d = cross(pr.d, cyl.norm);
 		pr.d = cross(cyl.norm, pr.d);
@@ -56,9 +56,9 @@ t_roots	ft_intersect_ray_cyl(float3 o, float3 d, t_object cyl)
 
 		texture = gtexture(cyl, pr.d, pr.o);
 		if (texture.x < 100)
-			t.t1 = INF;
+			t.root1 = INF;
 
-		pr.o = o + (d * (t.t2));
+		pr.o = o + (d * (t.root2));
 		pr.d = pr.o - (cyl.center);
 		pr.d = cross(pr.d, cyl.norm);
 		pr.d = cross(cyl.norm, pr.d);
@@ -66,7 +66,7 @@ t_roots	ft_intersect_ray_cyl(float3 o, float3 d, t_object cyl)
 
 		texture = gtexture(cyl, pr.d, pr.o);
 		if (texture.x < 100)
-			t.t2 = INF;
+			t.root2 = INF;
 	}
 	slicer(cyl, &t,	o, d);
 	return (t);
@@ -78,13 +78,13 @@ t_roots	ft_intersect_ray_plane(float3 o, float3 d, t_object plane)
 	float		k1;
 	t_roots	t;
 
-	t.t1 = INF;
-	t.t2 = INF;
+	t.root1 = INF;
+	t.root2 = INF;
 	oc = o - plane.center;
 	k1 = dot(d, plane.norm);
 	
-		t.t1 = - dot(oc, plane.norm) / k1;
-		t.t2 = - dot(oc, plane.norm) / k1;
+		t.root1 = - dot(oc, plane.norm) / k1;
+		t.root2 = - dot(oc, plane.norm) / k1;
 
 	slicer(plane, &t,	o, d);
 	
@@ -109,36 +109,36 @@ t_roots	ft_intersect_ray_sphere(float3 o, float3 d, t_object sphere)
 
 	if (disc < 0)
 	{
-		t.t1 = INF;
-		t.t2 = INF;
+		t.root1 = INF;
+		t.root2 = INF;
 		return (t);
 	}
 
-	t.t1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
-	t.t2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
+	t.root1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
+	t.root2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
 
-	if (t.t1 < t.t2)
-		disc = t.t1;
+	if (t.root1 < t.root2)
+		disc = t.root1;
 	else
-		disc = t.t2;
+		disc = t.root2;
 
 	if (sphere.textype == 'o')
 	{
-		pr.o = o + (d * (t.t1));
+		pr.o = o + (d * (t.root1));
 		pr.d = pr.o - (sphere.center);
 		pr.d = pr.d * (1.0f / length(pr.d));
 
 		texture = gtexture(sphere, pr.d, pr.o);
 		if (texture.x < 100)
-			t.t1 = INF;
+			t.root1 = INF;
 
-		pr.o = o + (d * (t.t2));
+		pr.o = o + (d * (t.root2));
 		pr.d = pr.o - (sphere.center);
 		pr.d = pr.d * (1.0f / length(pr.d));
 
 		texture = gtexture(sphere, pr.d, pr.o);
 		if (texture.x < 100)
-			t.t2 = INF;
+			t.root2 = INF;
 		
 	}
 
@@ -163,13 +163,13 @@ t_roots	ft_intersect_ray_sphere(float3 o, float3 d, t_object sphere)
 			// }
 			// if (disc < 0)
 			// {
-			// 	t.t1 =  t.t1 - texture.x;
-			// 	t.t2 =  t.t1 - texture.x;
+			// 	t.root1 =  t.root1 - texture.x;
+			// 	t.root2 =  t.root1 - texture.x;
 			// }
 			//else
 			{
-				t.t1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
-				t.t2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
+				t.root1 = (-k.y + sqrt(disc)) / (2.0f * k.x);
+				t.root2 = (-k.y - sqrt(disc)) / (2.0f * k.x);
 			}
 			
 		}
