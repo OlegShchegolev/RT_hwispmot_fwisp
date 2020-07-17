@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/17 01:35:53 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/17 17:30:56 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define V_H 1.
 # define N_OBJ 20
 # define N_SRC 10
-// # include <OpenCL/opencl.h>
-# include <CL/cl.h>
+# include <OpenCL/opencl.h>
+// # include <CL/cl.h>
 # include <gtk/gtk.h>
-# include <gdk/gdkx.h>
+# include "gdk/gdk.h"
 
 
 typedef struct			s_cl

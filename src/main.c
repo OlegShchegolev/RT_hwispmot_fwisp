@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/17 01:36:39 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/17 20:08:21 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,30 @@ void	manage_events_gtk(GtkWidget *widget, GdkEventKey *event, t_controls *ctrl)
 
 void				run_gui(t_sdl *sdl, GObject	**gtk_window, GtkBuilder **builder)
 {
-	GObject		*gdk_window;
-	void		*window_id;
+	// GObject		*gdk_window;
+	// void		*window_id;
 
-	SDL_Init(SDL_INIT_VIDEO);
-	gtk_init(NULL, NULL);
-	*builder = gtk_builder_new();
-  	gtk_builder_add_from_file(*builder, "src/RTui.glade", NULL);
-  	*gtk_window = gtk_builder_get_object (*builder, "window");
-    gdk_window = gtk_widget_get_window(GTK_WIDGET(\
-						gtk_builder_get_object(*builder, "gdkda")));
-    window_id = (void*)(intptr_t)GDK_WINDOW_XID(gdk_window);
-	sdl->window = SDL_CreateWindowFrom(window_id);
-	SDL_SetWindowSize(sdl->window, C_W, C_H);
-	sdl->renderer = SDL_CreateRenderer(sdl->window, -1, 0);
+	// SDL_Init(SDL_INIT_VIDEO);
+	// gtk_init(NULL, NULL);
+	// *builder = gtk_builder_new();
+  	// gtk_builder_add_from_file(*builder, "src/RTui.glade", NULL);
+  	// *gtk_window = gtk_builder_get_object (*builder, "window");
+    // gdk_window = gtk_widget_get_window(GTK_WIDGET(\
+	// 					gtk_builder_get_object(*builder, "gdkda")));
+    // window_id = (void*)(intptr_t)GDK_WINDOW_XID(gdk_window);
+	// sdl->window = SDL_CreateWindowFrom(window_id);
+	// SDL_SetWindowSize(sdl->window, C_W, C_H);
+	// sdl->renderer = SDL_CreateRenderer(sdl->window, -1, 0);
+	SDL_CreateWindowAndRenderer(C_W, C_H, 0, &(sdl->window), &(sdl->renderer));
 	sdl->screen = SDL_CreateRGBSurface(0, C_W, C_H, 32, 0x00FF0000,\
 							0x0000FF00, 0x000000FF, 0xFF000000);
 	sdl->texture = SDL_CreateTexture(sdl->renderer, SDL_PIXELFORMAT_ARGB8888,\
 								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
-	g_signal_connect(G_OBJECT (*gtk_window), "delete_event", \
-										G_CALLBACK(gtk_main_quit), NULL);
-	g_signal_connect(G_OBJECT (*gtk_window), "destroy", \
-										G_CALLBACK(gtk_main_quit), NULL);
-	// sdl->cl_inst = initcl();
+	// g_signal_connect(G_OBJECT (*gtk_window), "delete_event", \
+	// 									G_CALLBACK(gtk_main_quit), NULL);
+	// g_signal_connect(G_OBJECT (*gtk_window), "destroy", \
+	// 									G_CALLBACK(gtk_main_quit), NULL);
+	sdl->cl_inst = initcl();
 }
 
 void				quit_sdl(t_sdl *sdl)
@@ -73,12 +74,14 @@ int					main(int argc, char **argv)
 		ft_draw(sdl, scene);
 	ctrl.scene = scene;
 	ctrl.sdl = sdl;
-	g_signal_connect(G_OBJECT (gtk_window), "key_press_event", \
-										G_CALLBACK(manage_events_gtk), (gpointer)&ctrl);
-	gtk_main();
+	// g_signal_connect(G_OBJECT (gtk_window), "key_press_event", \
+	// 									G_CALLBACK(manage_events_gtk), (gpointer)&ctrl);
+	controls(sdl, scene);
+	// gtk_main();
 	quit_sdl(&sdl);
 	return (0);
 }
+
 /*
 static void
 print_hello (GtkWidget *widget,

@@ -9,7 +9,7 @@ t_cl	initcl()
 	cl_uint		ret_num_platforms;
 	int			fd;
 
-	fd = open("src/ray_trace.cl", O_RDONLY);
+	fd = open("cl/ray_trace.cl", O_RDONLY);
 	cl.source_str = (char*)malloc(100000000);
 	cl.source_size = read(fd, cl.source_str, 100000000);
 	close(fd);
@@ -21,7 +21,7 @@ t_cl	initcl()
 		(const char **)&cl.source_str, (const size_t *)&cl.source_size, NULL);
 	cl.z_clmem = clCreateBuffer(cl.context, CL_MEM_WRITE_ONLY,
 		C_H * C_W * sizeof(cl_int4), NULL, NULL);	
-	clBuildProgram(cl.program, 1, &cl.dev_id, NULL, NULL, NULL);
+	clBuildProgram(cl.program, 1, &cl.dev_id, "-I cl/", NULL, NULL);
 	cl.kernel = clCreateKernel(cl.program, "render", NULL);
     return (cl);
 }
