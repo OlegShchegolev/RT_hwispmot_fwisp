@@ -24,7 +24,7 @@
 # define C_D 32
 # define V_W 1.
 # define V_H 1.
-# define N_OBJ 20
+# define N_OBJ 10
 # define N_SRC 10
 # include <OpenCL/opencl.h>
 // # include <CL/cl.h>
@@ -77,7 +77,7 @@ typedef struct			s_cl_object
 	cl_int3				color;
 	cl_int				specular;
 	cl_float			reflective;
-	cl_float			transparency;
+	cl_int				transparency;
 	cl_int				texture;
 	cl_char				textype;
 	cl_float2			shift;

@@ -29,8 +29,8 @@ void			get_object_parameters(t_cl_object *object, char *str)
 	if (ft_strstr(str, "reflective:"))
 			object->reflective = ft_atof(ft_strstr(str, "reflective:") + 11);
 	if (ft_strstr(str, "transparent:")){
-			object->transparency = ft_atof(ft_strstr(str, "transparent:") + 12);
-			printf("transparency %f\n", object->transparency);
+			object->transparency = ft_atoi(ft_strstr(str, "transparent:") + 12);
+			printf("transparency %d\n", object->transparency);
 	}
 	if (ft_strstr(str, "tex_num:"))
 			object->texture = ft_atoi(ft_strstr(str, "tex_num:") + 8);

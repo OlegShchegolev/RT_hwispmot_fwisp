@@ -10,8 +10,8 @@ t_cl	initcl()
 	int			fd;
 
 	fd = open("cl/ray_trace.cl", O_RDONLY);
-	cl.source_str = (char*)malloc(100000000);
-	cl.source_size = read(fd, cl.source_str, 100000000);
+	cl.source_str = (char*)malloc(1000000000);
+	cl.source_size = read(fd, cl.source_str, 1000000000);
 	close(fd);
 	clGetPlatformIDs(1, &cl.platform_id, &ret_num_platforms);
 	clGetDeviceIDs(cl.platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &cl.dev_id, &rnd);

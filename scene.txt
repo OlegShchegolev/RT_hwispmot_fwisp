@@ -10,22 +10,11 @@ object:
     radius: 1.
     color:  (255, 0, 255)
     specular: 10
-    reflective: 0.
-    transparent: -1.0
-	negative/: 0
+    reflective: 0
+    transparent: 50
+	negative/: 1
 }
 
-object:
-{
-    type: sphere
-    center: (1., 0., -2.5)
-    radius: 0.5
-    color:  (0, 0, 255)
-    specular: 10
-    reflective: 0.
-    transparent: -1.
-	negative/: 0
-}
 
 object:
 {
@@ -35,7 +24,7 @@ object:
     color:  (255, 0, 255)
     specular: 10
     reflective: 0.5
-    transparent: -1.
+    transparent: 0
 	tex_num: 2
 	tex_type: c
 	scale: (3, 5)
@@ -55,11 +44,23 @@ object:
     color:  (255, 0, 255)
     specular: 10
     reflective: 0.5
-    transparent: -1.
+    transparent: 0
 	tex_num: 2
 	tex_type: c
 	scale: (1, 10)
 	shift: (0, 0)
+}
+
+object:
+{
+    type: sphere
+    center: (0., 0., -1)
+    radius: 1.
+    color:  (255, 0, 255)
+    specular: 10
+    reflective: 0.
+    transparent: 0
+	negative: 0
 }
 light:
 {
@@ -67,9 +68,9 @@ light:
     position: (0, 0, -5)
     intensity: 1.
 }
-light\:
+light/:
 {
     type: p
-    position: (2, 2, -3)
+    position: (2, 2, -1)
     intensity: 1.
 }

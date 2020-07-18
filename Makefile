@@ -33,7 +33,6 @@ ${NAME}: ${OBJ} libft/libft.a sdl/lib/libSDL2.a
 	${CC} ${OBJ} ${LIB_FT} ${LIB_SDL} ${LIB_MATH} $(FRAMEWORKS) -o $@ 
 
 ${OBJ}: obj/%.o: %.c include/rtv1.h
-	# export PATH=${PATH}:/Users/fwisp/.brew/bin
 	${CC} -c -I include/ -I libft/ -I sdl/include $(FLAGS) $< -o $@ 
 	
 clean:

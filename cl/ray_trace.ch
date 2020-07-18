@@ -28,7 +28,7 @@ typedef struct	s_object
 	int3		color;
 	int			specular;
 	float		reflective;
-	float		transparency;
+	int		trans;
 	int			texture;
 	char		textype;
 	float2		shift;
@@ -61,7 +61,7 @@ typedef struct	s_matrix
 
 typedef struct	s_scene
 {
-	t_object	objects[20];
+	t_object	objects[10];
 	t_source	sources[10];
 	float3		startviewpoint;
 	float3		viewpoint;

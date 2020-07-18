@@ -50,5 +50,5 @@ float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int cl
 					intensity += s.intensity * pow(dot(pl.d, md) / length(pl.d) / length(md), specular);
 			}
 		}
-	return (intensity);
+	return (1.f);
 }
