@@ -28,6 +28,7 @@ typedef struct	s_object
 	int3		color;
 	int			specular;
 	float		reflective;
+	float		transparency;
 	int			texture;
 	char		textype;
 	float2		shift;
@@ -68,4 +69,8 @@ typedef struct	s_scene
 	t_lim		cl_lim;
 	t_lim		tr_lim;
 	int			effect;
+	int			effect_int;
+	float3		cam_angles;
+	int			width;
+	int			height;
 }				t_scene;

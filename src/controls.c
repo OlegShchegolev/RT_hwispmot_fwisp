@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 12:02:23 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 21:42:29 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/18 14:38:58 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 {
 	if (keystate[SDL_SCANCODE_RETURN])
 		SDL_SaveBMP(sdl.screen, "screenshot.bmp");
-	if (keystate[SDL_SCANCODE_SPACE])
+	if (keystate[SDL_SCANCODE_SPACE] && \
+	(keystate[SDL_SCANCODE_O] || keystate[SDL_SCANCODE_G] || keystate[SDL_SCANCODE_P] || \
+	keystate[SDL_SCANCODE_I] || keystate[SDL_SCANCODE_L] || keystate[SDL_SCANCODE_B] || \
+	keystate[SDL_SCANCODE_Y]))
 	{
+		scene->effect_int = 3;
 		if (keystate[SDL_SCANCODE_O])
 			scene->effect = scene->effect != 's' ? 's' : 0;
 		if (keystate[SDL_SCANCODE_G])
@@ -93,13 +97,24 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 			scene->effect = scene->effect != 'i' ? 'i' : 0;
 		if (keystate[SDL_SCANCODE_L])
 			scene->effect = scene->effect != 'l' ? 'l' : 0;
-		else if (keystate[SDL_SCANCODE_B])
+		if (keystate[SDL_SCANCODE_B])
 			scene->effect = scene->effect != 'b' ? 'b' : 0;
-		else if (keystate[SDL_SCANCODE_E] && keystate[SDL_SCANCODE_KP_PLUS])
-			scene->effect_int += scene->effect_int < 10 ? 1 : 0;
-		else if (keystate[SDL_SCANCODE_E] && keystate[SDL_SCANCODE_KP_MINUS])
-			scene->effect_int -= scene->effect_int > 1 ? 1 : 0;
+		if (keystate[SDL_SCANCODE_Y])
+			scene->effect = scene->effect != 'a' ? 'a' : 0;
     	ft_draw(sdl, *scene);
+	}
+	else if (keystate[SDL_SCANCODE_KP_PLUS] || keystate[SDL_SCANCODE_KP_MINUS])
+	{
+		if (keystate[SDL_SCANCODE_KP_PLUS])
+		{
+			if (scene->effect == 'a')
+				scene->effect_int += scene->effect_int < 4 ? 1 : 0;
+			else
+				scene->effect_int += scene->effect_int < 10 ? 1 : 0;
+		}
+		else if (keystate[SDL_SCANCODE_KP_MINUS])
+			scene->effect_int -= scene->effect_int > 1 ? 1 : 0;
+		ft_draw(sdl, *scene);
 	}
 }
 

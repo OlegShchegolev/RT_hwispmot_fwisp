@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/17 17:30:56 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/18 15:16:22 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # define N_SRC 10
 # include <OpenCL/opencl.h>
 // # include <CL/cl.h>
-# include <gtk/gtk.h>
-# include "gdk/gdk.h"
+// # include <gtk/gtk.h>
+// # include "gdk/gdk.h"
 
 
 typedef struct			s_cl
@@ -77,6 +77,7 @@ typedef struct			s_cl_object
 	cl_int3				color;
 	cl_int				specular;
 	cl_float			reflective;
+	cl_float			transparency;
 	cl_int				texture;
 	cl_char				textype;
 	cl_float2			shift;
@@ -106,6 +107,8 @@ typedef struct			s_scene
 	cl_int				effect;
 	cl_int				effect_int;
 	cl_float3			cam_angles;
+	cl_int				width;
+	cl_int				height;
 }						t_scene;	
 
 typedef struct			s_controls
@@ -138,5 +141,5 @@ t_cl					initcl(void);
 void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);
 void    				controls(t_sdl sdl, t_scene scene);
-void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
+// void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
 #endif

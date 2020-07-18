@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 19:18:00 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/18 15:51:41 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void			get_object_parameters(t_cl_object *object, char *str)
 			object->specular = ft_atoi(ft_strstr(str, "specular:") + 9);
 	if (ft_strstr(str, "reflective:"))
 			object->reflective = ft_atof(ft_strstr(str, "reflective:") + 11);
+	if (ft_strstr(str, "transparent:")){
+			object->transparency = ft_atof(ft_strstr(str, "transparent:") + 12);
+			printf("transparency %f\n", object->transparency);
+	}
 	if (ft_strstr(str, "tex_num:"))
 			object->texture = ft_atoi(ft_strstr(str, "tex_num:") + 8);
 	if (ft_strstr(str, "tex_type:"))

@@ -6,13 +6,27 @@ camera:
 object:
 {
     type: sphere
-    center: (0., 0., 0)
-    radius: 1.5
+    center: (1., 0., -2.5)
+    radius: 1.
     color:  (255, 0, 255)
     specular: 10
-    reflective: 0.5
-	negative: 1
+    reflective: 0.
+    transparent: -1.0
+	negative/: 0
 }
+
+object:
+{
+    type: sphere
+    center: (1., 0., -2.5)
+    radius: 0.5
+    color:  (0, 0, 255)
+    specular: 10
+    reflective: 0.
+    transparent: -1.
+	negative/: 0
+}
+
 object:
 {
     type: plane
@@ -21,14 +35,15 @@ object:
     color:  (255, 0, 255)
     specular: 10
     reflective: 0.5
+    transparent: -1.
 	tex_num: 2
 	tex_type: c
 	scale: (3, 5)
 	shift: (0, 0)
-	slice: (0.0, 1.0, 0.0, 1)
-	slice_side: 1
-	slice: (1.0, 0.0, 0.0, 1)
-	slice_side: 2
+	slice/: (0.0, 1.0, 0.0, 1)
+	slice_side/: 1
+	slice/: (1.0, 0.0, 0.0, 1)
+	slice_side/: 2
 }
 
 object:
@@ -40,6 +55,7 @@ object:
     color:  (255, 0, 255)
     specular: 10
     reflective: 0.5
+    transparent: -1.
 	tex_num: 2
 	tex_type: c
 	scale: (1, 10)
@@ -48,7 +64,7 @@ object:
 light:
 {
     type: p
-    position: (0, 0, -3)
+    position: (0, 0, -5)
     intensity: 1.
 }
 light\:

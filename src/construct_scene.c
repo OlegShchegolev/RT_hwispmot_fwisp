@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:23:40 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/15 21:16:14 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/18 14:16:32 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		construct_scene(char *fname, t_scene *scene)
 	scene->tr_lim.max = 400000.0f;
 	scene->tr_lim.min = 0.000000000001f;
 	scene->effect = 0;
-	scene->effect_int = 3;
+	scene->effect_int = 1;
+	scene->width = C_W;
+	scene->height = C_H;
 	return (0);
 }

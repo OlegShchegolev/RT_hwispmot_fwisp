@@ -5,6 +5,7 @@
 #include "intersect.cl"
 #include "light.cl"
 #include "colors.cl"
+#include "reflection.cl"
 
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 {
@@ -71,36 +72,43 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	float		dist;
 	float3		back;
 	float3		tmp_o;
+	t_ray		od2;
 
 	back = (float3)(0.0f, 0.0f, 0.0f);
 	closest = get_closest(od, scene.objects, &(dist), lim);
-	if (closest != -1 && scene.objects[closest].negative == 1)
+	if (closest == -1)
+		return ((int4)(convert_int3(back), closest));
+	if (scene.objects[closest].negative == 1)
 	{
 		od.o = od.o + od.d * dist * 1.001f;
 		closest = get_closest(od, scene.objects, &(dist), lim);
 	}
+	else if (scene.objects[closest].transparency > 0)
+	{
+		od.o = od.o + od.d * dist * 1.001f;
+		back = obj_col(od, closest, scene) * (1 - scene.objects[closest].transparency);
+		closest = get_closest(od, scene.objects, &(dist), lim);
+	}
 	if (closest == -1)
 		return ((int4)(convert_int3(back), closest));
-	else
-	{
-		scene.objects[closest].dist = dist;
-		back = obj_col(&od, closest, scene, depth);
-		int me = closest;
-		int obj = closest;
-		while (depth > 0)
-		{
-			me = closest;
-			closest = get_closest(od, scene.objects, &(dist), lim);
-			
-			scene.objects[closest].dist = dist;
-			if (closest >= 0 &&  scene.objects[me].reflective > 0)
-		 		back = back * (1 - scene.objects[me].reflective) +	obj_col(&od, closest, scene, depth) * scene.objects[me].reflective ;
-			else depth = 0;
-		 	depth = depth - 1;
-		}
-	 	return ((int4)(convert_int3(back), obj));
-	}
-	return ((int4)(convert_int3(back), closest));
+	scene.objects[closest].dist = dist;
+	back = obj_col(od, closest, scene);
+	od2 = obj_refl(od, closest, scene);
+	int obj = closest;
+	// while (depth > 0)
+	// {
+	// 	int me = closest;
+	// 	closest = get_closest(od, scene.objects, &(dist), lim);
+		
+	// 	scene.objects[closest].dist = dist;
+	// 	if (closest >= 0 &&  scene.objects[me].reflective > 0) {
+	//  		back = back * (1 - scene.objects[me].reflective) +	obj_col(od, closest, scene) * scene.objects[me].reflective ;
+	// 		od = obj_refl(od, closest, scene);
+	// 	}
+	// 	else depth = 0;
+	//  	depth = depth - 1;
+	// }
+	return ((int4)(convert_int3(back), obj));
 }
 
 float3		ft_vrot(float3 a, t_matrix rot)
@@ -131,8 +139,8 @@ float3		ft_canvas_to_viewport(int x, int y, int width, int height)
 __kernel void render(__global int4 *output, int width, int height, t_scene scene)
 {
 	int work_item_id = get_global_id(0);
-	int y_coord = work_item_id % height ;
-	int x_coord = work_item_id / height ;
+	int y_coord = work_item_id % scene.height ;
+	int x_coord = work_item_id / scene.height ;
 	int4 finalcolor;
 
 	t_lim		lim;
@@ -143,7 +151,7 @@ __kernel void render(__global int4 *output, int width, int height, t_scene scene
 	
 	od.o = scene.viewpoint;
 	
-	od.d = ft_vrot(ft_canvas_to_viewport(x_coord, y_coord, width, height), scene.rot_matrix);
+	od.d = ft_vrot(ft_canvas_to_viewport(x_coord, y_coord, scene.width, scene.height), scene.rot_matrix);
 	od.d = od.d / length(od.d);
 	finalcolor = ft_trace_ray(od, lim, scene, 1);
 

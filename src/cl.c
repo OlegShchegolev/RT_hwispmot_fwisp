@@ -20,7 +20,7 @@ t_cl	initcl()
 	cl.program = clCreateProgramWithSource(cl.context, 1,
 		(const char **)&cl.source_str, (const size_t *)&cl.source_size, NULL);
 	cl.z_clmem = clCreateBuffer(cl.context, CL_MEM_WRITE_ONLY,
-		C_H * C_W * sizeof(cl_int4), NULL, NULL);	
+		16 * C_H * C_W * sizeof(cl_int4), NULL, NULL);	
 	clBuildProgram(cl.program, 1, &cl.dev_id, "-I cl/", NULL, NULL);
 	cl.kernel = clCreateKernel(cl.program, "render", NULL);
     return (cl);
@@ -36,7 +36,6 @@ void	set_ker_arg(t_cl *cl)
 	clSetKernelArg(cl->kernel, 2, sizeof(cl_int), &heigth);
 }    
 
-    
 cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 {
 	cl_int4			*z;
@@ -44,15 +43,22 @@ cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 	size_t		local_item_size;
 
 	global_item_size = C_H * C_W;
+	if (scene.effect == 'a')
+	{
+		scene.width *= scene.effect_int;
+		scene.height *= scene.effect_int;
+		global_item_size *= pow(scene.effect_int, 2);
+	}
 	local_item_size = 256;
-	z = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
+	z = (cl_int4 *)malloc(sizeof(cl_int4) * global_item_size);
     set_ker_arg(cl);
 	cl->scene_buf = clCreateBuffer(cl->context, CL_MEM_READ_ONLY, sizeof(t_scene), &(scene), NULL);
+	
 	clSetKernelArg(cl->kernel, 3, sizeof(t_scene), &(scene));
 	clEnqueueNDRangeKernel(cl->command_queue, cl->kernel, 1, NULL,
 			&global_item_size, &local_item_size, 0, NULL, NULL);
 	clEnqueueReadBuffer(cl->command_queue, cl->z_clmem, CL_TRUE, 0,
-			C_H * C_W * sizeof(cl_int4), z, 0, NULL, NULL);
+			global_item_size * sizeof(cl_int4), z, 0, NULL, NULL);
 	clFlush(cl->command_queue);
 	clFinish(cl->command_queue);
 	return (z);

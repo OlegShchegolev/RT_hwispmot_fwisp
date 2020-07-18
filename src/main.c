@@ -6,24 +6,24 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/17 20:08:21 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/18 13:08:32 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	manage_events_gtk(GtkWidget *widget, GdkEventKey *event, t_controls *ctrl)
-{	
-	t_scene	scene;
-	t_sdl	sdl;
+// void	manage_events_gtk(GtkWidget *widget, GdkEventKey *event, t_controls *ctrl)
+// {	
+// 	t_scene	scene;
+// 	t_sdl	sdl;
 
-	scene = ctrl->scene;
-	sdl = ctrl->sdl;
-	controls2(sdl, &scene, event);
-    return ;
-}
+// 	scene = ctrl->scene;
+// 	sdl = ctrl->sdl;
+// 	controls2(sdl, &scene, event);
+//     return ;
+// }
 
-void				run_gui(t_sdl *sdl, GObject	**gtk_window, GtkBuilder **builder)
+void				run_gui(t_sdl *sdl)//, GObject	**gtk_window, GtkBuilder **builder)
 {
 	// GObject		*gdk_window;
 	// void		*window_id;
@@ -62,14 +62,14 @@ int					main(int argc, char **argv)
 {
 	t_sdl		sdl;
 	t_scene		scene;
-	GtkBuilder	*builder;
-  	GObject		*gtk_window;
+	// GtkBuilder	*builder;
+  	// GObject		*gtk_window;
 	t_controls	ctrl;
 
 
 	if (argc < 2)
 		return (0);
-	run_gui(&sdl, &gtk_window, &builder);
+	run_gui(&sdl);//, &gtk_window, &builder);
 	if (!construct_scene(argv[1], &scene))
 		ft_draw(sdl, scene);
 	ctrl.scene = scene;
