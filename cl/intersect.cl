@@ -1,7 +1,6 @@
 
 t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 {
-	float3	dp;
 	float3	k;
 	float		disc;
 	t_roots	t;
@@ -9,7 +8,6 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 	float3	oc;
 	float3	texture;
 	int 		i;
-	float		k1;
 
 	if (obj.type == 's')
 	{
@@ -17,7 +15,7 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 		oc = o - obj.center;
 		k.x = dot(d, d);
 		k.y = 2.0f * dot(oc, d);
-		k.z = dot(oc, oc) - pow(obj.radius, 2);
+		k.z = dot(oc, oc) - native_powr(obj.radius, 2);
 		disc = k.y * k.y - 4 * k.x * k.z;
 
 		if (disc < 0)
@@ -63,7 +61,7 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 
 			texture = gtexture(obj, pr.d, pr.o) / 255;
 			texture.x = (1 - texture.x) / obj.radius / 2;
-			k.z = dot(oc, oc) - pow((obj.radius -  texture.x), 2);
+			k.z = dot(oc, oc) - native_powr((obj.radius -  texture.x), 2);
 
 			disc = k.y * k.y - 4 * k.x * k.z;
 			i = 0;
@@ -79,17 +77,17 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 		t.root1 = INF;
 		t.root2 = INF;
 		oc = o - obj.center;
-		k1 = dot(d, obj.norm);
+		k.x = dot(d, obj.norm);
 
-		t.root1 = - dot(oc, obj.norm) / k1;
-		t.root2 = - dot(oc, obj.norm) / k1;
+		t.root1 = - dot(oc, obj.norm) / k.x;
+		t.root2 = - dot(oc, obj.norm) / k.x;
 	}
 	if (obj.type == 'c')
 	{
-		dp = o - obj.center;
+		oc = o - obj.center;
 		k.x = dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm))));
-		k.y = 2.0f * dot((d - (obj.norm * dot(d, obj.norm))), (dp - (obj.norm * dot(dp, obj.norm))));
-		k.z = dot((dp - (obj.norm * dot(dp, obj.norm))), (dp - (obj.norm * dot(dp, obj.norm)))) - obj.radius * obj.radius;
+		k.y = 2.0f * dot((d - (obj.norm * dot(d, obj.norm))), (oc - (obj.norm * dot(oc, obj.norm))));
+		k.z = dot((oc - (obj.norm * dot(oc, obj.norm))), (oc - (obj.norm * dot(oc, obj.norm)))) - obj.radius * obj.radius;
 		disc = k.y * k.y - 4.0f * k.x * k.z;
 		if (disc < 0)
 		{
@@ -126,10 +124,10 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 
 	if (obj.type == 't')
 	{
-		dp = o - obj.center;
-		k.x = pow(cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm)))) - pow(sin(obj.alpha) * dot(d, obj.norm), 2.0f);
-		k.y = 2.0f * pow(cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (dp - (obj.norm * dot(dp, obj.norm)))) - 2.0f * pow(sin(obj.alpha), 2.0f) * dot(d, obj.norm) * dot(dp, obj.norm);
-		k.z = pow(cos(obj.alpha), 2.0f) * dot((dp - (obj.norm * dot(dp, obj.norm))), (dp -(obj.norm * dot(dp, obj.norm)))) - pow(sin(obj.alpha) * dot(dp, obj.norm), 2.0f);
+		oc = o - obj.center;
+		k.x = native_powr(native_cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm)))) - native_powr(sin(obj.alpha) * dot(d, obj.norm), 2.0f);
+		k.y = 2.0f * native_powr(native_cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (oc - (obj.norm * dot(oc, obj.norm)))) - 2.0f * native_powr(sin(obj.alpha), 2.0f) * dot(d, obj.norm) * dot(oc, obj.norm);
+		k.z = native_powr(native_cos(obj.alpha), 2.0f) * dot((oc - (obj.norm * dot(oc, obj.norm))), (oc -(obj.norm * dot(oc, obj.norm)))) - native_powr(sin(obj.alpha) * dot(oc, obj.norm), 2.0f);
 		disc = k.y * k.y - 4.0f * k.x * k.z;
 		if (disc < 0)
 		{
@@ -141,6 +139,6 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 		t.root2 = (-k.y - sqrt(disc)) / (2 * k.x);
 	}
 
-	slicer(obj, &t,	o, d);
+	
 	return(t);
 }

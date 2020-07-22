@@ -5,7 +5,9 @@
 #include "intersect.cl"
 #include "light.cl"
 #include "colors.cl"
-#include "reflection.cl"
+//#include "reflection.cl"
+
+
 
 
 
@@ -24,6 +26,7 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 	while (i < 20)
 	{
 		roots = ft_intersect_ray_obj(od.o, od.d, objects[i]);
+//		slicer(objects[i], &roots,	od.o, od.d);
 		if (roots.root1 < *dist && roots.root1 >= lim.min && roots.root1 <= lim.max)
 		{
 			*dist = roots.root1;
@@ -71,9 +74,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	int			closest;
 	float		dist;
 	float3		back;
-	float3		tmp_o;
-int obj;
-	float tmp_dist;
+	int obj;
 
 	t_ray  r1;
 	float3	f1;
@@ -88,9 +89,11 @@ int obj;
 		closest = get_closest(od, scene.objects, &(dist), lim);
 		if (closest == -1)
 			return ((int4)(convert_int3(back), closest));
-		scene.objects[closest].dist = dist;
-		back = obj_col(od, closest, scene, &r1, &f1);
-		
+		//scene.objects[closest].dist = dist;
+
+		r1 = new_pr(od, scene.objects[closest], dist);
+		back = obj_col(r1, scene.objects[closest]);
+		f1 = apply_bump(od, scene.objects[closest], dist);
 	}
 	else if (scene.objects[closest].trans > 0 )
 	{
@@ -98,10 +101,11 @@ int obj;
 		closest = get_closest(od, scene.objects, &(dist), lim);
 		if (closest == -1)
 			return ((int4)(convert_int3(back), closest));
-		scene.objects[closest].dist = dist;
-		back = obj_col(od, closest, scene, &r1, &f1);
+		//scene.objects[closest].dist = dist;
 
-
+		r1 = new_pr(od, scene.objects[closest], dist);
+		back = obj_col(r1, scene.objects[closest]);
+		f1 = apply_bump(od, scene.objects[closest], dist);
 
 		// scene.objects[closest].dist = dist;
 		// back = obj_col(od, closest, scene) * (1 - scene.objects[closest].trans);
@@ -124,10 +128,12 @@ int obj;
 		
 		if (closest == -1)
 			return ((int4)(convert_int3(back), closest));
-		scene.objects[closest].dist = dist;
-		back = obj_col(od, closest, scene, &r1, &f1);
+		//scene.objects[closest].dist = dist;
+
+		r1 = new_pr(od, scene.objects[closest], dist);
+		back = obj_col(r1, scene.objects[closest]);
+		f1 = apply_bump(od, scene.objects[closest], dist);
 	}
-		
 	back = back * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	
 //	od = obj_refl(od, closest, scene);
@@ -173,12 +179,13 @@ float3		ft_canvas_to_viewport(int x, int y, int width, int height)
 	return (viewport);
 }
 
-__kernel void render(__global int4 *output, int width, int height, t_scene scene)
+__kernel void render(__global int4 *output, t_scene scene)
 {
 	int work_item_id = get_global_id(0);
 	int y_coord = work_item_id % scene.height ;
 	int x_coord = work_item_id / scene.height ;
 	int4 finalcolor;
+
 
 	t_lim		lim;
 	t_ray		od;
