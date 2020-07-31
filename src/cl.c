@@ -23,6 +23,13 @@ t_cl	initcl()
 		16 * C_H * C_W * sizeof(cl_int4), NULL, NULL);	
 //	cl.scene_buf = clCreateBuffer(cl.context, CL_MEM_READ_ONLY, sizeof(t_scene), NULL, NULL);
 	clBuildProgram(cl.program, 1, &cl.dev_id, "-I cl/", NULL, NULL);
+	{
+		size_t log_size;
+		clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+		char *log = (char *) malloc(log_size);
+		clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+		printf("%s\n", log);
+	}
 	cl.kernel = clCreateKernel(cl.program, "render", NULL);
     return (cl);
 }
