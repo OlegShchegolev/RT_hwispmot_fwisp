@@ -1,0 +1,1 @@
+31.07.20 -------- antialiasing works not properly with effect_int = 3     ------- fwisp --------------

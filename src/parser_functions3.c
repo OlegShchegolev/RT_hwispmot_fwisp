@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/18 15:51:41 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/31 17:42:14 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			get_object_parameters(t_cl_object *object, char *str)
 	if (ft_strstr(str, "reflective:"))
 			object->reflective = ft_atof(ft_strstr(str, "reflective:") + 11);
 	if (ft_strstr(str, "transparent:")){
-			object->transparency = ft_atoi(ft_strstr(str, "transparent:") + 12);
+			object->transparency = ft_atof(ft_strstr(str, "transparent:") + 12);
 //			printf("transparency %d\n", object->transparency);
 	}
 	if (ft_strstr(str, "tex_num:"))

@@ -1,3 +1,4 @@
+#include "cl/ray_trace.h"
 
 t_ray		obj_refl(t_ray od, int closest, t_scene scene)
 {

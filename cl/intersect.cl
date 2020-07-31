@@ -1,3 +1,4 @@
+#include "cl/ray_trace.h"
 
 t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 {

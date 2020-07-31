@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/18 15:16:22 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/31 17:41:38 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 // # include <gtk/gtk.h>
 // # include "gdk/gdk.h"
 
-
 typedef struct			s_cl
 {
 	char				*source_str;
@@ -39,6 +38,8 @@ typedef struct			s_cl
 	cl_context			context;
 	cl_device_id		dev_id;
 	cl_platform_id		platform_id;
+	cl_program			header[1];
+	cl_program			programs[7];
 	cl_program			program;
 	cl_command_queue	command_queue;
 	cl_kernel			kernel;
@@ -77,7 +78,7 @@ typedef struct			s_cl_object
 	cl_int3				color;
 	cl_int				specular;
 	cl_float			reflective;
-	cl_int				transparency;
+	cl_float			transparency;
 	cl_int				texture;
 	cl_char				textype;
 	cl_float2			shift;
@@ -142,4 +143,5 @@ void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);
 void    				controls(t_sdl sdl, t_scene scene);
 // void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
+void					releasecl(t_cl *cl);
 #endif

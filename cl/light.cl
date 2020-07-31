@@ -1,3 +1,4 @@
+#include "cl/ray_trace.h"
 
 float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int closest)
 {
@@ -10,7 +11,8 @@ float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int cl
 	int			i = -1;
 	float		plane_vp;
 	float		d;
-	int obj;
+	int 		obj;
+	float		modifier = 1.;
 
 	intensity = 0.0f;
 	pl.o = pn.o;
@@ -29,26 +31,33 @@ float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int cl
 			pl.d = s.position - pn.o;
 
 			obj = get_closest(pl, scene.objects, &dist, scene.cl_lim);
-			if (scene.objects[obj].negative == 1)
+			if (obj >= 0)
 			{
-				tmp.o = pl.o + (pl.d)  * dist * 1.0001f ;
-				tmp.d = (pl.d - pl.o ) / length(pl.d- pl.o) ;
-				tmpdist = dist;
-				obj = get_closest(tmp, scene.objects, &dist, scene.cl_lim);
-				dist += tmpdist;
+				if (scene.objects[obj].negative != 1 && scene.objects[obj].trans > 0)
+					modifier = scene.objects[obj].trans;
+				if (scene.objects[obj].negative == 1 || scene.objects[obj].trans > 0)
+				{
+					tmp.o = pl.o + (pl.d)  * dist * 1.000001f ;
+					tmp.d = (pl.d - pl.o ) / length(pl.d- pl.o) ;
+					tmpdist = dist;
+					obj = get_closest(tmp, scene.objects, &dist, scene.cl_lim);
+					dist += tmpdist;
+				}
 			}
 			if (obj == -1)
 			{
 		 		if (dot(pn.d, pl.d) > 0.0f)
-					intensity += s.intensity * dot(pn.d, pl.d) / length(pl.d);
+					intensity += s.intensity * dot(pn.d, pl.d) / length(pl.d) * modifier;
 				if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
-					intensity -= s.intensity * dot(pn.d, pl.d) / length(pl.d);
-				if (specular <= 0)
-					s.intensity = 0;
-				pl.d = pn.d * (2.0f * dot(pn.d, pl.d)) - pl.d;
-				if (dot(pl.d, md) > 0.0f)
-					intensity += s.intensity * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular);
+					intensity -= s.intensity * dot(pn.d, pl.d) / length(pl.d) * modifier;
+				if (specular > 0)
+				{
+					pl.d = pn.d * (2.0f * dot(pn.d, pl.d)) - pl.d;
+					if (dot(pl.d, md) > 0.0f)
+						intensity += s.intensity * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular) * modifier ;
+				}
+				
 			}
 		}
-	return (1.f);
+	return (intensity);
 }

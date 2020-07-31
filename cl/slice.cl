@@ -1,3 +1,4 @@
+#include "cl/ray_trace.h"
 
 t_roots	intersect_slice(t_object obj, float3 start, float3 direction, int i, t_roots *sqr_eq)
 {

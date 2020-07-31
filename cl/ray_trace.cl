@@ -1,22 +1,11 @@
 
-#include "ray_trace.ch"
-#include "textures.cl"
-#include "slice.cl"
-#include "intersect.cl"
-#include "light.cl"
-#include "colors.cl"
-//#include "reflection.cl"
-
-
-
-
+#include "cl/ray_trace.h"
 
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 {
 	int obj;
 	t_roots	roots;
 	int i = 0;
-	float3		texture;
 	t_roots	tmp;
 
 	*dist = INF;
@@ -83,74 +72,84 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	closest = get_closest(od, scene.objects, &(dist), lim);
 	if (closest == -1)
 		return ((int4)(convert_int3(back), closest));
-	if ((scene.objects[closest].negative == 1))
+	if (scene.objects[closest].negative == 1)
 	{
-		od.o = od.o + od.d * dist * 1.001f;
+		od.o = od.o + od.d * dist * 1.0001f;
 		closest = get_closest(od, scene.objects, &(dist), lim);
 		if (closest == -1)
 			return ((int4)(convert_int3(back), closest));
-		//scene.objects[closest].dist = dist;
+		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]);
+		back = obj_col(r1, scene.objects[closest]) * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 		f1 = apply_bump(od, scene.objects[closest], dist);
 	}
-	else if (scene.objects[closest].trans > 0 )
+	else if (scene.objects[closest].trans > 0)
 	{
-		od.o = od.o + od.d * dist * 1.001f;
-		closest = get_closest(od, scene.objects, &(dist), lim);
-		if (closest == -1)
-			return ((int4)(convert_int3(back), closest));
-		//scene.objects[closest].dist = dist;
+		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]);
+		back = obj_col(r1, scene.objects[closest]) * (1.f - scene.objects[closest].trans) * \
+				compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+;
 		f1 = apply_bump(od, scene.objects[closest], dist);
 
-		// scene.objects[closest].dist = dist;
-		// back = obj_col(od, closest, scene) * (1 - scene.objects[closest].trans);
-		// od.o = od.o + od.d * dist * 1.001f;
-		// obj = closest;
+		// od.o = od.o + od.d * dist * 1.0001f;
 		// closest = get_closest(od, scene.objects, &(dist), lim);
 		// if (closest == -1)
 		// 	return ((int4)(convert_int3(back), closest));
-		// // if (obj == closest)
-		// // {
-		// // 	od.o = od.o + od.d * dist;
-		// // 	closest = get_closest(od, scene.objects, &(dist), lim);
-			
-		// // }
+		
 		// scene.objects[closest].dist = dist;
-		// back = obj_col(od, closest, scene) * (scene.objects[obj].trans);
+		// od.o = od.o + od.d * dist * 1.0001f;
+		// closest = get_closest(od, scene.objects, &(dist), lim);
+		// scene.objects[closest].dist = dist;
+		// r1 = new_pr(od, scene.objects[closest], dist);
+		// back += obj_col(r1, scene.objects[closest]) * scene.objects[closest].trans;
+
+			// scene.objects[closest].dist = dist;
+			// back = obj_col(od, closest, scene) * (1 - scene.objects[closest].trans);
+			// od.o = od.o + od.d * dist * 1.001f;
+			// obj = closest;
+			// closest = get_closest(od, scene.objects, &(dist), lim);
+			// if (closest == -1)
+			// 	return ((int4)(convert_int3(back), closest));
+			// // if (obj == closest)
+			// // {
+			// // 	od.o = od.o + od.d * dist;
+			// // 	closest = get_closest(od, scene.objects, &(dist), lim);
+
+			// // }
+			// scene.objects[closest].dist = dist;
+			// back = obj_col(od, closest, scene) * (scene.objects[obj].trans);
 	}
 	else
 	{
 		
 		if (closest == -1)
 			return ((int4)(convert_int3(back), closest));
-		//scene.objects[closest].dist = dist;
+		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]);
+		back = obj_col(r1, scene.objects[closest]) * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 		f1 = apply_bump(od, scene.objects[closest], dist);
 	}
-	back = back * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
-	
-//	od = obj_refl(od, closest, scene);
-	
-	// while (depth > 0)
-	// {
-	// 	int me = closest;
-	// 	closest = get_closest(od, scene.objects, &(dist), lim);
+
+	od = obj_refl(od, closest, scene);
+	while (depth > 0)
+	{
+		int me = closest;
+		closest = get_closest(od, scene.objects, &(dist), lim);
 		
-	// 	scene.objects[closest].dist = dist;
-	// 	if (closest >= 0 &&  scene.objects[me].reflective > 0) {
-	//  		back = back * (1 - scene.objects[me].reflective) +	obj_col(od, closest, scene) * scene.objects[me].reflective ;
-	// 		od = obj_refl(od, closest, scene);
-	// 	}
-	// 	else depth = 0;
-	//  	depth = depth - 1;
-	// }
+		scene.objects[closest].dist = dist;
+		if (closest >= 0 &&  scene.objects[me].reflective > 0) {
+			r1 = new_pr(od, scene.objects[closest], dist);
+	 		back = back * (1 - scene.objects[me].reflective) + obj_col(r1, scene.objects[closest]) * scene.objects[me].reflective ;
+			od = obj_refl(od, closest, scene);
+		}
+		else depth = 0;
+	 	depth = depth - 1;
+	}
+
 	return ((int4)(convert_int3(back), obj));
 }
 

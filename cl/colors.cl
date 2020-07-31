@@ -1,3 +1,5 @@
+#include "cl/ray_trace.h"
+
 t_ray		new_pr(t_ray od, t_object obj, float dist)
 {
 	t_ray		pr;

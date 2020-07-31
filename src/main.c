@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/18 13:08:32 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/07/31 16:12:19 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					main(int argc, char **argv)
 	// 									G_CALLBACK(manage_events_gtk), (gpointer)&ctrl);
 	controls(sdl, scene);
 	// gtk_main();
+	releasecl(&(sdl.cl_inst));
 	quit_sdl(&sdl);
 	return (0);
 }

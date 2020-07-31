@@ -10,18 +10,17 @@ object:
     radius: 1.
     color:  (255, 0, 255)
     specular: 10
-    reflective: 0
-    transparent: 50
-	negative/: 1
+    reflective: 0.
+    transparent: 0.5
+	negative: 0
 }
-
 
 object:
 {
     type: plane
     center: (0., 0., 10)
 	direction: (0.0, 0.0, 1.0)
-    color:  (255, 0, 255)
+    color:  (255, 255, 255)
     specular: 10
     reflective: 0.5
     transparent: 0
@@ -35,7 +34,7 @@ object:
 	slice_side/: 2
 }
 
-object:
+object/:
 {
     type: cyl
     center: (0., 0., -1)
@@ -43,23 +42,27 @@ object:
 	direction: (0.0, 1.0, 0.0)
     color:  (255, 0, 255)
     specular: 10
-    reflective: 0.5
+    reflective: 0.
     transparent: 0
-	tex_num: 2
+	tex_num: 7
 	tex_type: c
 	scale: (1, 10)
 	shift: (0, 0)
 }
 
-object:
+object/:
 {
     type: sphere
     center: (0., 0., -1)
     radius: 1.
-    color:  (255, 0, 255)
+    color:  (110, 40, 200)
     specular: 10
     reflective: 0.
     transparent: 0
+    tex_num: 9
+	tex_type: b
+    scale: (3, 5)
+	shift: (0, 0)
 	negative: 0
 }
 light:
