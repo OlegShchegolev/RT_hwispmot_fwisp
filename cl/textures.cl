@@ -99,41 +99,41 @@ float3		gtexture(t_object obj, float3 pr, float3 o)
 		if (((int)(uv.x * 24) % 2 && ((int)(uv.y * 10) % 2)) || (!((int)(uv.x * 24) % 2) && !((int)(uv.y * 10) % 2)) )
 			texture.x = 0.3f;
 	}
-	if (obj.texture == 6)
-	{
-		texture.x = 20 * convert_float(map6[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))] - map6[(((int)(uv.x * 1022) + 1) * 512 + (int)(uv.y * 512))]);
-		texture.y = 20 * convert_float(map6[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))] - map6[((int)(uv.x * 1022) * 512 + 1 + (int)(uv.y * 512))]);
-		texture.z = convert_float(map6[((int)(uv.x * 1024) * 512 + (int)(uv.y * 512))]);
-	}
-	if (obj.texture == 2)
-	{
-		texture.x = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].x;
-		texture.y = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].y;
-		texture.z = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].z;
-	}
+	// if (obj.texture == 6)
+	// {
+	// 	texture.x = 20 * convert_float(map6[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))] - map6[(((int)(uv.x * 1022) + 1) * 512 + (int)(uv.y * 512))]);
+	// 	texture.y = 20 * convert_float(map6[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))] - map6[((int)(uv.x * 1022) * 512 + 1 + (int)(uv.y * 512))]);
+	// 	texture.z = convert_float(map6[((int)(uv.x * 1024) * 512 + (int)(uv.y * 512))]);
+	// }
+	// if (obj.texture == 2)
+	// {
+	// 	texture.x = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].x;
+	// 	texture.y = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].y;
+	// 	texture.z = map2[((int)(uv.x * 699) * 420 + (int)(uv.y * 420))].z;
+	// }
 
-	if (obj.texture == 8)
-	{
-		texture.x = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
-		texture.y = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
-		texture.z = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
-	}
-	if (obj.texture == 7)
-	{
-		//texture.x = convert_float(map[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]) / 100;
+	// if (obj.texture == 8)
+	// {
+	// 	texture.x = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
+	// 	texture.y = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
+	// 	texture.z = convert_float(map8[((int)(uv.x * 200) * 100 + (int)(uv.y * 100))]);
+	// }
+	// if (obj.texture == 7)
+	// {
+	// 	//texture.x = convert_float(map[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]) / 100;
 		
-		texture.x = uv.y * native_cos((uv.x) * 10 * M_PI_F) * native_cos((uv.y) * 10 * M_PI_F) * 255;
-		texture.y = uv.y * sin((uv.x) * 10 * M_PI_F) * sin((uv.y) * 10 * M_PI_F) * 255;
-		texture.z = uv.y * sin((uv.x) * 10 * M_PI_F) * sin((uv.y) * 10 * M_PI_F) * 255;
-	}
+	// 	texture.x = uv.y * native_cos((uv.x) * 10 * M_PI_F) * native_cos((uv.y) * 10 * M_PI_F) * 255;
+	// 	texture.y = uv.y * sin((uv.x) * 10 * M_PI_F) * sin((uv.y) * 10 * M_PI_F) * 255;
+	// 	texture.z = uv.y * sin((uv.x) * 10 * M_PI_F) * sin((uv.y) * 10 * M_PI_F) * 255;
+	// }
 
-	if (obj.texture == 9)
-	{
-		texture.x = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
-		texture.y = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
-		texture.z = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
+	// if (obj.texture == 9)
+	// {
+	// 	texture.x = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
+	// 	texture.y = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
+	// 	texture.z = convert_float(map9[((int)(uv.x * 1022) * 512 + (int)(uv.y * 512))]);
 
-	}
+	// }
 	// if (obj.texture == 3)
 	// {
 	// 	if (((int)(uv.y  * 30 * sin((uv.x) * M_PI_F)) % 2))
