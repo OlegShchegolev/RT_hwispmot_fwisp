@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/31 17:41:38 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/03 20:42:42 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define V_H 1.
 # define N_OBJ 10
 # define N_SRC 10
-// # include <OpenCL/opencl.h>
-# define CL_TARGET_OPENCL_VERSION 120
-# include <CL/opencl.h>
-# include <CL/cl.h>
+# include <OpenCL/opencl.h>
+// # define CL_TARGET_OPENCL_VERSION 120
+// # include <CL/opencl.h>
+// # include <CL/cl.h>
 // # include <gtk/gtk.h>
 // # include "gdk/gdk.h"
 
@@ -88,13 +88,14 @@ typedef struct			s_cl_object
 	cl_float4			slice[4];
 	cl_int				slice_side[4];
 	cl_int				negative;
+	cl_float			refractive;
 }						t_cl_object;
 
 typedef struct			s_cl_source
 {
 	cl_float3			position;
 	// cl_float3			direction;
-	cl_float			intensity;
+	cl_float3			intensities;
 	cl_char				type;
 }						t_cl_source;
 

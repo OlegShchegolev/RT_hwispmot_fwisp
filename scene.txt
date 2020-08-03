@@ -8,7 +8,7 @@ object:
     type: sphere
     center: (1., 0., -2.5)
     radius: 1.
-    color:  (255, 0, 255)
+    color:  (200, 20, 200)
     specular: 10
     reflective: 0.
     transparent: 0.5
@@ -69,11 +69,11 @@ light:
 {
     type: p
     position: (0, 0, -5)
-    intensity: 1.
+    intensities: (0.9, 0.9, 0.9)
 }
 light/:
 {
     type: p
     position: (2, 2, -1)
-    intensity: 1.
+    intensities: 1.
 }

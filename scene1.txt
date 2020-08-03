@@ -23,5 +23,5 @@ light:
 {
     type: p
     position: (0, 0, -3)
-    intensity: 1.
+    intensities: 1.
 }

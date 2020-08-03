@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:44:08 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/15 21:25:51 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/03 21:23:22 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void			parse_sources(t_cl_source *sources, char *str)
 		// if (ft_strstr(str, "direction:"))
 		// 	sources[k].position = parse_vector(ft_strstr(str, "direction:") \
 		// 										+ ft_strlen("direction:"));
-		if (ft_strstr(str, "intensity:"))
-			sources[k].intensity = ft_atof(ft_strstr(str, "intensity:") \
-												+ ft_strlen("intensity:"));
+		if (ft_strstr(str, "intensities:"))
+			sources[k].intensities = parse_vector(ft_strstr(str, "intensities:") \
+												+ ft_strlen("intensities:"));
         ++(k);
         if (k >= N_SRC)
             break ;
@@ -112,7 +112,7 @@ int			ft_parse_scene(char *filename, t_scene *scene)
 	buffer[out] = '\0';
 	parse_objects(scene->objects, buffer);
 	parse_sources(scene->sources, buffer);
-	check_sources(scene->sources);
+	//check_sources(scene->sources);
 	parse_camera(&(scene->viewpoint), &(scene->cam_angles), \
 								&(scene->rot_matrix), buffer);
 	close(fd);

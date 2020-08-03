@@ -3,7 +3,7 @@
 
 /*float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int closest)
 {
-	float		intensity;
+	float		intensities;
 	t_source	s;
 	t_ray		pl;
 	t_ray		tmp;
@@ -15,7 +15,7 @@
 	int 		obj;
 	float		modifier = 1.;
 
-	intensity = 0.0f;
+	intensities = 0.0f;
 	pl.o = pn.o;
 	if (scene.objects[closest].type == 'p')
 	{
@@ -28,7 +28,7 @@
 			s = scene.sources[i];
 			if (scene.objects[closest].type == 'p')
 				if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
-					s.intensity = 0;
+					s.intensities = 0;
 			pl.d = s.position - pn.o;
 
 			obj = get_closest(pl, scene.objects, &dist, scene.cl_lim);
@@ -48,19 +48,19 @@
 			if (obj == -1)
 			{
 		 		if (dot(pn.d, pl.d) > 0.0f)
-					intensity += s.intensity * dot(pn.d, pl.d) / length(pl.d) * modifier;
+					intensities += s.intensities * dot(pn.d, pl.d) / length(pl.d) * modifier;
 				if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
-					intensity -= s.intensity * dot(pn.d, pl.d) / length(pl.d) * modifier;
+					intensities -= s.intensities * dot(pn.d, pl.d) / length(pl.d) * modifier;
 				if (specular > 0)
 				{
 					pl.d = pn.d * (2.0f * dot(pn.d, pl.d)) - pl.d;
 					if (dot(pl.d, md) > 0.0f)
-						intensity += s.intensity * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular) * modifier ;
+						intensities += s.intensities * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular) * modifier ;
 				}
 				
 			}
 		}
-	return (intensity);
+	return (intensities);
 }*/
 
 
@@ -152,7 +152,7 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 	float3		intensities;
 	t_source	s;
 	t_ray		pl;
-	float		dist;
+	// float		dist;
 	int			i = -1;
 	float		plane_vp;
 	float		d;
@@ -233,13 +233,13 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 }
 
 //добавить функцию (нужна для домножения каждого из параметров цвета - R, G, B
-//на нужную интенсивность (возможно её можно заменить cl функцией))
-float3	mult_float3_on_float3(float3 back, float3 intensities)
-{
-	float3 res;
+// //на нужную интенсивность (возможно её можно заменить cl функцией))
+// float3	mult_float3_on_float3(float3 back, float3 intensities)
+// {
+// 	float3 res;
 
-	res.x = back.x * intensities.x;
-	res.y = back.y * intensities.y;
-	res.z = back.z * intensities.z;
-	return (res);
-}
+// 	res.x = back.x * intensities.x;
+// 	res.y = back.y * intensities.y;
+// 	res.z = back.z * intensities.z;
+// 	return (res);
+// }
