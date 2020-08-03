@@ -26,8 +26,10 @@
 # define V_H 1.
 # define N_OBJ 10
 # define N_SRC 10
-# include <OpenCL/opencl.h>
-// # include <CL/cl.h>
+// # include <OpenCL/opencl.h>
+# define CL_TARGET_OPENCL_VERSION 120
+# include <CL/opencl.h>
+# include <CL/cl.h>
 // # include <gtk/gtk.h>
 // # include "gdk/gdk.h"
 
