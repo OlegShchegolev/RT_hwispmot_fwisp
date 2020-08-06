@@ -154,8 +154,8 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 	t_ray		pl;
 	// float		dist;
 	int			i = -1;
-	float		plane_vp;
-	float		d;
+	// float		plane_vp;
+	// float		d;
 	float		shadow_coef;
 
 	intensities.x = 0.0f;
@@ -164,11 +164,11 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 
 
 	pl.o = pn.o;
-	if (scene.objects[closest].type == 'p')
-	{
-		d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
-		plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
-	}
+	// if (scene.objects[closest].type == 'p')
+	// {
+	// 	d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
+	// 	plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
+	// }
 	while (++i < 10)
 	{
 		if (scene.sources[i].type == 'p' || scene.sources[i].type == 'a' || scene.sources[i].type == 'd')
@@ -179,15 +179,15 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 			else
 			{
 					// plane correction
-				if (scene.objects[closest].type == 'p')
-				{
-					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
-					{
-						s.intensities.x = 0.0f;
-						s.intensities.y = 0.0f;
-						s.intensities.z = 0.0f;
-					}
-				}
+				// if (scene.objects[closest].type == 'p')
+				// {
+				// 	if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
+				// 	{
+				// 		s.intensities.x = 0.0f;
+				// 		s.intensities.y = 0.0f;
+				// 		s.intensities.z = 0.0f;
+				// 	}
+				// }
 				// plane correction
 
 				pl.d = get_big_l(s, pn);
@@ -224,7 +224,7 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 					//compute shine
 					pl.d = pn.d * (2.0f * dot(pn.d, pl.d)) - pl.d;
 					if (dot(pl.d, md) > 0.0f)
-						intensities += s.intensities * pow(dot(pl.d, md) / length(pl.d) / length(md), specular) * shadow_coef;
+						intensities += s.intensities * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular) * shadow_coef;
 				//}
 			}
 		}
