@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/03 20:42:42 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/06 19:19:32 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ cl_int3					*rt_cl(t_cl *cl, t_scene scene);
 cl_float3				ft_vrot(cl_float3, t_matrix rot);
 int						construct_scene(char *str, t_scene *scene);
 void					ft_draw(t_sdl sdl, t_scene scene);
-void					effect(cl_int4 *z, t_scene scene);
+void					effect(cl_int4 *z, t_sdl sdl, t_scene scene);
 t_cl					initcl(void);
 void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);

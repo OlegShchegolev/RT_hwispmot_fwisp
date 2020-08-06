@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 12:02:23 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/18 14:38:58 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/06 19:06:04 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 	if (keystate[SDL_SCANCODE_SPACE] && \
 	(keystate[SDL_SCANCODE_O] || keystate[SDL_SCANCODE_G] || keystate[SDL_SCANCODE_P] || \
 	keystate[SDL_SCANCODE_I] || keystate[SDL_SCANCODE_L] || keystate[SDL_SCANCODE_B] || \
-	keystate[SDL_SCANCODE_Y]))
+	keystate[SDL_SCANCODE_Y]|| keystate[SDL_SCANCODE_T]))
 	{
 		scene->effect_int = 3;
 		if (keystate[SDL_SCANCODE_O])
@@ -101,6 +101,8 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 			scene->effect = scene->effect != 'b' ? 'b' : 0;
 		if (keystate[SDL_SCANCODE_Y])
 			scene->effect = scene->effect != 'a' ? 'a' : 0;
+		if (keystate[SDL_SCANCODE_T])
+			scene->effect = scene->effect != 't' ? 't' : 0;
     	ft_draw(sdl, *scene);
 	}
 	else if (keystate[SDL_SCANCODE_KP_PLUS] || keystate[SDL_SCANCODE_KP_MINUS])

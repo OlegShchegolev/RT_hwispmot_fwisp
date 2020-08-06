@@ -25,7 +25,6 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 		pr.d = cross(obj.norm, pr.d);
 		pr.d = pr.d * (1.0f / length(pr.d));
 	}
-
 	if (obj.type == 'c')
 	{
 		pr.o = od.o + (od.d * dist);

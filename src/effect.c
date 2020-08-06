@@ -189,6 +189,64 @@ void pencil(cl_int4 *z, int i) {
 	free(back);
 }
 
+void	three_d(t_sdl sdl, t_scene scene, cl_int4 *z)
+{
+		cl_int4		*z_add;
+		int			i;
+
+		scene.viewpoint.s0 += 0.1;
+		z_add = rt_cl(&(sdl.cl_inst), scene);
+		i = -1;
+		while (++i < C_W * C_H)
+		{
+				z[i].s[1] = z_add[i].s[1];
+				z[i].s[2] = z_add[i].s[2];
+		}
+		free(z_add);
+}
+
+void vector_div_n(cl_int4* z, int n)
+{
+	z->s0 /= n;
+	z->s1 /= n;
+	z->s2 /= n;
+}
+
+void vector_sum(cl_int4* z, cl_int4 add)
+{
+	z->s0 += add.s0;
+	z->s1 += add.s1;
+	z->s2 += add.s2;
+}
+
+void	antialiasing(cl_int4* z, int n)
+{
+	int		i;
+	int		j;
+	int		x;
+	int		y;
+
+	x = 0;	
+	while (x < C_W * n)
+	{
+		y = 0;
+		while (y < C_H * n)
+		{
+			i = -1;
+			z[x / n * C_H + y / n] = (cl_int4){{0, 0, 0, 0}};
+			while (++i < n)
+			{
+				j = -1;
+				while (++j < n)
+					vector_sum(z + x / n * C_H + y / n, z[((x + i) * n) * C_H + y + j]);
+			}
+			vector_div_n(z + x / n * C_H + y / n, pow(n, 2));
+			y += n;
+		}
+		x += n;
+	}
+}
+
 void	norm(cl_int4 *z)
 {
 	int			x;
@@ -210,19 +268,23 @@ void	norm(cl_int4 *z)
 	}
 }
 
-void	effect(cl_int4 *z, t_scene scene)
+void	effect(cl_int4 *z, t_sdl sdl, t_scene scene)
 {
     norm(z);
 	if (scene.effect == 's')
 		sepia(z);
-	if (scene.effect == 'g')
+	else if (scene.effect == 'g')
 		grayscale(z, scene.effect_int);
-	if (scene.effect == 'b')
+	else if (scene.effect == 'b')
 		box_blur(z, scene.effect_int);
-	if (scene.effect == 'p')
+	else if (scene.effect == 'p')
 		pixelize(z, scene.effect_int);
-	if (scene.effect == 'i')
+	else if (scene.effect == 'i')
 		invert(z);
-	if (scene.effect == 'l')
+	else if (scene.effect == 'l')
 		pencil(z, scene.effect_int);
+	else if (scene.effect == 't')
+		three_d(sdl, scene, z);
+	else if (scene.effect == 'a')
+		antialiasing(z, scene.effect_int);
 }

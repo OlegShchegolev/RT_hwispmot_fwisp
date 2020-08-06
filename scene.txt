@@ -3,7 +3,7 @@ camera:
     viewpoint: (0, 0, -5)
     camera_angles: (10, 20, 30)
 }
-object:
+object/:
 {
     type: sphere
     center: (1., 0., -2.5)
@@ -21,8 +21,8 @@ object:
     center: (0., 0., 10)
 	direction: (0.0, 0.0, 1.0)
     color:  (255, 255, 255)
-    specular: 10
-    reflective: 0.5
+    specular: 0
+    reflective: 0.
     transparent: 0
 	tex_num: 2
 	tex_type: c
@@ -34,7 +34,7 @@ object:
 	slice_side/: 2
 }
 
-object/:
+object:
 {
     type: cyl
     center: (0., 0., -1)
@@ -44,7 +44,7 @@ object/:
     specular: 10
     reflective: 0.
     transparent: 0
-	tex_num: 7
+	tex_num: 2
 	tex_type: c
 	scale: (1, 10)
 	shift: (0, 0)
