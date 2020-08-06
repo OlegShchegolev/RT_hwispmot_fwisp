@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 01:38:58 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/18 14:47:54 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/06 19:29:50 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,36 +41,8 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 	int			j;
 
 	z = rt_cl(&(sdl.cl_inst), scene);
-	if (scene.effect == 'a' && scene.effect_int > 1)
-	{
-		x = 0;	
-		while (x < C_W * scene.effect_int)
-		{
-			y = 0;
-			while (y < C_H * scene.effect_int)
-			{
-				i = -1;
-				z[x / scene.effect_int * C_H + y / scene.effect_int] = (cl_int4){{0, 0, 0, 0}};
-				while (++i < scene.effect_int)
-				{
-					j = -1;
-					while (++j < scene.effect_int)
-					{
-							z[x / scene.effect_int * C_H + y / scene.effect_int].s[0] += z[((x + i) * scene.effect_int) * C_H + y + j].s[0];
-							z[x / scene.effect_int * C_H + y / scene.effect_int].s[1] += z[((x + i) * scene.effect_int) * C_H + y + j].s[1];
-							z[x / scene.effect_int * C_H + y / scene.effect_int].s[2] += z[((x + i) * scene.effect_int) * C_H + y + j].s[2];
-					}
-				}
-				z[x / scene.effect_int * C_H + y / scene.effect_int].s[0] /= pow(scene.effect_int, 2);
-				z[x / scene.effect_int * C_H + y / scene.effect_int].s[1] /= pow(scene.effect_int, 2);
-				z[x / scene.effect_int * C_H + y / scene.effect_int].s[2] /= pow(scene.effect_int, 2);
-				y += scene.effect_int;
-			}
-			x += scene.effect_int;
-		}
-	}
-	else if (scene.effect != 0)
-		effect(z, scene);
+	if (scene.effect != 0)
+		effect(z, sdl, scene);
 	x =  - 1;	
 	while (++x < C_W)
 	{
