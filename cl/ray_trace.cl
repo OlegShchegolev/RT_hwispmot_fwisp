@@ -135,8 +135,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		f1 = apply_bump(od, scene.objects[closest], dist);
 		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	}
+<<<<<<< HEAD
 	if (scene.objects[closest].reflective > 0)
 	{
+=======
+	if (scene.objects[closest].reflective > 0) {
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 		od = obj_refl(od, closest, scene);
 		while (depth > 0)
 		{
@@ -144,8 +148,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			closest = get_closest(od, scene.objects, &(dist), lim);
 
 			scene.objects[closest].dist = dist;
+<<<<<<< HEAD
 			if (closest >= 0 &&  scene.objects[me].reflective > 0)
 			{
+=======
+			if (closest >= 0 &&  scene.objects[me].reflective > 0) {
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 				r1 = new_pr(od, scene.objects[closest], dist);
 		 		back = back * (1 - scene.objects[me].reflective) + obj_col(r1, scene.objects[closest]) * scene.objects[me].reflective ;
 				od = obj_refl(od, closest, scene);
@@ -155,9 +163,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		}
 	}
 	else if (scene.objects[closest].refractive > 0) {
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 		od = obj_refr(od, closest, scene);
 		while (depth > 0)
 		{
@@ -165,12 +176,17 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			closest = get_closest(od, scene.objects, &(dist), lim);
 
 			scene.objects[closest].dist = dist;
+<<<<<<< HEAD
 			if (closest >= 0 &&  scene.objects[me].refractive > 0)
 			{
 				r1 = new_pr(od, scene.objects[closest], dist);
 
 
 
+=======
+			if (closest >= 0 &&  scene.objects[me].refractive > 0) {
+				r1 = new_pr(od, scene.objects[closest], dist);
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 				float3 tmp_color = obj_col(r1, scene.objects[closest]);
 				f1 = apply_bump(od, scene.objects[closest], dist);
 				tmp_color *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);

@@ -80,10 +80,13 @@ typedef struct	s_scene
 	int			width;
 	int			height;
 
+<<<<<<< HEAD
 
 	int			inside_flag;
 }				t_scene;
 
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);
 int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth);
 float3		ft_vrot(float3 a, t_matrix rot);

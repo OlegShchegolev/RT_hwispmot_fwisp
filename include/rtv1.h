@@ -26,10 +26,10 @@
 # define V_H 1.
 # define N_OBJ 10
 # define N_SRC 10
-// # include <OpenCL/opencl.h>
-# define CL_TARGET_OPENCL_VERSION 120
-# include <CL/opencl.h>
-# include <CL/cl.h>
+# include <OpenCL/opencl.h>
+// # define CL_TARGET_OPENCL_VERSION 120
+// # include <CL/opencl.h>
+// # include <CL/cl.h>
 // # include <gtk/gtk.h>
 // # include "gdk/gdk.h"
 
@@ -89,7 +89,10 @@ typedef struct			s_cl_object
 	cl_int				slice_side[4];
 	cl_int				negative;
 	cl_float			refractive;
+<<<<<<< HEAD
 	cl_float			index_of_refr;
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 }						t_cl_object;
 
 typedef struct			s_cl_source
