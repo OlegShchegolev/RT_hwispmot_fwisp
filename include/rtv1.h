@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/31 17:41:38 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/03 20:42:42 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdio.h>
 # include "libft.h"
 # define DMAX 4000000
-# define C_W 1024
-# define C_H 768
+# define C_W 512//1024
+# define C_H 512//768
 # define C_D 32
 # define V_W 1.
 # define V_H 1.
@@ -88,13 +88,15 @@ typedef struct			s_cl_object
 	cl_float4			slice[4];
 	cl_int				slice_side[4];
 	cl_int				negative;
+	cl_float			refractive;
+	cl_float			index_of_refr;
 }						t_cl_object;
 
 typedef struct			s_cl_source
 {
 	cl_float3			position;
 	// cl_float3			direction;
-	cl_float			intensity;
+	cl_float3			intensities;
 	cl_char				type;
 }						t_cl_source;
 
@@ -112,6 +114,10 @@ typedef struct			s_scene
 	cl_float3			cam_angles;
 	cl_int				width;
 	cl_int				height;
+
+
+
+	int					inside_flag;
 }						t_scene;	
 
 typedef struct			s_controls

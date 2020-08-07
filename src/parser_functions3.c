@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/07/31 17:42:14 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/03 21:18:41 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			get_object_parameters(t_cl_object *object, char *str)
 	if (ft_strstr(str, "reflective:"))
 			object->reflective = ft_atof(ft_strstr(str, "reflective:") + 11);
 	if (ft_strstr(str, "transparent:")){
-			object->transparency = ft_atof(ft_strstr(str, "transparent:") + 12);
+			object->refractive = ft_atof(ft_strstr(str, "transparent:") + 12);
 //			printf("transparency %d\n", object->transparency);
 	}
 	if (ft_strstr(str, "tex_num:"))
@@ -60,16 +60,28 @@ char			parse_object_type(char *str)
 
 void	check_sources(t_cl_source *sources)
 {
-	float	sum;
+	cl_float3	sum;
     int     i;
 
-	sum = 0.;
+	sum.s0 = 0.;
+	sum.s1 = 0.;
+	sum.s2 = 0.;
     i = -1;
 	while (++i < N_SRC)
-		sum += sources[i].intensity;
+	{
+		sum.s0 += sources[i].intensities.s0;
+		sum.s1 += sources[i].intensities.s1;
+		sum.s2 += sources[i].intensities.s2;
+	}
     i = -1;
 	while (++i < N_SRC)
-		sources[i].intensity /= sum;
+	{
+		sources[i].intensities.s0 /= sum.s0;
+		sources[i].intensities.s1 /= sum.s1;
+		sources[i].intensities.s2 /= sum.s2;
+		printf("%f %f %f\n", sources[i].intensities.s0, sources[i].intensities.s1, sources[i].intensities.s2);
+	}
+		
 }
 
 t_matrix		return_eig_rot_m(cl_float3 cam_ang)

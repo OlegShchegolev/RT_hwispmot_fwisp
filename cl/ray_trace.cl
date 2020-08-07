@@ -44,17 +44,17 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 		}
 		
 	}
-	if (obj != -1 &&  objects[obj].trans > 0)
-	{
-		if (tmp.root1  > 0 &&  tmp.root2 > 0)
-		{
-			if (tmp.root1 < tmp.root2)
-				*dist = tmp.root2;
-			else
-				*dist = tmp.root1;
-		}
+	// if (obj != -1 &&  objects[obj].trans > 0)
+	// {
+	// 	if (tmp.root1  > 0 &&  tmp.root2 > 0)
+	// 	{
+	// 		if (tmp.root1 < tmp.root2)
+	// 			*dist = tmp.root2;
+	// 		else
+	// 			*dist = tmp.root1;
+	// 	}
 		
-	}
+	// }
 	return (obj);
 }
 
@@ -81,18 +81,19 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]) * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+		back = obj_col(r1, scene.objects[closest]);
 		f1 = apply_bump(od, scene.objects[closest], dist);
+		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	}
 	else if (scene.objects[closest].trans > 0)
 	{
 		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]) * (1.f - scene.objects[closest].trans) * \
-				compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+		back = obj_col(r1, scene.objects[closest]) * (1.f - scene.objects[closest].trans);
 ;
 		f1 = apply_bump(od, scene.objects[closest], dist);
+		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 
 		// od.o = od.o + od.d * dist * 1.0001f;
 		// closest = get_closest(od, scene.objects, &(dist), lim);
@@ -130,24 +131,55 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		scene.objects[closest].dist = dist;
 
 		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]) * compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+		back = obj_col(r1, scene.objects[closest]);
 		f1 = apply_bump(od, scene.objects[closest], dist);
+		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	}
-
-	od = obj_refl(od, closest, scene);
-	while (depth > 0)
+	if (scene.objects[closest].reflective > 0)
 	{
-		int me = closest;
-		closest = get_closest(od, scene.objects, &(dist), lim);
-		
-		scene.objects[closest].dist = dist;
-		if (closest >= 0 &&  scene.objects[me].reflective > 0) {
-			r1 = new_pr(od, scene.objects[closest], dist);
-	 		back = back * (1 - scene.objects[me].reflective) + obj_col(r1, scene.objects[closest]) * scene.objects[me].reflective ;
-			od = obj_refl(od, closest, scene);
+		od = obj_refl(od, closest, scene);
+		while (depth > 0)
+		{
+			int me = closest;
+			closest = get_closest(od, scene.objects, &(dist), lim);
+
+			scene.objects[closest].dist = dist;
+			if (closest >= 0 &&  scene.objects[me].reflective > 0)
+			{
+				r1 = new_pr(od, scene.objects[closest], dist);
+		 		back = back * (1 - scene.objects[me].reflective) + obj_col(r1, scene.objects[closest]) * scene.objects[me].reflective ;
+				od = obj_refl(od, closest, scene);
+			}
+			else depth = 0;
+		 	depth = depth - 1;
 		}
-		else depth = 0;
-	 	depth = depth - 1;
+	}
+	else if (scene.objects[closest].refractive > 0) {
+
+
+
+		od = obj_refr(od, closest, scene);
+		while (depth > 0)
+		{
+			int me = closest;
+			closest = get_closest(od, scene.objects, &(dist), lim);
+
+			scene.objects[closest].dist = dist;
+			if (closest >= 0 &&  scene.objects[me].refractive > 0)
+			{
+				r1 = new_pr(od, scene.objects[closest], dist);
+
+
+
+				float3 tmp_color = obj_col(r1, scene.objects[closest]);
+				f1 = apply_bump(od, scene.objects[closest], dist);
+				tmp_color *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+		 		back = back * (1 - scene.objects[me].refractive) + tmp_color * scene.objects[me].refractive ;
+				od = obj_refr(od, closest, scene);
+			}
+			else depth = 0;
+		 	depth = depth - 1;
+		}
 	}
 
 	return ((int4)(convert_int3(back), obj));
@@ -196,7 +228,7 @@ __kernel void render(__global int4 *output, t_scene scene)
 	
 	od.d = ft_vrot(ft_canvas_to_viewport(x_coord, y_coord, scene.width, scene.height), scene.rot_matrix);
 	od.d = od.d / length(od.d);
-	finalcolor = ft_trace_ray(od, lim, scene, 1);
+	finalcolor = ft_trace_ray(od, lim, scene, 4);
 
 	output[work_item_id] = finalcolor;
 }
