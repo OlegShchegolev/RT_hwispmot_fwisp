@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 12:02:23 by fwisp             #+#    #+#             */
-/*   Updated: 2020/08/06 19:06:04 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/07 15:27:59 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,27 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 		else if (keystate[SDL_SCANCODE_KP_MINUS])
 			scene->effect_int -= scene->effect_int > 1 ? 1 : 0;
 		ft_draw(sdl, *scene);
+	}
+	else if (keystate[SDL_SCANCODE_PAGEDOWN] || keystate[SDL_SCANCODE_PAGEUP])
+	{
+		if (keystate[SDL_SCANCODE_PAGEDOWN])
+		{
+			if (scene->current_scene == sdl.scene_num)
+				scene->current_scene = 1;
+			else
+				scene->current_scene++;
+			if (!construct_scene(sdl.scenes[scene->current_scene], scene))
+				ft_draw(sdl, *scene);
+		}
+		else if (keystate[SDL_SCANCODE_PAGEUP])
+		{
+			if (scene->current_scene == 1)
+				scene->current_scene = sdl.scene_num;
+			else
+				scene->current_scene--;
+			if (!construct_scene(sdl.scenes[scene->current_scene], scene))
+				ft_draw(sdl, *scene);
+		}
 	}
 }
 

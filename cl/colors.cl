@@ -20,9 +20,10 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 	if (obj.type == 'p')
 	{
 		pr.o = od.o + (od.d * dist);
-		pr.d = pr.o - obj.center;
-		pr.d = cross(pr.d, obj.norm);
-		pr.d = cross(obj.norm, pr.d);
+		// pr.d = pr.o - obj.center;
+		// pr.d = cross(pr.d, obj.norm);
+		// pr.d = cross(obj.norm, pr.d);
+		pr.d = obj.norm;
 		pr.d = pr.d * (1.0f / length(pr.d));
 	}
 	if (obj.type == 'c')

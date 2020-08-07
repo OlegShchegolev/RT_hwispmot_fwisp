@@ -78,6 +78,7 @@ typedef struct	s_scene
 	float3		cam_angles;
 	int			width;
 	int			height;
+	int			current_scene;
 }				t_scene;
 
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);

@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 01:38:58 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/06 19:29:50 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/07 16:44:09 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 	int			y;
 	cl_int4		ccolor;
 	cl_int4		*z;
-	int			i;
-	int			j;
 
 	z = rt_cl(&(sdl.cl_inst), scene);
 	if (scene.effect != 0)
@@ -52,9 +50,6 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 			ccolor = z[x * C_H + y];
 			if (scene.effect == 'a')
 				ccolor = z[x * C_H + y];
-			// ccolor.s[0] = 255;
-			// ccolor.s[1] = 255;
-			// ccolor.s[2] = 0;
 			ft_put_pixel(sdl.screen, x , y, ccolor);
 		}
 	}
@@ -63,5 +58,4 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 	SDL_RenderCopy(sdl.renderer, sdl.texture, NULL, NULL);
 	SDL_RenderPresent(sdl.renderer);
 	free(z);
-	printf("redrawn %c %d\n", scene.effect, scene.effect_int);
 }

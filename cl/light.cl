@@ -114,7 +114,8 @@ float			compute_shadow(t_scene scene, t_ray pl)
 	// inter_res_shadow = look_for_intersections(param, param->vec_params.p_big,
 	// 	param->vec_params.l_big);
 	closest_figure =  get_closest(pl, scene.objects, &dist, scene.cl_lim);
-
+	if (scene.objects[closest_figure ].negative == 1)
+					return (1.f);
 
 	//direction = param->vec_params.l_big;
 
@@ -154,8 +155,8 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 	t_ray		pl;
 	// float		dist;
 	int			i = -1;
-	// float		plane_vp;
-	// float		d;
+	float		plane_vp;
+	float		d;
 	float		shadow_coef;
 
 	intensities.x = 0.0f;
@@ -164,11 +165,11 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 
 
 	pl.o = pn.o;
-	// if (scene.objects[closest].type == 'p')
-	// {
-	// 	d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
-	// 	plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
-	// }
+	if (scene.objects[closest].type == 'p')
+	{
+		d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
+		plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
+	}
 	while (++i < 10)
 	{
 		if (scene.sources[i].type == 'p' || scene.sources[i].type == 'a' || scene.sources[i].type == 'd')
@@ -179,15 +180,15 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 			else
 			{
 					// plane correction
-				// if (scene.objects[closest].type == 'p')
-				// {
-				// 	if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
-				// 	{
-				// 		s.intensities.x = 0.0f;
-				// 		s.intensities.y = 0.0f;
-				// 		s.intensities.z = 0.0f;
-				// 	}
-				// }
+				if (scene.objects[closest].type == 'p')
+				{
+					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
+					{
+						s.intensities.x = 0.0f;
+						s.intensities.y = 0.0f;
+						s.intensities.z = 0.0f;
+					}
+				}
 				// plane correction
 
 				pl.d = get_big_l(s, pn);
@@ -195,8 +196,8 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 
 				scene.cl_lim = get_cl_lim(s);
 
-
 				shadow_coef = compute_shadow(scene, pl);
+				
 				if (shadow_coef == 0)
 				{
 					s.intensities.x = 0.0;
@@ -231,15 +232,3 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 	}
 	return (intensities);
 }
-
-//добавить функцию (нужна для домножения каждого из параметров цвета - R, G, B
-// //на нужную интенсивность (возможно её можно заменить cl функцией))
-// float3	mult_float3_on_float3(float3 back, float3 intensities)
-// {
-// 	float3 res;
-
-// 	res.x = back.x * intensities.x;
-// 	res.y = back.y * intensities.y;
-// 	res.z = back.z * intensities.z;
-// 	return (res);
-// }

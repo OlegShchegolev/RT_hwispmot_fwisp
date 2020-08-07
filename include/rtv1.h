@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/06 19:19:32 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/07 16:53:53 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct 			s_sdl
 	SDL_Renderer		*renderer;
 	SDL_Texture			*texture;
 	t_cl				cl_inst;
+	char				**scenes;
+	int					scene_num;
 }						t_sdl;
 
 typedef struct			s_lim
@@ -113,6 +115,7 @@ typedef struct			s_scene
 	cl_float3			cam_angles;
 	cl_int				width;
 	cl_int				height;
+	cl_int				current_scene;	
 }						t_scene;	
 
 typedef struct			s_controls
@@ -147,4 +150,6 @@ int						ft_parse_scene(char *filename, t_scene *scene);
 void    				controls(t_sdl sdl, t_scene scene);
 // void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
 void					releasecl(t_cl *cl);
+void					loading_message(t_sdl *sdl);
+void	progress_bar(t_sdl *sdl, int x, int y, int w, int h, float Percent);
 #endif
