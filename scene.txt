@@ -34,7 +34,7 @@ object:
 	slice_side/: 2
 }
 
-object:
+object/:
 {
     type: cyl
     center: (0., 0., -1)
@@ -50,16 +50,16 @@ object:
 	shift: (0, 0)
 }
 
-object/:
+object:
 {
     type: sphere
     center: (0., 0., -1)
     radius: 1.
     color:  (110, 40, 200)
-    specular: 10
+    specular: -1
     reflective: 0.
     transparent: 0
-    tex_num: 9
+    tex_num: 11
 	tex_type: b
     scale: (3, 5)
 	shift: (0, 0)

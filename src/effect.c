@@ -1,92 +1,97 @@
 #include "rtv1.h"
 
-void box_blur(cl_int4 *z, int r)
+void vector_div_n(cl_int4* z, int n)
 {
-    cl_int4		sum;
-	int			x;
-	int			y;
-	int			i;
-	int			j;
-	cl_int4		*tmp;
-
-	tmp = (cl_int4 *)malloc(sizeof(cl_int4) * C_H * C_W);
-	tmp = ft_memcpy(tmp, z, sizeof(cl_int4) * C_H * C_W);
-	x =  - 1;	
-	while (++x < C_W)
-	{
-		y = - 1;
-		while (++y < C_H)
-		{
-			sum = (cl_int4){{0, 0, 0, 1}};
-			i = -r - 1;
-			while (++i < r+1)
-			{
-				j = -r - 1;
-				while (++j < r+1)
-				{
-					if (x + i >= C_W || y + j >= C_H || x + i <= 0 || y + j <= 0)
-						continue;
-					sum.s[0] += tmp[(x + i) * C_H + (y+j)].s[0];
-					sum.s[1] += tmp[(x + i) * C_H + (y+j)].s[1];
-					sum.s[2] += tmp[(x + i) * C_H + (y+j)].s[2];
-					sum.s[3]++;
-				}
-			}
-			z[x * C_H + y].s[0] = sum.s[0] / sum.s[3];
-			z[x * C_H + y].s[1] = sum.s[1] / sum.s[3];
-			z[x * C_H + y].s[2] = sum.s[2] / sum.s[3];
-		}
-	}
-	free(tmp);
+	z->s0 /= n;
+	z->s1 /= n;
+	z->s2 /= n;
 }
 
-void pixelize(cl_int4 *z, int r)
+void vector_sum(cl_int4* z, cl_int4 add)
+{
+	z->s0 += add.s0;
+	z->s1 += add.s1;
+	z->s2 += add.s2;
+	z->s3++;
+}
+
+cl_int4 ret_vector_div_n(cl_int4 a, int n)
+{
+	cl_int4	b;
+
+	b.s0 = a.s0 / n;
+	b.s1 = a.s1 / n;
+	b.s2 = a.s2 / n;
+	return (b);
+}
+
+void box_blur(cl_int4 *z, int n)
+{
+    cl_int4		sum;
+	int			d[2];
+	int			i[2];
+	
+	d[0] =  -1;	
+	while (++d[0] < C_W)
+	{
+		d[1] = - 1;
+		while (++d[1] < C_H)
+		{
+			sum = (cl_int4){{0, 0, 0, 1}};
+			i[0] = -n - 1;
+			while (++i[0] < n + 1)
+			{
+				i[1] = -n - 1;
+				while (++i[1] < n + 1)
+					if (d[0] + i[0] < C_W && d[1] + i[1] < C_H \
+							&& d[0] + i[0] > 0 && d[1] + i[1] > 0)
+						vector_sum(&sum, z[(d[0] + i[0]) * C_H + (d[1] + i[1])]);
+			}
+			z[d[0] * C_H + d[1]] = ret_vector_div_n(sum, sum.s[3]);
+		}
+	}
+}
+
+void	make_pixelize(int *c, int n, cl_int4 *z, cl_int4 sum)
+{
+	int		i[2];
+
+	i[0] = - 1;
+	while (++i[0] < n)
+	{
+		i[1] = - 1;
+		while (++i[1] < n)
+			if (c[0] * n + i[0] < C_W && c[1] * n + i[1] < C_H && \
+								c[0] * n + i[0] > 0 && c[1] * n + i[1] > 0)
+				z[(c[0] * n + i[0])  * C_H + (c[1] * n + i[1])] = ret_vector_div_n(sum, sum.s3);
+	}
+}
+
+void pixelize(cl_int4 *z, int n)
 {
     cl_int4		sum;
 	int			c[2];
 	int			i[2];
-	cl_int4*	tmp;
-
-	tmp = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
-	tmp = ft_memcpy(tmp, z, sizeof(cl_int4) * C_H * C_W);
+	
 	c[0] =  - 1;	
-	while (++c[0] * r < C_W)
+	while (++c[0] * n < C_W)
 	{
 		c[1] = - 1;
-		while (++c[1] * r < C_H)
+		while (++c[1] * n < C_H)
 		{
 			sum = (cl_int4){{0, 0, 0, 1}};
 			i[0] = - 1;
-			while (++i[0] < r + 1)
+			while (++i[0] < n + 1)
 			{
 				i[1] = - 1;
-				while (++i[1] < r + 1)
-				{
-					if (c[0] * r + i[0] >= C_W || c[1] * r + i[1] >= C_H || \
-									c[0] * r + i[0] <= 0 || c[1] * r + i[1] <= 0)
-						continue;
-					sum.s[0] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[0];
-					sum.s[1] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[1];
-					sum.s[2] += tmp[(c[0] * r + i[0]) * C_H + (c[1] * r +i[1])].s[2];
-					sum.s[3]++;
-				}
+				while (++i[1] < n + 1)
+					if (c[0] * n + i[0] < C_W && c[1] * n + i[1] < C_H && \
+									c[0] * n + i[0] > 0 && c[1] * n + i[1] > 0)
+						vector_sum(&sum, z[(c[0] * n + i[0]) * C_H + (c[1] * n +i[1])]);
 			}
-			i[0] = - 1;
-			while (++i[0] < r)
-			{
-				i[1] = - 1;
-				while (++i[1] < r)
-				{
-					if (c[0] * r + i[0] >= C_W || c[1] * r + i[1] >= C_H || c[0] * r + i[0] <= 0 || c[1] * r + i[1] <= 0)
-						continue;
-					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[0] = sum.s[0] / sum.s[3];
-					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[1] = sum.s[1] / sum.s[3];
-					z[(c[0] * r + i[0])  * C_H + (c[1] * r + i[1])].s[2] = sum.s[2] / sum.s[3];
-				}
-			}
+			make_pixelize(c, n, z, sum);
 		}
 	}
-	free(tmp);
 }
 
 void	sepia(cl_int4 *z)
@@ -203,20 +208,6 @@ void	three_d(t_sdl sdl, t_scene scene, cl_int4 *z)
 				z[i].s[2] = z_add[i].s[2];
 		}
 		free(z_add);
-}
-
-void vector_div_n(cl_int4* z, int n)
-{
-	z->s0 /= n;
-	z->s1 /= n;
-	z->s2 /= n;
-}
-
-void vector_sum(cl_int4* z, cl_int4 add)
-{
-	z->s0 += add.s0;
-	z->s1 += add.s1;
-	z->s2 += add.s2;
 }
 
 void	antialiasing(cl_int4* z, int n)
