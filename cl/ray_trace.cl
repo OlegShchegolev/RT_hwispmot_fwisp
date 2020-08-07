@@ -136,8 +136,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (scene.objects[closest].reflective > 0)
 	{
+=======
+	if (scene.objects[closest].reflective > 0) {
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 	if (scene.objects[closest].reflective > 0) {
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
@@ -149,8 +153,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 
 			scene.objects[closest].dist = dist;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if (closest >= 0 &&  scene.objects[me].reflective > 0)
 			{
+=======
+			if (closest >= 0 &&  scene.objects[me].reflective > 0) {
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 			if (closest >= 0 &&  scene.objects[me].reflective > 0) {
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
@@ -164,9 +172,12 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	}
 	else if (scene.objects[closest].refractive > 0) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 		od = obj_refr(od, closest, scene);
@@ -177,12 +188,17 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 
 			scene.objects[closest].dist = dist;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if (closest >= 0 &&  scene.objects[me].refractive > 0)
 			{
 				r1 = new_pr(od, scene.objects[closest], dist);
 
 
 
+=======
+			if (closest >= 0 &&  scene.objects[me].refractive > 0) {
+				r1 = new_pr(od, scene.objects[closest], dist);
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 			if (closest >= 0 &&  scene.objects[me].refractive > 0) {
 				r1 = new_pr(od, scene.objects[closest], dist);

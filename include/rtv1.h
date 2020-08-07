@@ -90,7 +90,10 @@ typedef struct			s_cl_object
 	cl_int				negative;
 	cl_float			refractive;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	cl_float			index_of_refr;
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 }						t_cl_object;

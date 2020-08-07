@@ -81,10 +81,13 @@ typedef struct	s_scene
 	int			height;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	int			inside_flag;
 }				t_scene;
 
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 =======
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);

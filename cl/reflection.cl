@@ -52,6 +52,7 @@ t_ray		obj_refr(t_ray od, int closest, t_scene scene)
 {
 	t_ray		pr;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	t_ray		refr;
 
 
@@ -147,6 +148,8 @@ t_ray		obj_refr(t_ray od, int closest, t_scene scene)
 
 	return (refr);
 =======
+=======
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 	// float3		texture;
 	// float3		norm;
 
@@ -192,5 +195,8 @@ t_ray		obj_refr(t_ray od, int closest, t_scene scene)
 	// pr.d = pr.d * (2.0f * dot(pr.d, od.d)) - od.d;
 	// pr.d = pr.d /length(pr.d);
 	return (pr);
+<<<<<<< HEAD
+>>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
+=======
 >>>>>>> 431bad0f016fb606c8ed4cbf53045412530eeb00
 }
