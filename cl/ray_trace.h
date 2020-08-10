@@ -42,12 +42,12 @@ typedef struct	s_object
 	int			negative;
 
 	float		refractive;
+	float		index_of_refr;
 }				t_object;
 
 typedef struct	s_source
 {
 	float3		position;
-	//float		intensities;
 	float3		intensities;
 	char		type;
 }				t_source;

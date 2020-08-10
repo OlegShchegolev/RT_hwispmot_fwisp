@@ -22,23 +22,27 @@ void	init_program_names(char *header[], char *programs[], t_cl *cl)
 	free(cl->source_str);
 }
 
-void	progress_bar(t_sdl *sdl, int x, int y, int w, int h, float Percent)
+void	progress_bar(t_sdl *sdl, float percent)
 {
-   Percent = Percent > 1.f ? 1.f : Percent < 0.f ? 0.f : Percent;
-   SDL_Color old;
-   SDL_GetRenderDrawColor(sdl->renderer, &old.r, &old.g, &old.g, &old.a);
-   SDL_Rect bgrect = { x, y, w, h };
-   SDL_SetRenderDrawColor(sdl->renderer, 255, 255, 255, 255);
-   SDL_RenderFillRect(sdl->renderer, &bgrect);
-   SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 0, 255);
-   int pw = (int)((float)w * Percent);
-   int px = x + (w - pw);
-   SDL_Rect fgrect = { px, y, pw, h };
-   //SDL_RenderFillRect(sdl->renderer, &fgrect);
-   SDL_SetRenderDrawColor(sdl->renderer, old.r, old.g, old.b, old.a);
+	SDL_Rect rect;
+
+	rect.x = 300;
+	rect.y = 400;
+	rect.w = 500;
+	rect.h = 50;
+	sdl->screen = SDL_LoadBMP("loading.bmp");
+	SDL_UpdateTexture(sdl->texture, NULL, sdl->screen->pixels, sdl->screen->pitch);
+	SDL_RenderClear(sdl->renderer);
+	SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+	percent = percent > 1.f ? 1.f : percent < 0.f ? 0.f : percent;
+	SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 0, 255);
+	SDL_RenderDrawRect(sdl->renderer, &rect);
+	rect.w = percent * 500;
+	SDL_RenderFillRect(sdl->renderer, &rect);
+	SDL_RenderPresent(sdl->renderer);
 }
 
-void	compile_cl(t_cl *cl)
+void	compile_cl(t_cl *cl, t_sdl *sdl)
 {
 	char* header[1];
 	char* programs[7];
@@ -58,11 +62,12 @@ void	compile_cl(t_cl *cl)
 		(const char **)&cl->source_str, (const size_t *)&cl->source_size, NULL);
 		free(cl->source_str);
 		clCompileProgram(cl->programs[i], 1, &cl->dev_id,	"-Werror", 1, cl->header, (const char**)header, NULL, NULL);
+		progress_bar(sdl, 0.1 * i + 0.3);
 	}
 	cl->program = clLinkProgram(cl->context, 1, &cl->dev_id, NULL, 7, cl->programs, NULL, NULL, NULL);
 }
 
-t_cl	initcl()
+t_cl	initcl(t_sdl *sdl)
 {
 	t_cl		cl;
 	cl_uint		rnd;
@@ -72,7 +77,8 @@ t_cl	initcl()
 	clGetDeviceIDs(cl.platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &cl.dev_id, &rnd);
 	cl.context = clCreateContext(NULL, 1, &cl.dev_id, NULL, NULL, NULL);
 	cl.command_queue = clCreateCommandQueue(cl.context, cl.dev_id, 0, NULL);
-	compile_cl(&cl);
+	progress_bar(sdl, 0.2);
+	compile_cl(&cl, sdl);
 	
 	// {
 	// 	size_t log_size;

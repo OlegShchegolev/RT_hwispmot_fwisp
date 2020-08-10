@@ -91,6 +91,7 @@ typedef struct			s_cl_object
 	cl_int				slice_side[4];
 	cl_int				negative;
 	cl_float			refractive;
+	cl_float			index_of_refr;
 }						t_cl_object;
 
 typedef struct			s_cl_source
@@ -144,12 +145,12 @@ cl_float3				ft_vrot(cl_float3, t_matrix rot);
 int						construct_scene(char *str, t_scene *scene);
 void					ft_draw(t_sdl sdl, t_scene scene);
 void					effect(cl_int4 *z, t_sdl sdl, t_scene scene);
-t_cl					initcl(void);
+t_cl					initcl(t_sdl *sdl);
 void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);
 void    				controls(t_sdl sdl, t_scene scene);
 // void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
 void					releasecl(t_cl *cl);
 void					loading_message(t_sdl *sdl);
-void	progress_bar(t_sdl *sdl, int x, int y, int w, int h, float Percent);
+void	progress_bar(t_sdl *sdl, float percent);
 #endif

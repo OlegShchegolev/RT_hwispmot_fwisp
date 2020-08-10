@@ -113,7 +113,8 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		 	depth = depth - 1;
 		}
 	}
-	else if (scene.objects[closest].refractive > 0) {
+	else if (scene.objects[closest].refractive > 0)
+	{
 		od = obj_refr(od, closest, scene);
 		while (depth > 0)
 		{
@@ -123,6 +124,9 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			scene.objects[closest].dist = dist;
 			if (closest >= 0 &&  scene.objects[me].refractive > 0) {
 				r1 = new_pr(od, scene.objects[closest], dist);
+
+
+
 				float3 tmp_color = obj_col(r1, scene.objects[closest]);
 				f1 = apply_bump(od, scene.objects[closest], dist);
 				tmp_color *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);

@@ -31,12 +31,11 @@ void				run_gui(t_sdl *sdl)
 	sdl->texture = SDL_CreateTexture(sdl->renderer, SDL_PIXELFORMAT_ARGB8888,\
 								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
 	loading_message(sdl);
-	progress_bar(sdl, 100, 100, 400, 50, 44.5);
-	SDL_RenderPresent(sdl->renderer);
+	progress_bar(sdl, 0.1);
 	while(SDL_PollEvent(&event))
 	{
 	}
-	sdl->cl_inst = initcl();
+	sdl->cl_inst = initcl(sdl);
 }
 
 void				quit_sdl(t_sdl *sdl)
