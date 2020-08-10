@@ -1,12 +1,12 @@
 camera:
 {
-    viewpoint: (0, 0, -5)
+    viewpoint: (-5, 5, -15)
     camera_angles: (10, 20, 30)
 }
 object:
 {
     type: sphere
-    center: (1., 0., -2.5)
+    center: (0., 5., 0)
     radius: 1.
     color:  (200, 20, 200)
     specular: 10
@@ -22,6 +22,22 @@ object:
 
 object:
 {
+    type: sphere
+    center: (0., 0., -1)
+    radius: 1.
+    color:  (255, 40, 0)
+    specular: -1
+    reflective: 0.
+    transparent: 0
+    tex_num: 11
+	tex_type: b
+    scale: (1, 1)
+	shift: (0, 0)
+	negative: 0
+}
+
+object:
+{
     type: plane
     center: (0., 0., 20)
 	direction: (0.0, 0.0, 1.0)
@@ -29,7 +45,7 @@ object:
     specular: 10
     reflective: 0.5
     transparent: 0
-	tex_num: 2
+	tex_num: 8
 	tex_type: c
 	scale: (3, 5)
 	shift: (0, 0)
@@ -39,7 +55,7 @@ object:
 	slice_side/: 2
 }
 
-object:
+object/:
 {
     type: cyl
     center: (0., 0., -1)
@@ -71,13 +87,12 @@ object/:
 light:
 {
     type: p
-    position: (0, 0, -5)
-    intensities: (0.9, 0.9, 0.9)
+    position: (0, 0, -10)
+    intensities: (0.8, 0.8, 0.8)
 }
-light/:
+light:
 {
-    type: p
-    position: (2, 2, -1)
-    intensities: 1.
+    type: a
+    intensities: (0.2, 0.2, 0.2)
 }
 animate
