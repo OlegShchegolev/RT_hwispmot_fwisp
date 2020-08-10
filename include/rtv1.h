@@ -19,8 +19,8 @@
 # include <stdio.h>
 # include "libft.h"
 # define DMAX 4000000
-# define C_W 512//1024
-# define C_H 512//768
+# define C_W 1024
+# define C_H 768
 # define C_D 32
 # define V_W 1.
 # define V_H 1.

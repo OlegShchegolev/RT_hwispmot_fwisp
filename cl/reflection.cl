@@ -66,7 +66,6 @@ t_ray		obj_refr(t_ray od, int closest, t_scene scene)
 	float		etai;
 	float		etat;
 
-	float		k;
 
 	// get normal
 	if (scene.objects[closest].type == 's')
