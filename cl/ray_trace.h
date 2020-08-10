@@ -79,6 +79,7 @@ typedef struct	s_scene
 	int			width;
 	int			height;
 	int			current_scene;
+	int			animate;
 }				t_scene;
 
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);

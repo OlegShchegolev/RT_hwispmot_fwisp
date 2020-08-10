@@ -116,7 +116,8 @@ typedef struct			s_scene
 	cl_float3			cam_angles;
 	cl_int				width;
 	cl_int				height;
-	cl_int				current_scene;	
+	cl_int				current_scene;
+	cl_int				animate;
 }						t_scene;	
 
 typedef struct			s_controls

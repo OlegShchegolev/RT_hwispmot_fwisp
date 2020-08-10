@@ -113,6 +113,9 @@ int			ft_parse_scene(char *filename, t_scene *scene)
 	parse_objects(scene->objects, buffer);
 	parse_sources(scene->sources, buffer);
 	//check_sources(scene->sources);
+	scene->animate = 0;
+	if (ft_strstr(buffer, "animate"))
+		scene->animate = 1;
 	parse_camera(&(scene->viewpoint), &(scene->cam_angles), \
 								&(scene->rot_matrix), buffer);
 	close(fd);

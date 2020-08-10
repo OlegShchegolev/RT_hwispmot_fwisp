@@ -147,6 +147,7 @@ void		controls(t_sdl sdl, t_scene scene)
 	const Uint8			*keystate;
 
 	keystate = SDL_GetKeyboardState(NULL);
+	float ani = 0;
 	while (1)
 	{
 		if (SDL_PollEvent(&event))
@@ -164,6 +165,19 @@ void		controls(t_sdl sdl, t_scene scene)
 						event.key.keysym.sym == SDLK_q)
 					break ;
 			}
+
+				
 		}
+		if (scene.animate == 1)
+		{
+			ani = ani + 0.1;
+			if (ani > 3.14 *2)
+				ani = 0;
+			scene.objects[0].shift.s[0] = scene.objects[0].shift.s[0] + 0.01;
+			scene.objects[0].center.s[0] = scene.objects[0].center.s[0] - cos(ani-0.1) + cos(ani);
+			scene.objects[0].center.s[1] = scene.objects[0].center.s[1] - sin(ani-0.1) + sin(ani);
+			ft_draw(sdl, scene);
+		}
+		
 	}
 }
