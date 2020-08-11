@@ -84,7 +84,7 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);
 int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth);
 float3		ft_vrot(float3 a, t_matrix rot);
 float3		ft_canvas_to_viewport(int x, int y, int width, int height);
-t_ray		obj_refl(t_ray od, int closest, t_scene scene);
+//
 t_ray		new_pr(t_ray od, t_object obj, float dist);
 float3		apply_bump(t_ray od, t_object obj, float dist);
 float3		obj_col(t_ray pr, t_object obj);
@@ -97,10 +97,16 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 t_roots		intersect_slice(t_object obj, float3 start, float3 direction, int i, t_roots *sqr_eq);
 void		slicer(t_object obj, t_roots *sqr_eq,	float3 start, float3 direction);
 float3		gtexture(t_object obj, float3 pr, float3 o);
-
+//
 float3		get_big_l(t_source s, t_ray pn);
 t_lim		get_cl_lim(t_source s);
 float		compute_shadow(t_scene scene, t_ray pl);
+
+
+// reflection.cl
+float3		get_intersection_p(t_ray od, int closest, t_scene scene);
+float3		get_normal(t_ray od, int closest, t_scene scene);
+t_ray		obj_refl(t_ray od, int closest, t_scene scene);
 t_ray		obj_refr(t_ray od, int closest, t_scene scene);
 
 #endif

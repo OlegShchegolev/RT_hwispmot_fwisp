@@ -1,0 +1,129 @@
+camera:
+{
+	viewpoint: (0, 0, -100)
+	camera_angles: (0, 0, 0)
+}
+// Back wall
+object:
+{
+	type: plane
+	center: (0.0, 0.0, 50.0)
+	direction: (0., 0., -1.)
+	color:  (60, 60, 255)
+	specular: 0
+	reflective: 0.
+	transparent: 0
+}
+// Left spheres - very specular
+object:
+{
+	type: cone
+	center: (-90., 0., 0.)
+	direction: (-1.0, 1.0, 0.0)
+	alpha: 15
+	color:  (0, 0, 200)
+	specular: 500
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+object:
+{
+	type: cone
+	center: (-60., 0., 0.)
+	direction: (1.0, 1.0, 0.0)
+	alpha: 15
+	color:  (0, 200, 0)
+	specular: 500
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+object:
+{
+	type: cone
+	center: (-30., 0., 0.)
+	direction: (0.0, 1.0, 2.0)
+	alpha: 15
+	color:  (200, 0, 0)
+	specular: 500
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+// Right cylinders - not specular
+object:
+{
+	type: cone
+	direction: (0.0, 1.0, 2.0)
+	center: (30., 0., 0.)
+	alpha: 15
+	color:  (200, 0, 0)
+	specular: 0
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+object:
+{
+	type: cone
+	center: (60., 0., 0.)
+	direction: (-1.0, 1.0, 0.0)
+	alpha: 15
+	color:  (0, 200, 0)
+	specular: 0
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+object:
+{
+	type: cone
+	center: (90., 0., 0.)
+	direction: (1.0, 1.0, 0.0)
+	alpha: 15
+	color:  (0, 0, 200)
+	specular: 0
+	reflective: 0.
+	transparent: 0.
+	negative: 0
+}
+// Different light sources behind cones
+//left
+light:
+{
+	type: p
+	position: (-90, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
+light:
+{
+	type: p
+	position: (-60, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
+light:
+{
+	type: p
+	position: (-30, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
+//right
+light:
+{
+	type: p
+	position: (30, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
+light:
+{
+	type: p
+	position: (60, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
+light:
+{
+	type: p
+	position: (90, 0, -25)
+	intensities: (0.4, 0.4, 0.4)
+}
