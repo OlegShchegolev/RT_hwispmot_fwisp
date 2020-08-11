@@ -43,6 +43,8 @@ void			get_object_parameters(t_cl_object *object, char *str)
 	get_slices(object, str);
 	if (ft_strstr(str, "negative:"))
 			object->negative = ft_atoi(ft_strstr(str, "negative:") + 9);
+	if (ft_strstr(str, "index_of_refr:"))
+			object->index_of_refr = ft_atof(ft_strstr(str, "index_of_refr:") + 14);
 }
 
 char			parse_object_type(char *str)

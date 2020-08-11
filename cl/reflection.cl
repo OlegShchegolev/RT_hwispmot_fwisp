@@ -124,7 +124,11 @@ t_ray		obj_refr(t_ray od, int closest, t_scene scene)
 	float		eta;
 	float		etai;
 	float		etat;
+<<<<<<< HEAD
 	float		k;
+=======
+
+>>>>>>> 9711366aee84456e6763a80a704fa1e38708760c
 
 
 	// set indexs of refraction
