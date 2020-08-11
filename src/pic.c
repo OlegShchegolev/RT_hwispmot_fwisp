@@ -31,6 +31,22 @@ void	ft_put_pixel(SDL_Surface *surface, int x, int y, cl_int4 ccolor)
 		*(Uint32 *)p = pixel;
 }
 
+void help(SDL_Surface *surface, int help)
+{
+	SDL_Surface *info;
+	SDL_Rect inforect;
+
+	inforect.x =724;
+	inforect.y = 0;
+	if (help)
+	{
+		info = SDL_LoadBMP("help.bmp");
+		SDL_BlitSurface(info, NULL, surface, &inforect);
+	}
+
+	
+}
+
 void	ft_draw(t_sdl sdl, t_scene scene)
 {
 	int			x;
@@ -53,6 +69,9 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 			ft_put_pixel(sdl.screen, x , y, ccolor);
 		}
 	}
+	help(sdl.screen, sdl.help);
+	
+	
 	SDL_UpdateTexture(sdl.texture, NULL, sdl.screen->pixels, sdl.screen->pitch);
 	SDL_RenderClear(sdl.renderer);
 	SDL_RenderCopy(sdl.renderer, sdl.texture, NULL, NULL);

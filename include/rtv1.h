@@ -47,6 +47,7 @@ typedef struct			s_cl
 	cl_kernel			kernel;
 	cl_mem				z_clmem;
 	cl_mem				scene_buf;
+	cl_mem				txt_clmem;
 }						t_cl;
 
 typedef struct 			s_sdl
@@ -58,6 +59,7 @@ typedef struct 			s_sdl
 	t_cl				cl_inst;
 	char				**scenes;
 	int					scene_num;
+	int					help;
 }						t_sdl;
 
 typedef struct			s_lim

@@ -161,6 +161,12 @@ void		controls(t_sdl sdl, t_scene scene)
 				camera_movement(sdl, &scene, event);
 				camera_rotation(sdl, &scene, event);
 				keyboard_effects(sdl, &scene, keystate);
+				if (keystate[SDL_SCANCODE_H])
+				{
+					sdl.help = sdl.help != 1 ? 1 : 0;
+					ft_draw(sdl, scene);
+				}
+					
 				if (event.key.keysym.sym == SDLK_ESCAPE || \
 						event.key.keysym.sym == SDLK_q)
 					break ;
@@ -170,12 +176,14 @@ void		controls(t_sdl sdl, t_scene scene)
 		}
 		if (scene.animate == 1)
 		{
-			ani = ani + 0.1;
+			ani = ani + 0.05;
 			if (ani > 3.14 *2)
 				ani = 0;
 			scene.objects[0].shift.s[0] = scene.objects[0].shift.s[0] + 0.01;
-			scene.objects[0].center.s[0] = scene.objects[0].center.s[0] - cos(ani-0.1) + cos(ani);
-			scene.objects[0].center.s[1] = scene.objects[0].center.s[1] - sin(ani-0.1) + sin(ani);
+			scene.objects[0].center.s[0] = scene.objects[0].center.s[0] - cos(ani-0.1)*2 + cos(ani)*2;
+			scene.objects[0].center.s[1] = scene.objects[0].center.s[1] - sin(ani-0.1)*2 + sin(ani)*2;
+			scene.objects[1].center.s[0] = scene.objects[1].center.s[0] - cos(ani-0.1)*2 + cos(ani)*2;
+			scene.objects[1].center.s[2] = scene.objects[1].center.s[2] - sin(ani-0.1)*2 + sin(ani)*2;
 			ft_draw(sdl, scene);
 		}
 		

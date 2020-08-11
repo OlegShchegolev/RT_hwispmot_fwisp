@@ -80,17 +80,19 @@ t_cl	initcl(t_sdl *sdl)
 	progress_bar(sdl, 0.2);
 	compile_cl(&cl, sdl);
 	
-	// {
-	// 	size_t log_size;
-	// 	clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
-	// 	char *log = (char *)malloc(log_size);
-	// 	clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
-	// 	printf("log: %s\n", log);
-	// 	free(log);
-	// }
-	// printf("link ok\n");
+	{
+		size_t log_size;
+		clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+		char *log = (char *)malloc(log_size);
+		clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+		printf("log: %s\n", log);
+		free(log);
+	}
+	printf("link ok\n");
 	cl.z_clmem = clCreateBuffer(cl.context, CL_MEM_WRITE_ONLY,
-		16 * C_H * C_W * sizeof(cl_int4), NULL, NULL);	
+		16 * C_H * C_W * sizeof(cl_int4), NULL, NULL);
+	cl.txt_clmem = clCreateBuffer(cl.context, CL_MEM_READ_WRITE,
+		16 * C_H * C_W * sizeof(cl_int4), NULL, NULL);		
 	cl.kernel = clCreateKernel(cl.program, "render", NULL);
     return (cl);
 }
@@ -98,11 +100,56 @@ t_cl	initcl(t_sdl *sdl)
 void	releasecl(t_cl *cl)
 {
 	clReleaseMemObject(cl->z_clmem);
+	clReleaseMemObject(cl->txt_clmem);
 	clReleaseKernel (cl->kernel);
 	clReleaseProgram (cl->program);
 	clReleaseCommandQueue (cl->command_queue);
 	clReleaseContext (cl->context);
 }
+
+Uint32 getpixel(SDL_Surface *surface, int x, int y)
+{
+    int bpp = surface->format->BytesPerPixel;
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+    if (bpp == 1)
+        return *p;
+    else if (bpp == 2)
+        return *(Uint16 *)p;
+	else
+        return *(Uint32 *)p;
+}
+
+cl_int4	*load_texture(cl_int2 *size)
+{
+	SDL_Surface *txt;
+	SDL_Color rgb;
+	cl_int4	*cl_txt;
+	int x;
+	int y;
+	Uint32 data;
+
+	txt = SDL_LoadBMP("texture.bmp");
+	cl_txt = (cl_int4 *)malloc(sizeof(cl_int4) * txt->w * txt->h);
+	x = -1;
+	while (++x < txt->w)
+	{
+		y = -1;
+		while (++y < txt->h)
+		{
+			data = getpixel(txt, x, y);
+			SDL_GetRGB(data, txt->format, &rgb.r, &rgb.g, &rgb.b);
+			cl_txt[x * txt->h + y].s[0] = rgb.r;
+			cl_txt[x * txt->h + y].s[1] = rgb.g;
+			cl_txt[x * txt->h + y].s[2] = rgb.b;
+		}
+	}
+	size->s[0] = txt->w;
+	size->s[1] = txt->h;
+
+	return cl_txt;
+}
+
 
 cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 {
@@ -121,6 +168,15 @@ cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 	z = (cl_int4 *)malloc(sizeof(cl_int4) * global_item_size);
 	clSetKernelArg(cl->kernel, 0, sizeof(cl_mem), (void *)&cl->z_clmem);
 	clSetKernelArg(cl->kernel, 1, sizeof(t_scene), &(scene));
+
+	cl_int2 txt_size;
+	cl_int4 *txt;
+	txt = load_texture(&txt_size);
+	//ft_memcpy(cl->txt_clmem, txt, sizeof(cl_int4) * txt_size.s[0] * txt_size.s[1]);
+
+	clSetKernelArg(cl->kernel, 2, sizeof(cl_mem), (void *)&cl->txt_clmem);
+	//clSetKernelArg(cl->kernel, 3, sizeof(cl_int2), &(txt_size));
+
 	clEnqueueNDRangeKernel(cl->command_queue, cl->kernel, 1, NULL,
 			&global_item_size, &local_item_size, 0, NULL, NULL);
 	clEnqueueReadBuffer(cl->command_queue, cl->z_clmem, CL_TRUE, 0,
