@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 21:16:51 by fwisp             #+#    #+#             */
-/*   Updated: 2020/08/07 17:00:08 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:13:40 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					main(int argc, char **argv)
 	sdl.scene_num = argc - 1;
 	scene.current_scene = 1;
 	run_gui(&sdl);
-	if (!construct_scene(argv[1], &scene))
+	if (!construct_scene(argv[1], &scene, &sdl))
 		ft_draw(sdl, scene);
 	ctrl.scene = scene;
 	ctrl.sdl = sdl;

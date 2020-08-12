@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 01:38:58 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/07 16:44:09 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:12:56 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	ft_draw(t_sdl sdl, t_scene scene)
 		}
 	}
 	help(sdl.screen, sdl.help);
-	
-	
 	SDL_UpdateTexture(sdl.texture, NULL, sdl.screen->pixels, sdl.screen->pitch);
 	SDL_RenderClear(sdl.renderer);
 	SDL_RenderCopy(sdl.renderer, sdl.texture, NULL, NULL);

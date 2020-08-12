@@ -166,7 +166,7 @@ float3		ft_canvas_to_viewport(int x, int y, int width, int height)
 	return (viewport);
 }
 
-__kernel void render(__global int4 *output, t_scene scene)
+__kernel void render(__global int4 *output, t_scene scene, __global int4 *txt, int2 txt_size)
 {
 	int work_item_id = get_global_id(0);
 	int y_coord = work_item_id % scene.height ;

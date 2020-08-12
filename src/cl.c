@@ -79,7 +79,6 @@ t_cl	initcl(t_sdl *sdl)
 	cl.command_queue = clCreateCommandQueue(cl.context, cl.dev_id, 0, NULL);
 	progress_bar(sdl, 0.2);
 	compile_cl(&cl, sdl);
-	
 	{
 		size_t log_size;
 		clGetProgramBuildInfo(cl.program, cl.dev_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
@@ -172,10 +171,11 @@ cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 	cl_int2 txt_size;
 	cl_int4 *txt;
 	txt = load_texture(&txt_size);
-	//ft_memcpy(cl->txt_clmem, txt, sizeof(cl_int4) * txt_size.s[0] * txt_size.s[1]);
+	clEnqueueWriteBuffer(cl->command_queue, cl->txt_clmem, CL_TRUE, 0,
+			txt_size.s0 * txt_size.s1 * sizeof(cl_int4), txt, 0, NULL, NULL);
 
 	clSetKernelArg(cl->kernel, 2, sizeof(cl_mem), (void *)&cl->txt_clmem);
-	//clSetKernelArg(cl->kernel, 3, sizeof(cl_int2), &(txt_size));
+	clSetKernelArg(cl->kernel, 3, sizeof(cl_int2), &(txt_size));
 
 	clEnqueueNDRangeKernel(cl->command_queue, cl->kernel, 1, NULL,
 			&global_item_size, &local_item_size, 0, NULL, NULL);

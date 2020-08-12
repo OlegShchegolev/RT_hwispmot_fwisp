@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 02:42:55 by fwisp             #+#    #+#             */
-/*   Updated: 2020/08/03 21:18:41 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:03:02 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void			get_object_parameters(t_cl_object *object, char *str)
 	if (ft_strstr(str, "center:"))
 			object->center = parse_vector(ft_strstr(str, "center:"));
 	if (ft_strstr(str, "direction:"))
-			object->norm = parse_vector(ft_strstr(str, "direction:"));
+			object->norm = norm_v(parse_vector(ft_strstr(str, "direction:")));
 	if (ft_strstr(str, "color:"))
 			object->color = parse_color(ft_strstr(str, "color:"));
 	if (ft_strstr(str, "radius:"))
 			object->radius = ft_atof(ft_strstr(str, "radius:") + 7);
 	if (ft_strstr(str, "alpha:"))
-			object->alpha = ft_atof(ft_strstr(str, "alpha:") + 6);
+			object->alpha = ft_atof(ft_strstr(str, "alpha:") + 6) / 180. * M_PI;
 	if (ft_strstr(str, "specular:"))
 			object->specular = ft_atoi(ft_strstr(str, "specular:") + 9);
 	if (ft_strstr(str, "reflective:"))
@@ -60,30 +60,18 @@ char			parse_object_type(char *str)
 	return 'n';
 }
 
-void	check_sources(t_cl_source *sources)
+cl_float3	norm_v(cl_float3 vector)
 {
-	cl_float3	sum;
-    int     i;
+	cl_float	len;
+	cl_float3	out;
 
-	sum.s0 = 0.;
-	sum.s1 = 0.;
-	sum.s2 = 0.;
-    i = -1;
-	while (++i < N_SRC)
-	{
-		sum.s0 += sources[i].intensities.s0;
-		sum.s1 += sources[i].intensities.s1;
-		sum.s2 += sources[i].intensities.s2;
-	}
-    i = -1;
-	while (++i < N_SRC)
-	{
-		sources[i].intensities.s0 /= sum.s0;
-		sources[i].intensities.s1 /= sum.s1;
-		sources[i].intensities.s2 /= sum.s2;
-		printf("%f %f %f\n", sources[i].intensities.s0, sources[i].intensities.s1, sources[i].intensities.s2);
-	}
-		
+	len = vector.s0 * vector.s0;
+	len += vector.s1 * vector.s1;
+	len += vector.s2 * vector.s2;
+	out.s0 = vector.s0 / sqrt(len);
+	out.s1 = vector.s1 / sqrt(len);
+	out.s2 = vector.s2 / sqrt(len);
+	return (out);
 }
 
 t_matrix		return_eig_rot_m(cl_float3 cam_ang)
