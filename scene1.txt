@@ -5,14 +5,20 @@ camera:
 }
 object:
 {
-    type: sphere
+    type: cone
     center: (0., 0., -1.5)
-    radius: 1.
+    direction: (0.0, 1.0, 0.0)
+    radius: 0.5
+    alpha: 0.2
     color:  (200, 20, 200)
     specular: 10
+    tex_num: 11
+	tex_type: c
+    scale: (3, 5)
+	shift: (0, 0)
     reflective: 0.
-    transparent: 0.5
-	negative: 1
+    transparent: 0.
+	negative: 0
 }
 
 object:
@@ -36,7 +42,7 @@ object:
 
 object/:
 {
-    type: cyl
+    type: cone
     center: (0., 0., -1)
 	radius: 0.5
 	direction: (0.0, 1.0, 0.0)
@@ -55,14 +61,10 @@ object:
     type: sphere
     center: (0., 0., -1)
     radius: 1.
-    color:  (255, 40, 0)
+    color:  (0, 0, 200)
     specular: -1
     reflective: 0.
     transparent: 0
-    tex_num: 11
-	tex_type: b
-    scale: (1, 1)
-	shift: (0, 0)
 	negative: 0
 }
 light:
