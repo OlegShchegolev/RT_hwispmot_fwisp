@@ -93,7 +93,6 @@ float3		obj_col(t_ray pr, t_object obj);
 t_roots		ft_intersect_ray_obj(float3 o, float3 d, t_object obj);
 
 
-//float		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int closest);
 float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int closest);
 
 t_roots		intersect_slice(t_object obj, float3 start, float3 direction, int i, t_roots *sqr_eq);

@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/12 16:13:56 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 17:01:25 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ typedef struct			s_controls
 	t_sdl				sdl;
 	t_scene				scene;
 }						t_controls;
-
 
 cl_float3				return_zero_vector(void);
 cl_float2				return_zero_2dvector(void);
