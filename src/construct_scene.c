@@ -6,14 +6,19 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:23:40 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/07/18 14:16:32 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:18:26 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int		construct_scene(char *fname, t_scene *scene)
+int		construct_scene(char *fname, t_scene *scene, t_sdl *sdl)
 {
+	char	*str;
+
+	str = ft_strjoin("RT, current scene: ", fname);
+	SDL_SetWindowTitle(sdl->window, str);
+	free(str);
 	if (ft_parse_scene(fname, scene))
 		return (1);
 	scene->startviewpoint = scene->viewpoint;

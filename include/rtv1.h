@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 06:27:03 by hwispmot          #+#    #+#             */
-/*   Updated: 2020/08/07 16:53:53 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:13:56 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ char					parse_object_type(char *str);
 void					check_sources(t_cl_source *sources);
 cl_int3					*rt_cl(t_cl *cl, t_scene scene);
 cl_float3				ft_vrot(cl_float3, t_matrix rot);
-int						construct_scene(char *str, t_scene *scene);
+int						construct_scene(char *str, t_scene *scene, t_sdl *sdl);
 void					ft_draw(t_sdl sdl, t_scene scene);
 void					effect(cl_int4 *z, t_sdl sdl, t_scene scene);
 t_cl					initcl(t_sdl *sdl);
@@ -155,5 +155,6 @@ void    				controls(t_sdl sdl, t_scene scene);
 // void					controls2(t_sdl sdl, t_scene *scene, GdkEventKey *event);
 void					releasecl(t_cl *cl);
 void					loading_message(t_sdl *sdl);
-void	progress_bar(t_sdl *sdl, float percent);
+void					progress_bar(t_sdl *sdl, float percent);
+cl_float3				norm_v(cl_float3 vector);
 #endif

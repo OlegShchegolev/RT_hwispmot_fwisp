@@ -6,7 +6,7 @@
 /*   By: fwisp <fwisp@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:44:08 by fwisp             #+#    #+#             */
-/*   Updated: 2020/08/03 21:23:22 by fwisp            ###   ########.fr       */
+/*   Updated: 2020/08/12 15:55:36 by fwisp            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int			ft_parse_scene(char *filename, t_scene *scene)
 	buffer[out] = '\0';
 	parse_objects(scene->objects, buffer);
 	parse_sources(scene->sources, buffer);
-	//check_sources(scene->sources);
 	scene->animate = 0;
 	if (ft_strstr(buffer, "animate"))
 		scene->animate = 1;

@@ -4,16 +4,15 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 {
 	t_ray		pr;
 	float3		texture;
-	float3		norm;
 
 	if (obj.type == 's')
 	{
 		pr.o = od.o + (od.d * dist);
 		pr.d = pr.o - (obj.center);
-		norm = pr.d * (1.0f / length(pr.d));
+		pr.d = pr.d * (1.0f / length(pr.d));
 		if (obj.textype == 'b')
 		{
-			texture = gtexture(obj, norm, pr.o);
+			texture = gtexture(obj, pr.d, pr.o);
 			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
 		}
 	}
