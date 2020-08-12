@@ -11,8 +11,8 @@ object:
 	direction: (1., 0., 0.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.2
-	transparent: 0
+	reflective: 0.0
+	transparent: 0.2
 }
 object:
 {
@@ -21,8 +21,8 @@ object:
 	direction: (-1., 0., 0.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.8
-	transparent: 0
+	reflective: 0.0
+	transparent: 0.8
 }
 object:
 {
@@ -31,8 +31,8 @@ object:
 	direction: (0., 1., 0.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.4
-	transparent: 0
+	reflective: 0.
+	transparent: 0.4
 }
 object:
 {
@@ -41,8 +41,8 @@ object:
 	direction: (0., -1., 0.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.3
-	transparent: 0
+	reflective: 0.
+	transparent: 0.3
 }
 object:
 {
@@ -51,8 +51,8 @@ object:
 	direction: (0., 0., -1.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.5
-	transparent: 0
+	reflective: 0.
+	transparent: 0.5
 }
 object:
 {
@@ -61,8 +61,8 @@ object:
 	direction: (0., 0., 1.)
 	color:  (42, 42, 42)
 	specular: 300
-	reflective: 0.7
-	transparent: 0
+	reflective: 0.
+	transparent: 0.7
 }
 // Different figures with different reflection indexes
 object:
@@ -72,8 +72,8 @@ object:
 	radius: 15.
 	color:  (255, 0, 0)
 	specular: 200
-	reflective: 0.7
-	transparent: 0.
+	reflective: 0.
+	transparent: 0.7
 	negative: 0
 }
 object:
@@ -84,8 +84,8 @@ object:
 	radius: 15.
 	color:  (42, 42, 100)
 	specular: 30
-	reflective: 0.5
-	transparent: 0
+	reflective: 0.
+	transparent: 0.5
 }
 object:
 {
@@ -95,8 +95,8 @@ object:
 	alpha: 25
 	color:  (0, 0, 200)
 	specular: 500
-	reflective: 0.4
-	transparent: 0.
+	reflective: 0.
+	transparent: 0.4
 	negative: 0
 }
 object:
@@ -106,8 +106,8 @@ object:
 	radius: 15.
 	color:  (255, 0, 0)
 	specular: 200
-	reflective: 0.8
-	transparent: 0.
+	reflective: 0.
+	transparent: 0.8
 	negative: 0
 }
 object:
@@ -117,8 +117,8 @@ object:
 	radius: 15.
 	color:  (255, 0, 0)
 	specular: 200
-	reflective: 0.3
-	transparent: 0.
+	reflective: 0.
+	transparent: 0.3
 	negative: 0
 }
 // 2 random point light sources and ambient light
