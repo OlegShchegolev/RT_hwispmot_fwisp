@@ -1,6 +1,6 @@
 #include "cl/ray_trace.h"
 
-t_ray		new_pr(t_ray od, t_object obj, float dist)
+t_ray		new_pr(t_ray od, t_object obj, float dist, int4 *txt, int2 txt_size)
 {
 	t_ray		pr;
 	float3		texture;
@@ -12,7 +12,7 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 		pr.d = pr.d * (1.0f / length(pr.d));
 		if (obj.textype == 'b')
 		{
-			texture = gtexture(obj, pr.d, pr.o);
+			texture = gtexture(obj, pr.d, pr.o, txt, txt_size);
 			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
 		}
 	}
@@ -44,7 +44,7 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 	return (pr);
 }
 
-float3		apply_bump(t_ray od, t_object obj, float dist)
+float3		apply_bump(t_ray od, t_object obj, float dist, int4 *txt, int2 txt_size)
 {
 	t_ray		pr;
 	float3		texture;
@@ -58,19 +58,19 @@ float3		apply_bump(t_ray od, t_object obj, float dist)
 		
 		if (obj.textype == 'b')
 		{
-			texture = gtexture(obj, norm, pr.o);
+			texture = gtexture(obj, norm, pr.o, txt, txt_size);
 			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
 		}
 	}
 	return(od.d);
 }
 
-float3		obj_col(t_ray pr, t_object obj)
+float3		obj_col(t_ray pr, t_object obj, int4 *txt, int2 txt_size)
 {
 	float3		back;
 
 	back = convert_float3(obj.color);
 	if (obj.texture > 0)
-		back = gtexture(obj, pr.d, pr.o);
+		back = gtexture(obj, pr.d, pr.o, txt, txt_size);
 	return (back);
 }

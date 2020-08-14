@@ -1,6 +1,6 @@
 #include "cl/ray_trace.h"
 
-t_ray		obj_refl(t_ray od, int closest, t_scene scene)
+t_ray		obj_refl(t_ray od, int closest, t_scene scene, int4 *txt, int2 txt_size)
 {
 	t_ray		pr;
 	float3		texture;
@@ -13,7 +13,7 @@ t_ray		obj_refl(t_ray od, int closest, t_scene scene)
 		norm = pr.d * (1.0f / length(pr.d));
 		if (scene.objects[closest].textype == 'b')
 		{
-			texture = gtexture(scene.objects[closest], norm, pr.o);
+			texture = gtexture(scene.objects[closest], norm, pr.o, txt, txt_size);
 			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
 		}
 	}
