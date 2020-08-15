@@ -61,7 +61,15 @@ void	compile_cl(t_cl *cl, t_sdl *sdl)
 		cl->programs[i] = clCreateProgramWithSource(cl->context, 1,
 		(const char **)&cl->source_str, (const size_t *)&cl->source_size, NULL);
 		free(cl->source_str);
-		clCompileProgram(cl->programs[i], 1, &cl->dev_id,	"-Werror", 1, cl->header, (const char**)header, NULL, NULL);
+		clCompileProgram(cl->programs[i], 1, &cl->dev_id,	NULL, 1, cl->header, (const char**)header, NULL, NULL);
+		{
+			size_t log_size;
+			clGetProgramBuildInfo(cl->programs[i], cl->dev_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+			char *log = (char *)malloc(log_size);
+			clGetProgramBuildInfo(cl->programs[i], cl->dev_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+			printf("log%d: %s\n", i, log);
+			free(log);
+		}
 		progress_bar(sdl, 0.1 * i + 0.3);
 	}
 	cl->program = clLinkProgram(cl->context, 1, &cl->dev_id, NULL, 7, cl->programs, NULL, NULL, NULL);

@@ -1,6 +1,9 @@
 
 #include "cl/ray_trace.h"
 
+__constant int4 cltxt[200000];
+__constant int2 cltxtsize;
+
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 {
 	int obj;
@@ -63,7 +66,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	int			closest;
 	float		dist;
 	float3		back;
-	int obj;
+	int 		obj;
 
 	t_ray  r1;
 	float3	f1;
@@ -72,47 +75,46 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	closest = get_closest(od, scene.objects, &(dist), lim);
 	if (closest == -1)
 		return ((int4)(convert_int3(back), closest));
+
 	if (scene.objects[closest].negative == 1)
 	{
 		od.o = od.o + od.d * dist * 1.0001f;
 		closest = get_closest(od, scene.objects, &(dist), lim);
-		if (closest == -1)
-			return ((int4)(convert_int3(back), closest));
-		scene.objects[closest].dist = dist;
-
-		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]);
-		f1 = apply_bump(od, scene.objects[closest], dist);
-		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 	}
-	else
-	{
-		if (closest == -1)
-			return ((int4)(convert_int3(back), closest));
-		scene.objects[closest].dist = dist;
 
-		r1 = new_pr(od, scene.objects[closest], dist);
-		back = obj_col(r1, scene.objects[closest]);
-		f1 = apply_bump(od, scene.objects[closest], dist);
-		back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
-	}
+	if (closest == -1)
+		return ((int4)(convert_int3(back), closest));
+	scene.objects[closest].dist = dist;
+
+	r1 = new_pr(od, scene.objects[closest], dist);
+	back = obj_col(r1, scene.objects[closest]);
+	f1 = apply_bump(od, scene.objects[closest], dist);
+	back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+
 	if (scene.objects[closest].reflective > 0) {
-		od = obj_refl(od, closest, scene);
+		depth = 1;
+		int 		me;
+		float3		tmp_back;
 		while (depth > 0)
 		{
-			int me = closest;
+			od = obj_refl(od, closest, scene);
+			me = closest;
 			closest = get_closest(od, scene.objects, &(dist), lim);
-
 			scene.objects[closest].dist = dist;
+			back = back * (1 - scene.objects[me].reflective);
 			if (closest >= 0 &&  scene.objects[me].reflective > 0) {
-				r1 = new_pr(od, scene.objects[closest], dist);
-		 		back = back * (1 - scene.objects[me].reflective) + obj_col(r1, scene.objects[closest]) * scene.objects[me].reflective ;
-				od = obj_refl(od, closest, scene);
+				
+				r1 = new_pr(od, scene.objects[closest], dist); 		
+				tmp_back = obj_col(r1, scene.objects[closest]);
+				f1 = apply_bump(od, scene.objects[closest], dist);
+				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+				back += tmp_back * scene.objects[me].reflective ;
 			}
-			else depth = 0;
+			else break ;
 		 	depth = depth - 1;
 		}
 	}
+
 	else if (scene.objects[closest].refractive > 0)
 	{
 		od = obj_refr(od, closest, scene);
@@ -137,7 +139,6 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		 	depth = depth - 1;
 		}
 	}
-
 	return ((int4)(convert_int3(back), obj));
 }
 
@@ -173,10 +174,9 @@ __kernel void render(__global int4 *output, t_scene scene, __global int4 *txt, i
 	int x_coord = work_item_id / scene.height ;
 	int4 finalcolor;
 
-
 	t_lim		lim;
 	t_ray		od;
-	
+
 	lim.min = 0.0001f;
 	lim.max = INF;
 	

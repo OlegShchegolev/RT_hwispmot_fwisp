@@ -50,17 +50,13 @@ float3		apply_bump(t_ray od, t_object obj, float dist)
 	float3		texture;
 	float3		norm;
 
-	if (obj.type == 's')
+	if (obj.type == 's' && obj.textype == 'b')
 	{
 		pr.o = od.o + (od.d * dist);
 		pr.d = pr.o - (obj.center);
 		norm = pr.d * (1.0f / length(pr.d));
-		
-		if (obj.textype == 'b')
-		{
-			texture = gtexture(obj, norm, pr.o);
-			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
-		}
+		texture = gtexture(obj, norm, pr.o);
+		od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
 	}
 	return(od.d);
 }

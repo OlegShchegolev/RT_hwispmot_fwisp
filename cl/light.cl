@@ -205,28 +205,21 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 					s.intensities.z = 0.0;
 					continue ;
 				}
-				//if (get_closest(pl, scene.objects, &dist, scene.cl_lim) == -1)
-				//{
-					//compute diffuseness
-					if (dot(pn.d, pl.d) > 0.0f)
-						intensities += s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
 
-					// plane correction
-					if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
-						intensities -= s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
-
-					if (specular <= 0)
-					{
-						s.intensities.x = 0.0f;
-						s.intensities.y = 0.0f;
-						s.intensities.z = 0.0f;
-					}
-
-					//compute shine
+				//compute diffuseness
+				if (dot(pn.d, pl.d) > 0.0f)
+					intensities += s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
+				// plane correction
+				if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
+					intensities -= s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
+				//compute shine
+				if (specular > 0)
+				{
 					pl.d = pn.d * (2.0f * dot(pn.d, pl.d)) - pl.d;
-					if (dot(pl.d, md) > 0.0f)
-						intensities += s.intensities * native_powr(dot(pl.d, md) / length(pl.d) / length(md), specular) * shadow_coef;
-				//}
+					if (dot(pl.d, md) < 0.0f) {
+						intensities += s.intensities * pow(dot(pl.d, md) / length(pl.d) / length(md), specular) * shadow_coef;
+					}
+				}
 			}
 		}
 	}
