@@ -3,44 +3,29 @@
 t_ray		new_pr(t_ray od, t_object obj, float dist)
 {
 	t_ray		pr;
-	float3		texture;
 
+	pr.o = od.o + (od.d * dist) * 0.9999f;
 	if (obj.type == 's')
 	{
-		pr.o = od.o + (od.d * dist);
 		pr.d = pr.o - (obj.center);
-		pr.d = pr.d * (1.0f / length(pr.d));
-		if (obj.textype == 'b')
-		{
-			texture = gtexture(obj, pr.d, pr.o);
-			od.d = normalize(od.d) + normalize(cross(od.d, (float3)(1.0f, 0.0f, 0.0f))) * (texture.x / 255) + normalize(cross(od.d, (float3)(0.0f, 1.0f, 0.0f))) * (texture.y / 255);
-		}
 	}
 	if (obj.type == 'p')
 	{
-		pr.o = od.o + (od.d * dist);
-		// pr.d = pr.o - obj.center;
-		// pr.d = cross(pr.d, obj.norm);
-		// pr.d = cross(obj.norm, pr.d);
 		pr.d = obj.norm;
-		pr.d = pr.d * (1.0f / length(pr.d));
 	}
 	if (obj.type == 'c')
 	{
-		pr.o = od.o + (od.d * dist);
 		pr.d = pr.o - obj.center;
 		pr.d = cross(pr.d, obj.norm);
 		pr.d = cross(obj.norm, pr.d);
-		pr.d = pr.d * (1.0f / length(pr.d));
 	}
 	if (obj.type == 't')
 	{
-		pr.o = od.o + (od.d * dist);
 		pr.d = pr.o - obj.center;
 		pr.d = cross((obj.norm * dot(obj.norm, pr.d)), pr.d);
 		pr.d = cross(pr.d, (pr.o - obj.center));
-		pr.d = pr.d * (1.0f / length(pr.d));
 	}
+	pr.d = normalize(pr.d);
 	return (pr);
 }
 

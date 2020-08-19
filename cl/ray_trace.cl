@@ -1,8 +1,6 @@
 
 #include "cl/ray_trace.h"
 
-__constant int4 cltxt[200000];
-__constant int2 cltxtsize;
 
 int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 {
@@ -80,10 +78,11 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 	{
 		od.o = od.o + od.d * dist * 1.0001f;
 		closest = get_closest(od, scene.objects, &(dist), lim);
+		if (closest == -1)
+			return ((int4)(convert_int3(back), closest));
 	}
 
-	if (closest == -1)
-		return ((int4)(convert_int3(back), closest));
+
 	scene.objects[closest].dist = dist;
 
 	r1 = new_pr(od, scene.objects[closest], dist);
@@ -97,18 +96,20 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		float3		tmp_back;
 		while (depth > 0)
 		{
-			od = obj_refl(od, closest, scene);
+			od = obj_refl(od, r1, closest, scene);
 			me = closest;
 			closest = get_closest(od, scene.objects, &(dist), lim);
 			scene.objects[closest].dist = dist;
 			back = back * (1 - scene.objects[me].reflective);
-			if (closest >= 0 &&  scene.objects[me].reflective > 0) {
+			if (closest >= 0 &&  scene.objects[me].reflective > 0 ) 
+			{
 				
 				r1 = new_pr(od, scene.objects[closest], dist); 		
 				tmp_back = obj_col(r1, scene.objects[closest]);
 				f1 = apply_bump(od, scene.objects[closest], dist);
 				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
 				back += tmp_back * scene.objects[me].reflective ;
+
 			}
 			else break ;
 		 	depth = depth - 1;
@@ -167,7 +168,7 @@ float3		ft_canvas_to_viewport(int x, int y, int width, int height)
 	return (viewport);
 }
 
-__kernel void render(__global int4 *output, t_scene scene, __global int4 *txt, int2 txt_size)
+__kernel void render(__global int4 *output, t_scene scene)
 {
 	int work_item_id = get_global_id(0);
 	int y_coord = work_item_id % scene.height ;
@@ -185,6 +186,8 @@ __kernel void render(__global int4 *output, t_scene scene, __global int4 *txt, i
 	od.d = ft_vrot(ft_canvas_to_viewport(x_coord, y_coord, scene.width, scene.height), scene.rot_matrix);
 	od.d = od.d / length(od.d);
 	finalcolor = ft_trace_ray(od, lim, scene, 4);
-
+	finalcolor.x = finalcolor.x > 255 ? 255 : finalcolor.x;
+	finalcolor.y = finalcolor.y > 255 ? 255 : finalcolor.y;
+	finalcolor.z = finalcolor.z > 255 ? 255 : finalcolor.z;
 	output[work_item_id] = finalcolor;
 }

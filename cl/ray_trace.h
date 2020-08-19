@@ -86,7 +86,7 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim);
 int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth);
 float3		ft_vrot(float3 a, t_matrix rot);
 float3		ft_canvas_to_viewport(int x, int y, int width, int height);
-t_ray		obj_refl(t_ray od, int closest, t_scene scene);
+t_ray		obj_refl(t_ray od, t_ray pr, int closest, t_scene scene);
 t_ray		new_pr(t_ray od, t_object obj, float dist);
 float3		apply_bump(t_ray od, t_object obj, float dist);
 float3		obj_col(t_ray pr, t_object obj);

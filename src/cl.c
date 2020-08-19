@@ -176,15 +176,6 @@ cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 	clSetKernelArg(cl->kernel, 0, sizeof(cl_mem), (void *)&cl->z_clmem);
 	clSetKernelArg(cl->kernel, 1, sizeof(t_scene), &(scene));
 
-	cl_int2 txt_size;
-	cl_int4 *txt;
-	txt = load_texture(&txt_size);
-	clEnqueueWriteBuffer(cl->command_queue, cl->txt_clmem, CL_TRUE, 0,
-			txt_size.s0 * txt_size.s1 * sizeof(cl_int4), txt, 0, NULL, NULL);
-
-	clSetKernelArg(cl->kernel, 2, sizeof(cl_mem), (void *)&cl->txt_clmem);
-	clSetKernelArg(cl->kernel, 3, sizeof(cl_int2), &(txt_size));
-
 	clEnqueueNDRangeKernel(cl->command_queue, cl->kernel, 1, NULL,
 			&global_item_size, &local_item_size, 0, NULL, NULL);
 	clEnqueueReadBuffer(cl->command_queue, cl->z_clmem, CL_TRUE, 0,
