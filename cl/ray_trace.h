@@ -102,7 +102,7 @@ float3		gtexture(t_object obj, float3 pr, float3 o);
 float3		get_big_l(t_source s, t_ray pn);
 t_lim		get_cl_lim(t_source s);
 float		compute_shadow(t_scene scene, t_ray pl);
-t_ray		obj_refr(t_ray od, int closest, t_scene scene);
+t_ray		obj_refr(t_ray od, t_ray pr, int closest, t_scene scene);
 
 float lerp(float a0, float a1, float w);
 float dotGridGradient(int ix, int iy, float x, float y);

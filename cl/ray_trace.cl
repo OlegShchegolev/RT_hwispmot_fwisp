@@ -92,52 +92,59 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 
 	if (scene.objects[closest].reflective > 0) {
 		depth = 1;
-		int 		me;
+		int 		me, i = 0;
 		float3		tmp_back;
-		while (depth > 0)
+		back = back * (1 - scene.objects[me].reflective);
+		while (i < depth)
 		{
 			od = obj_refl(od, r1, closest, scene);
 			me = closest;
 			closest = get_closest(od, scene.objects, &(dist), lim);
 			scene.objects[closest].dist = dist;
-			back = back * (1 - scene.objects[me].reflective);
+			
 			if (closest >= 0 &&  scene.objects[me].reflective > 0 ) 
 			{
-				
 				r1 = new_pr(od, scene.objects[closest], dist); 		
 				tmp_back = obj_col(r1, scene.objects[closest]);
 				f1 = apply_bump(od, scene.objects[closest], dist);
 				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
-				back += tmp_back * scene.objects[me].reflective ;
+				tmp_back *= scene.objects[me].reflective;
+				if (i < depth - 1)
+					tmp_back *= (1 - scene.objects[closest].reflective);
+				back += tmp_back;
 
 			}
 			else break ;
-		 	depth = depth - 1;
+		 	++i;
 		}
 	}
-
 	else if (scene.objects[closest].refractive > 0)
 	{
-		od = obj_refr(od, closest, scene);
-		while (depth > 0)
+		depth = 4;
+		int 		me, i = 0;
+		float3		tmp_back;
+		back = back * (1 - scene.objects[me].refractive);
+		while (i < depth)
 		{
-			int me = closest;
+			od = obj_refr(od, r1, closest, scene);
+			me = closest;
 			closest = get_closest(od, scene.objects, &(dist), lim);
-
 			scene.objects[closest].dist = dist;
-			if (closest >= 0 &&  scene.objects[me].refractive > 0) {
-				r1 = new_pr(od, scene.objects[closest], dist);
-
-
-
-				float3 tmp_color = obj_col(r1, scene.objects[closest]);
+			
+			if (closest >= 0 &&  scene.objects[me].refractive > 0 ) 
+			{
+				r1 = new_pr(od, scene.objects[closest], dist); 		
+				tmp_back = obj_col(r1, scene.objects[closest]);
 				f1 = apply_bump(od, scene.objects[closest], dist);
-				tmp_color *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
-		 		back = back * (1 - scene.objects[me].refractive) + tmp_color * scene.objects[me].refractive ;
-				od = obj_refr(od, closest, scene);
+				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+				tmp_back *= scene.objects[me].refractive;
+				if (i < depth - 1)
+					tmp_back *= (1 - scene.objects[closest].refractive);
+				back += tmp_back;
+
 			}
-			else depth = 0;
-		 	depth = depth - 1;
+			else break ;
+		 	++i;
 		}
 	}
 	return ((int4)(convert_int3(back), obj));

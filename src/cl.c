@@ -114,50 +114,6 @@ void	releasecl(t_cl *cl)
 	clReleaseContext (cl->context);
 }
 
-Uint32 getpixel(SDL_Surface *surface, int x, int y)
-{
-    int bpp = surface->format->BytesPerPixel;
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    if (bpp == 1)
-        return *p;
-    else if (bpp == 2)
-        return *(Uint16 *)p;
-	else
-        return *(Uint32 *)p;
-}
-
-cl_int4	*load_texture(cl_int2 *size)
-{
-	SDL_Surface *txt;
-	SDL_Color rgb;
-	cl_int4	*cl_txt;
-	int x;
-	int y;
-	Uint32 data;
-
-	txt = SDL_LoadBMP("texture.bmp");
-	cl_txt = (cl_int4 *)malloc(sizeof(cl_int4) * txt->w * txt->h);
-	x = -1;
-	while (++x < txt->w)
-	{
-		y = -1;
-		while (++y < txt->h)
-		{
-			data = getpixel(txt, x, y);
-			SDL_GetRGB(data, txt->format, &rgb.r, &rgb.g, &rgb.b);
-			cl_txt[x * txt->h + y].s[0] = rgb.r;
-			cl_txt[x * txt->h + y].s[1] = rgb.g;
-			cl_txt[x * txt->h + y].s[2] = rgb.b;
-		}
-	}
-	size->s[0] = txt->w;
-	size->s[1] = txt->h;
-
-	return cl_txt;
-}
-
-
 cl_int3		*rt_cl(t_cl *cl, t_scene scene)
 {
 	cl_int4			*z;
