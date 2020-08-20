@@ -83,8 +83,8 @@ void			parse_camera(cl_float3 *vp, cl_float3 *angles, t_matrix *rot,
 		*vp = parse_vector(ft_strstr(str, "viewpoint:"));
 }
 
-void			zero_objects_and_sources(t_cl_object *objects, t_cl_source
-*sources)
+void			zero_objects_and_sources(t_cl_object *objects, \
+t_cl_source *sources)
 {
 	int			i;
 
