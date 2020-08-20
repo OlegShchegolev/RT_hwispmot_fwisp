@@ -34,15 +34,16 @@ void			parse_objects(t_cl_object *objects, char *str)
 		}
 		objects[n].type = parse_object_type(str);
 		get_object_parameters(&(objects[n]), str);
-        ++n;
+		++n;
 		*end = '}';
 	}
 }
 
 void			parse_sources(t_cl_source *sources, char *str)
 {
-    int k = 0;
+	int			k;
 
+	k = 0;
 	while (ft_strstr(str, "light:"))
 	{
 		str = ft_strstr(str, "light:") + 1;
@@ -51,21 +52,19 @@ void			parse_sources(t_cl_source *sources, char *str)
 		sources[k].type = parse_type(ft_strstr(str, "type:") \
 												+ ft_strlen("type:"));
 		if (ft_strstr(str, "position:"))
-			sources[k].position = parse_vector(ft_strstr(str, "position:") \
-												+ ft_strlen("position:"));
-		// if (ft_strstr(str, "direction:"))
-		// 	sources[k].position = parse_vector(ft_strstr(str, "direction:") \
-		// 										+ ft_strlen("direction:"));
+			sources[k].position = parse_vector(ft_strstr(str, "position:") +
+					ft_strlen("position:"));
 		if (ft_strstr(str, "intensities:"))
-			sources[k].intensities = parse_vector(ft_strstr(str, "intensities:") \
-												+ ft_strlen("intensities:"));
-        ++(k);
-        if (k >= N_SRC)
-            break ;
+			sources[k].intensities = parse_vector(ft_strstr(str,
+		"intensities:") + ft_strlen("intensities:"));
+		++(k);
+		if (k >= N_SRC)
+			break ;
 	}
 }
 
-void		parse_camera(cl_float3 *vp, cl_float3 *angles, t_matrix *rot, char *str)
+void			parse_camera(cl_float3 *vp, cl_float3 *angles, t_matrix *rot,
+					char *str)
 {
 	char		*end;
 
@@ -84,26 +83,27 @@ void		parse_camera(cl_float3 *vp, cl_float3 *angles, t_matrix *rot, char *str)
 		*vp = parse_vector(ft_strstr(str, "viewpoint:"));
 }
 
-void        zero_objects_and_sources(t_cl_object *objects, t_cl_source *sources)
+void			zero_objects_and_sources(t_cl_object *objects, t_cl_source
+*sources)
 {
-    int     i;
+	int			i;
 
-    i = -1;
-    while (++i < N_OBJ)
+	i = -1;
+	while (++i < N_OBJ)
 		ft_memset(&(objects[i]), 0, sizeof(objects[i]));
 	i = -1;
 	while (++i < N_SRC)
 		ft_memset(&(sources[i]), 0, sizeof(sources[i]));
 }
 
-int			ft_parse_scene(char *filename, t_scene *scene)
+int				ft_parse_scene(char *filename, t_scene *scene)
 {
-	int		fd;
-	int		out;
-	char	buffer[100000];
-    int     n;
+	int			fd;
+	int			out;
+	char		buffer[100000];
+	int			n;
 
-    n = 0;
+	n = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (1);
