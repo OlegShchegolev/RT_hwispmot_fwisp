@@ -160,4 +160,14 @@ cl_float3				norm_v(cl_float3 vector);
 void					ft_draw_inner_sdl(t_sdl sdl);
 void					get_object_parameters_inner(t_cl_object *object, char *str);
 void					compile_cl_inner(t_cl *cl, int i);
+void					controls_inner_sdl_scene(t_sdl sdl, t_scene scene);
+static void				keyboard_effects_inner(t_sdl sdl, t_scene *scene,
+									  const Uint8 *keystate);
+static void				keyboard_sdl_scancode_pageup(t_sdl sdl, t_scene *scene);
+static void				keyboard_sdl_scancode_pagedown(t_sdl sdl, t_scene *scene);
+static void				keyboard_sdl_scancode_plus(t_sdl sdl, t_scene *scene,\
+const Uint8 *keystate);
+void					controls_inner_cam(t_sdl sdl, t_scene scene,\
+SDL_Event	event, const Uint8 *keystate);
+static void				keyboard_sdl_scancode_h(t_sdl sdl, t_scene scene);
 #endif
