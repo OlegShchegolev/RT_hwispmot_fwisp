@@ -158,4 +158,5 @@ void					progress_bar(t_sdl *sdl, float percent);
 cl_float3				norm_v(cl_float3 vector);
 
 void					ft_draw_inner_sdl(t_sdl sdl);
+void					get_object_parameters_inner(t_cl_object *object, char *str);
 #endif
