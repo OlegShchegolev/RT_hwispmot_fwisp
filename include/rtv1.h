@@ -159,4 +159,5 @@ cl_float3				norm_v(cl_float3 vector);
 
 void					ft_draw_inner_sdl(t_sdl sdl);
 void					get_object_parameters_inner(t_cl_object *object, char *str);
+void					compile_cl_inner(t_cl *cl, int i);
 #endif
