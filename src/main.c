@@ -12,19 +12,20 @@
 
 #include "rtv1.h"
 
-void	loading_message(t_sdl *sdl)
+void			loading_message(t_sdl *sdl)
 {
 	sdl->screen = SDL_LoadBMP("loading.bmp");
-	SDL_UpdateTexture(sdl->texture, NULL, sdl->screen->pixels, sdl->screen->pitch);
+	SDL_UpdateTexture(sdl->texture, NULL, sdl->screen->pixels,
+		sdl->screen->pitch);
 	SDL_RenderClear(sdl->renderer);
 	SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
 	SDL_RenderPresent(sdl->renderer);
 }
 
-void				run_gui(t_sdl *sdl)
+void			run_gui(t_sdl *sdl)
 {
-	SDL_Event		event;
-	
+	SDL_Event	event;
+
 	SDL_CreateWindowAndRenderer(C_W, C_H, 0, &(sdl->window), &(sdl->renderer));
 	sdl->screen = SDL_CreateRGBSurface(0, C_W, C_H, 32, 0x00FF0000,\
 							0x0000FF00, 0x000000FF, 0xFF000000);
@@ -32,20 +33,20 @@ void				run_gui(t_sdl *sdl)
 								SDL_TEXTUREACCESS_STREAMING, C_W, C_H);
 	loading_message(sdl);
 	progress_bar(sdl, 0.1);
-	while(SDL_PollEvent(&event))
+	while (SDL_PollEvent(&event))
 	{
 	}
 	sdl->cl_inst = initcl(sdl);
 }
 
-void				quit_sdl(t_sdl *sdl)
+void			quit_sdl(t_sdl *sdl)
 {
 	SDL_FreeSurface(sdl->screen);
 	SDL_DestroyWindow(sdl->window);
 	SDL_Quit();
 }
 
-int					main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_sdl		sdl;
 	t_scene		scene;
