@@ -156,4 +156,6 @@ void					releasecl(t_cl *cl);
 void					loading_message(t_sdl *sdl);
 void					progress_bar(t_sdl *sdl, float percent);
 cl_float3				norm_v(cl_float3 vector);
+
+void					ft_draw_inner_sdl(t_sdl sdl);
 #endif
