@@ -73,7 +73,7 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 			
 		}
 	}
-	if (obj.type == 'p')
+	else if (obj.type == 'p')
 	{
 		t.root1 = INF;
 		t.root2 = INF;
@@ -83,7 +83,7 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 		t.root1 = - dot(oc, obj.norm) / k.x;
 		t.root2 = - dot(oc, obj.norm) / k.x;
 	}
-	if (obj.type == 'c')
+	else if (obj.type == 'c')
 	{
 		oc = o - obj.center;
 		k.x = dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm))));
@@ -123,13 +123,9 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 		}
 	}
 
-	if (obj.type == 't')
+	else if (obj.type == 't')
 	{
 		oc = o - obj.center;
-		// k.x = native_powr(native_cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm)))) - native_powr(sin(obj.alpha) * dot(d, obj.norm), 2.0f);
-		// k.y = 2.0f * native_powr(native_cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (oc - (obj.norm * dot(oc, obj.norm)))) - 2.0f * native_powr(sin(obj.alpha), 2.0f) * dot(d, obj.norm) * dot(oc, obj.norm);
-		// k.z = native_powr(native_cos(obj.alpha), 2.0f) * dot((oc - (obj.norm * dot(oc, obj.norm))), (oc -(obj.norm * dot(oc, obj.norm)))) - native_powr(sin(obj.alpha) * dot(oc, obj.norm), 2.0f);
-
 		k.x = pow(native_cos(obj.alpha), 2) * dot((d - (obj.norm * dot(d, obj.norm))), (d - (obj.norm * dot(d, obj.norm)))) - pow(native_sin(obj.alpha) * dot(d, obj.norm), 2.0f);
 		k.y = 2.0f * pow(native_cos(obj.alpha), 2.0f) * dot((d - (obj.norm * dot(d, obj.norm))), (oc - (obj.norm * dot(oc, obj.norm)))) - 2.0f * pow(native_sin(obj.alpha), 2.0f) * dot(d, obj.norm) * dot(oc, obj.norm);
 		k.z = pow(native_cos(obj.alpha), 2.0f) * dot((oc - (obj.norm * dot(oc, obj.norm))), (oc -(obj.norm * dot(oc, obj.norm)))) - pow(native_sin(obj.alpha) * dot(oc, obj.norm), 2.0f);

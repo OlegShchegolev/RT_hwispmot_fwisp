@@ -70,12 +70,12 @@ object:
 object:
 {
     type: sphere
-    center: (0, 10, -50.)
-    radius: 5.
+    center: (0, 10, -80.)
+    radius: 10.
     color:  (0, 150, 0)
     specular: -1
     transparent: 0.5
-    index_of_refr: 1.1
+    index_of_refr: 1.000001
 	negative: 0
 }
 

@@ -16,7 +16,8 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 	while (i < 20)
 	{
 		roots = ft_intersect_ray_obj(od.o, od.d, objects[i]);
-//		slicer(objects[i], &roots,	od.o, od.d);
+		if (objects[i].slice_side[0] > 0)
+			slicer(objects[i], &roots,	od.o, od.d);
 		if (roots.root1 < *dist && roots.root1 >= lim.min && roots.root1 <= lim.max)
 		{
 			*dist = roots.root1;
@@ -87,8 +88,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 
 	r1 = new_pr(od, scene.objects[closest], dist);
 	back = obj_col(r1, scene.objects[closest]);
-	f1 = apply_bump(od, scene.objects[closest], dist);
-	back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+	back *= compute_lighting(r1, od.d, scene, scene.objects[closest].specular, closest);
 
 	if (scene.objects[closest].reflective > 0) {
 		depth = 1;
@@ -185,7 +185,7 @@ __kernel void render(__global int4 *output, t_scene scene)
 	t_lim		lim;
 	t_ray		od;
 
-	lim.min = 0.0001f;
+	lim.min = 0.00001f;
 	lim.max = INF;
 	
 	od.o = scene.viewpoint;
