@@ -4,7 +4,7 @@ t_ray		new_pr(t_ray od, t_object obj, float dist)
 {
 	t_ray		pr;
 
-	pr.o = od.o + (od.d * dist);
+	pr.o = od.o + (od.d * dist)*0.99999f;
 	if (obj.type == 's')
 	{
 		pr.d = pr.o - (obj.center);

@@ -62,7 +62,7 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 
 			texture = gtexture(obj, pr.d, pr.o) / 255;
 			texture.x = (1 - texture.x) / obj.radius / 2;
-			k.z = dot(oc, oc) - native_powr((obj.radius -  texture.x), 2);
+			k.z = dot(oc, oc) - pow((obj.radius -  texture.x), 2);
 
 			disc = k.y * k.y - 4 * k.x * k.z;
 			i = 0;

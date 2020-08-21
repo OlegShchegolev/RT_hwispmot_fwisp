@@ -1,0 +1,12 @@
+Ambiance light - no 3d
+
+Limited objects
+- It's possible to choose the slice from simple or really position (a cylinder can be sliced following its own axis or following a real axis}
+- Rotations and translations still works after the slice.
+есть артефакты
+
+Direct light
+We're blinded by light spot facing us.
+
+Parallel light
+A parallel light can light up the scene, following a precise direction. (Unlike a spot that will emit light to a precise point).

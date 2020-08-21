@@ -103,6 +103,7 @@ One point per implemented option:
 
 Shadows and transparency
 Is the shadow more or less darken if the object is transparent?
+
 Textures
 For this section give one point for each of the following:
 - It's possible to apply a texture on at least one of the 4 basic objects.
