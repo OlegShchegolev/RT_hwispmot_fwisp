@@ -18,12 +18,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include "libft.h"
-# define DMAX 4000000
 # define C_W 1024
 # define C_H 768
-# define C_D 32
-# define V_W 1.
-# define V_H 1.
 # define N_OBJ 10
 # define N_SRC 10
 # include <OpenCL/opencl.h>
@@ -135,14 +131,12 @@ char					parse_type(char *str);
 void					get_slices(t_cl_object *object, char *str0);
 void					get_object_parameters(t_cl_object *object, char *str);
 char					parse_object_type(char *str);
-void					check_sources(t_cl_source *sources);
 cl_int3					*rt_cl(t_cl *cl, t_scene scene);
 cl_float3				ft_vrot(cl_float3 a, t_matrix rot);
 int						construct_scene(char *str, t_scene *scene, t_sdl *sdl);
 void					ft_draw(t_sdl sdl, t_scene scene);
 void					effect(cl_int4 *z, t_sdl sdl, t_scene scene);
 t_cl					initcl(t_sdl *sdl);
-void					set_ker_arg(t_cl *cl);
 int						ft_parse_scene(char *filename, t_scene *scene);
 void					controls(t_sdl sdl, t_scene scene);
 void					releasecl(t_cl *cl);

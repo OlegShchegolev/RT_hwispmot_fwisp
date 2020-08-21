@@ -12,11 +12,10 @@
 
 #include "rtv1.h"
 
-void			controls_inner_sdl_scene(t_sdl sdl, t_scene *scene)
+void				controls_inner_sdl_scene(t_sdl sdl, t_scene *scene)
 {
-	float		ani;
+	static float	ani;
 
-	ani = 0;
 	ani = ani + 0.05;
 	if (ani > 3.14 * 2)
 		ani = 0;
@@ -32,8 +31,8 @@ void			controls_inner_sdl_scene(t_sdl sdl, t_scene *scene)
 	ft_draw(sdl, *scene);
 }
 
-void			controls_inner_cam(t_sdl *sdl, t_scene *scene, SDL_Event event,\
-const Uint8 *keystate)
+void				controls_inner_cam(t_sdl *sdl, t_scene *scene,\
+SDL_Event event, const Uint8 *keystate)
 {
 	camera_movement(*sdl, scene, event);
 	camera_rotation(*sdl, scene, event);
