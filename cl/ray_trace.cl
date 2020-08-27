@@ -94,6 +94,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		depth = 1;
 		int 		me, i = 0;
 		float3		tmp_back;
+
 		back = back * (1 - scene.objects[me].reflective);
 		while (i < depth)
 		{
@@ -106,8 +107,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			{
 				r1 = new_pr(od, scene.objects[closest], dist); 		
 				tmp_back = obj_col(r1, scene.objects[closest]);
-				f1 = apply_bump(od, scene.objects[closest], dist);
-				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+				tmp_back *= compute_lighting(r1, od.d, scene, scene.objects[closest].specular, closest);
 				tmp_back *= scene.objects[me].reflective;
 				if (i < depth - 1)
 					tmp_back *= (1 - scene.objects[closest].reflective);
@@ -135,8 +135,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			{
 				r1 = new_pr(od, scene.objects[closest], dist); 		
 				tmp_back = obj_col(r1, scene.objects[closest]);
-				f1 = apply_bump(od, scene.objects[closest], dist);
-				tmp_back *= compute_lighting(r1, f1, scene, scene.objects[closest].specular, closest);
+				tmp_back *= compute_lighting(r1, od.d, scene, scene.objects[closest].specular, closest);
 				tmp_back *= scene.objects[me].refractive;
 				if (i < depth - 1)
 					tmp_back *= (1 - scene.objects[closest].refractive);
@@ -185,7 +184,7 @@ __kernel void render(__global int4 *output, t_scene scene)
 	t_lim		lim;
 	t_ray		od;
 
-	lim.min = 0.00001f;
+	lim.min = 0.001f;
 	lim.max = INF;
 	
 	od.o = scene.viewpoint;

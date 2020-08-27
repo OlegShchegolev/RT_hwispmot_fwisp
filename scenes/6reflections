@@ -1,6 +1,6 @@
 camera:
 {
-    viewpoint: (-30, -20, -100)
+    viewpoint: (-30, -10, -100)
     camera_angles: (0, 0, 0)
 }
 // Opened box

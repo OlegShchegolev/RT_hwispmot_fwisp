@@ -42,11 +42,11 @@ object:
 light:
 {
 	type: d
-	position: (2, 10, -10)
+	position: (0, 1, 0)
 	intensities: (0.4, 0.4, 0.4)
 }
 
-light:
+light/:
 {
 	type: p
 	position: (17, 15, -15)
