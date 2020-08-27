@@ -131,7 +131,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 			closest = get_closest(od, scene.objects, &(dist), lim);
 			scene.objects[closest].dist = dist;
 			
-			if (closest >= 0 &&  scene.objects[me].refractive > 0 ) 
+			if (closest >= 0 &&  scene.objects[me].refractive > 0) 
 			{
 				r1 = new_pr(od, scene.objects[closest], dist); 		
 				tmp_back = obj_col(r1, scene.objects[closest]);
@@ -139,7 +139,8 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 				tmp_back *= scene.objects[me].refractive;
 				if (i < depth - 1)
 					tmp_back *= (1 - scene.objects[closest].refractive);
-				back += tmp_back;
+				if (i % 2)
+					back += tmp_back * scene.objects[me].refractive;
 
 			}
 			else break ;

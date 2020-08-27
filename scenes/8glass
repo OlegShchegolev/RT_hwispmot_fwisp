@@ -44,9 +44,9 @@ object:
 	reflective: 0.
 	transparent: 0.5
     index_of_refr: 1.1
-    slice: (0., 1., 0., 1)
+    slice: (0., 1., 0., 0.1)
 	slice_side: 2
-    slice: (0., 1., 0., -8)
+    slice: (0., 1., 0., -7.1)
 	slice_side: 1
 
 }
