@@ -113,7 +113,7 @@ float			compute_shadow(t_scene scene, t_ray pl)
 	//zero_negatives_arr(param);
 	// inter_res_shadow = look_for_intersections(param, param->vec_params.p_big,
 	// 	param->vec_params.l_big);
-	closest_figure =  get_closest(pl, scene.objects, &dist, scene.cl_lim);
+	closest_figure = get_closest(pl, scene.objects, &dist, scene.cl_lim);
 	if (scene.objects[closest_figure ].negative == 1)
 					return (1.f);
 
@@ -182,7 +182,13 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 					// plane correction
 				if (scene.objects[closest].type == 'p')
 				{
-					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0.)
+					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0. && scene.sources[i].type != 'd')
+					{
+						s.intensities.x = 0.0f;
+						s.intensities.y = 0.0f;
+						s.intensities.z = 0.0f;
+					}
+					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp > 0. && scene.sources[i].type == 'd')
 					{
 						s.intensities.x = 0.0f;
 						s.intensities.y = 0.0f;

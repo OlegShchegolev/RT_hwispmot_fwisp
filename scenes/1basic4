@@ -1,6 +1,6 @@
 camera:
 {
-    viewpoint: (0, 0, -50)
+    viewpoint: (0, 0, -200)
     camera_angles: (0, 0, 0)
 }
 // Back wall

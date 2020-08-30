@@ -42,7 +42,7 @@ cl_float4		return_zero_4dvector(void)
 	return (zero);
 }
 
-cl_int3 		return_zero_color(void)
+cl_int3			return_zero_color(void)
 {
 	cl_int3		zero;
 

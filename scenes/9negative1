@@ -58,12 +58,5 @@ light:
 {
 	type: p
 	position: (-10, 5, -15)
-	intensities: (0.4, 0.4, 0.4)
-}
-
-light:
-{
-	type: p
-	position: (10, 5, -15)
-	intensities: (0.4, 0.4, 0.4)
+	intensities: (0.9, 0.9, 0.9)
 }

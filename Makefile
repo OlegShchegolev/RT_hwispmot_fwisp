@@ -23,7 +23,7 @@ FLAGS=-Wall -Wextra #-Werror
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 FRAMEWORKS=-framework OpenGL -framework AppKit -framework OpenCL
 
-SRC=main.c pic.c construct_scene.c cl.c effect.c parser.c parser_functions1.c parser_functions2.c parser_functions3.c controls.c #controls2.c
+SRC=main.c pic.c construct_scene.c cl.c effect.c parser.c parser_functions1.c parser_functions2.c parser_functions3.c controls.c external_functions.c effect2.c effect3.c controls_inner.c controls_keybords.c #controls2.c
 
 OBJ=${addprefix obj/, ${SRC:%.c=%.o}}
 

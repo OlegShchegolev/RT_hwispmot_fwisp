@@ -54,7 +54,7 @@ cl_float4		parse_4dvector(char *str)
 	return (v);
 }
 
-cl_int3		    parse_color(char *str)
+cl_int3			parse_color(char *str)
 {
 	cl_int3		color;
 
@@ -79,13 +79,13 @@ char			parse_type(char *str)
 {
 	while (*str == ' ' || *str == '\n')
 		str++;
-	return *str;
+	return (*str);
 }
 
 void			get_slices(t_cl_object *object, char *str0)
 {
-	int	i;
-	char	*str;
+	int			i;
+	char		*str;
 
 	str = str0;
 	i = -1;

@@ -12,19 +12,19 @@
 
 #include "rtv1.h"
 
-static void    mouse_controls(t_sdl sdl, t_scene *scene, SDL_Event event)
+static void		mouse_controls(t_sdl sdl, t_scene *scene, SDL_Event event)
 {
-    cl_float3		shift;
-    
-    shift = (cl_float3){{0, 0, 1}};
+	cl_float3	shift;
+
+	shift = (cl_float3){{0, 0, 1}};
 	shift = ft_vrot(shift, scene->rot_matrix);
-	if(event.wheel.y > 0)
+	if (event.wheel.y > 0)
 	{
 		scene->viewpoint.s[0] += shift.s[0];
 		scene->viewpoint.s[1] += shift.s[1];
 		scene->viewpoint.s[2] += shift.s[2];
 	}
-	else if(event.wheel.y < 0)
+	else if (event.wheel.y < 0)
 	{
 		scene->viewpoint.s[0] -= shift.s[0];
 		scene->viewpoint.s[1] -= shift.s[1];
@@ -33,15 +33,15 @@ static void    mouse_controls(t_sdl sdl, t_scene *scene, SDL_Event event)
 	ft_draw(sdl, *scene);
 }
 
-static void    camera_movement(t_sdl sdl, t_scene *scene, SDL_Event event)
+void			camera_movement(t_sdl sdl, t_scene *scene, SDL_Event event)
 {
-    cl_float3		shift;
-	int				sym;
+	cl_float3	shift;
+	int			sym;
 
-    shift = (cl_float3){{0, 0, 0}};
+	shift = (cl_float3){{0, 0, 0}};
 	sym = event.key.keysym.sym;
 	if (sym == SDLK_d || sym == SDLK_a || sym == SDLK_w || sym == SDLK_s)
-    {
+	{
 		if (event.key.keysym.sym == SDLK_d)
 			shift = ft_vrot((cl_float3){{1, 0, 0}}, scene->rot_matrix);
 		else if (event.key.keysym.sym == SDLK_a)
@@ -57,12 +57,13 @@ static void    camera_movement(t_sdl sdl, t_scene *scene, SDL_Event event)
 	}
 }
 
-static void    camera_rotation(t_sdl sdl, t_scene *scene, SDL_Event event)
+void			camera_rotation(t_sdl sdl, t_scene *scene, SDL_Event event)
 {
-	int	sym;
+	int			sym;
 
 	sym = event.key.keysym.sym;
-	if (sym == SDLK_DOWN || sym == SDLK_UP || sym == SDLK_RIGHT || sym == SDLK_LEFT)
+	if (sym == SDLK_DOWN || sym == SDLK_UP || sym == SDLK_RIGHT || sym ==
+	SDLK_LEFT)
 	{
 		if (sym == SDLK_DOWN)
 			scene->cam_angles.s[0] += 5;
@@ -77,43 +78,21 @@ static void    camera_rotation(t_sdl sdl, t_scene *scene, SDL_Event event)
 	}
 }
 
-static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate)
+void			keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8
+*keystate)
 {
 	if (keystate[SDL_SCANCODE_RETURN])
 		SDL_SaveBMP(sdl.screen, "screenshot.bmp");
 	if (keystate[SDL_SCANCODE_SPACE] && \
-	(keystate[SDL_SCANCODE_O] || keystate[SDL_SCANCODE_G] || keystate[SDL_SCANCODE_P] || \
-	keystate[SDL_SCANCODE_I] || keystate[SDL_SCANCODE_L] || keystate[SDL_SCANCODE_B] || \
-	keystate[SDL_SCANCODE_Y]|| keystate[SDL_SCANCODE_T]))
-	{
-		scene->effect_int = 3;
-		if (keystate[SDL_SCANCODE_O])
-			scene->effect = scene->effect != 's' ? 's' : 0;
-		if (keystate[SDL_SCANCODE_G])
-			scene->effect = scene->effect != 'g' ? 'g' : 0;
-		if (keystate[SDL_SCANCODE_P])
-			scene->effect = scene->effect != 'p' ? 'p' : 0;
-		if (keystate[SDL_SCANCODE_I])
-			scene->effect = scene->effect != 'i' ? 'i' : 0;
-		if (keystate[SDL_SCANCODE_L])
-			scene->effect = scene->effect != 'l' ? 'l' : 0;
-		if (keystate[SDL_SCANCODE_B])
-			scene->effect = scene->effect != 'b' ? 'b' : 0;
-		if (keystate[SDL_SCANCODE_Y])
-			scene->effect = scene->effect != 'a' ? 'a' : 0;
-		if (keystate[SDL_SCANCODE_T])
-			scene->effect = scene->effect != 't' ? 't' : 0;
-    	ft_draw(sdl, *scene);
-	}
+	(keystate[SDL_SCANCODE_O] || keystate[SDL_SCANCODE_G] ||
+	keystate[SDL_SCANCODE_P] || keystate[SDL_SCANCODE_I] ||
+	keystate[SDL_SCANCODE_L] || keystate[SDL_SCANCODE_B] ||
+	keystate[SDL_SCANCODE_Y] || keystate[SDL_SCANCODE_T]))
+		keyboard_effects_inner(sdl, scene, keystate);
 	else if (keystate[SDL_SCANCODE_KP_PLUS] || keystate[SDL_SCANCODE_KP_MINUS])
 	{
 		if (keystate[SDL_SCANCODE_KP_PLUS])
-		{
-			if (scene->effect == 'a')
-				scene->effect_int += scene->effect_int < 4 ? 1 : 0;
-			else
-				scene->effect_int += scene->effect_int < 10 ? 1 : 0;
-		}
+			keyboard_sdl_scancode_plus(scene);
 		else if (keystate[SDL_SCANCODE_KP_MINUS])
 			scene->effect_int -= scene->effect_int > 1 ? 1 : 0;
 		ft_draw(sdl, *scene);
@@ -121,71 +100,37 @@ static void    keyboard_effects(t_sdl sdl, t_scene *scene, const Uint8	*keystate
 	else if (keystate[SDL_SCANCODE_PAGEDOWN] || keystate[SDL_SCANCODE_PAGEUP])
 	{
 		if (keystate[SDL_SCANCODE_PAGEDOWN])
-		{
-			if (scene->current_scene == sdl.scene_num)
-				scene->current_scene = 1;
-			else
-				scene->current_scene++;
-			if (!construct_scene(sdl.scenes[scene->current_scene], scene, &sdl))
-				ft_draw(sdl, *scene);
-		}
+			keyboard_sdl_scancode_pagedown(sdl, scene);
 		else if (keystate[SDL_SCANCODE_PAGEUP])
-		{
-			if (scene->current_scene == 1)
-				scene->current_scene = sdl.scene_num;
-			else
-				scene->current_scene--;
-			if (!construct_scene(sdl.scenes[scene->current_scene], scene, &sdl))
-				ft_draw(sdl, *scene);
-		}
+			keyboard_sdl_scancode_pageup(sdl, scene);
 	}
 }
 
-void		controls(t_sdl sdl, t_scene scene)
+void			controls(t_sdl sdl, t_scene scene)
 {
-	SDL_Event		event;
-	const Uint8			*keystate;
+	SDL_Event	event;
+	const Uint8	*keystate;
 
 	keystate = SDL_GetKeyboardState(NULL);
-	float ani = 0;
 	while (1)
 	{
 		if (SDL_PollEvent(&event))
-		{		
+		{
 			if (event.type == SDL_QUIT)
 				break ;
-			else if(event.type == SDL_MOUSEWHEEL)
+			else if (event.type == SDL_MOUSEWHEEL)
 				mouse_controls(sdl, &scene, event);
 			else if (event.type == SDL_KEYDOWN)
 			{
-				camera_movement(sdl, &scene, event);
-				camera_rotation(sdl, &scene, event);
-				keyboard_effects(sdl, &scene, keystate);
+				controls_inner_cam(&sdl, &scene, event, keystate);
 				if (keystate[SDL_SCANCODE_H])
-				{
-					sdl.help = sdl.help != 1 ? 1 : 0;
-					ft_draw(sdl, scene);
-				}
-					
+					keyboard_sdl_scancode_h(&sdl, scene);
 				if (event.key.keysym.sym == SDLK_ESCAPE || \
 						event.key.keysym.sym == SDLK_q)
 					break ;
 			}
-
-				
 		}
 		if (scene.animate == 1)
-		{
-			ani = ani + 0.05;
-			if (ani > 3.14 *2)
-				ani = 0;
-			scene.objects[0].shift.s[0] = scene.objects[0].shift.s[0] + 0.01;
-			scene.objects[0].center.s[0] = scene.objects[0].center.s[0] - cos(ani-0.1)*2 + cos(ani)*2;
-			scene.objects[0].center.s[1] = scene.objects[0].center.s[1] - sin(ani-0.1)*2 + sin(ani)*2;
-			scene.objects[1].center.s[0] = scene.objects[1].center.s[0] - cos(ani-0.1)*2 + cos(ani)*2;
-			scene.objects[1].center.s[2] = scene.objects[1].center.s[2] - sin(ani-0.1)*2 + sin(ani)*2;
-			ft_draw(sdl, scene);
-		}
-		
+			controls_inner_sdl_scene(sdl, &scene);
 	}
 }

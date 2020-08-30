@@ -48,7 +48,7 @@ object:
     reflective: 0.
     transparent: 1
 	negative: 0
-    index_of_refr: 1.1
+    index_of_refr: 1.
 }
 
 

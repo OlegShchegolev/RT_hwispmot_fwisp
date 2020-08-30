@@ -38,7 +38,6 @@ object:
 	negative: 0
 }
 
-
 light:
 {
 	type: a
