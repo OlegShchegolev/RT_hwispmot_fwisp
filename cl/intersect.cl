@@ -82,6 +82,10 @@ t_roots	ft_intersect_ray_obj(float3 o, float3 d, t_object obj)
 
 		t.root1 = - dot(oc, obj.norm) / k.x;
 		t.root2 = - dot(oc, obj.norm) / k.x;
+		if (k.x < 0)
+			t.root1 = INF;
+		else
+			t.root2 = INF;
 	}
 	else if (obj.type == 'c')
 	{

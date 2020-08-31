@@ -46,7 +46,7 @@ object:
     color:  (100, 100, 100)
     specular: -1
     reflective: 0.
-    transparent: 1
+    transparent: 1.
 	negative: 0
     index_of_refr: 1.
 }

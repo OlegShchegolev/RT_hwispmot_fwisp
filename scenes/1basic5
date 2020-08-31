@@ -83,41 +83,15 @@ object:
 	negative: 0
 }
 // Different light sources behind spheres
-//left
 light:
 {
 	type: p
-	position: (-90, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
+	position: (0, 0, -70)
+	intensities: (0.7, 0.7, 0.7)
 }
+
 light:
 {
-	type: p
-	position: (-60, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
-}
-light:
-{
-	type: p
-	position: (-30, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
-}
-//right
-light:
-{
-	type: p
-	position: (30, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
-}
-light:
-{
-	type: p
-	position: (60, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
-}
-light:
-{
-	type: p
-	position: (90, 0, -25)
-	intensities: (0.4, 0.4, 0.4)
+    type: a
+    intensities: (0.2, 0.2, 0.2)
 }

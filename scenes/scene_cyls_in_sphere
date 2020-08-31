@@ -1,7 +1,7 @@
 // Camera at the back side of the big sphere
 camera:
 {
-    viewpoint: (-90, 0, 0)
+    viewpoint: (0, 0, -90)
     camera_angles: (0, 0, 0)
 }
 // Big red sphere itself

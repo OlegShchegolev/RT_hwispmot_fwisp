@@ -20,7 +20,7 @@
 # include "libft.h"
 # define C_W 1024
 # define C_H 768
-# define N_OBJ 10
+# define N_OBJ 20
 # define N_SRC 10
 # include <OpenCL/opencl.h>
 

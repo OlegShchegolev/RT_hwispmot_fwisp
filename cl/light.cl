@@ -165,11 +165,11 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 
 
 	pl.o = pn.o;
-	if (scene.objects[closest].type == 'p')
-	{
-		d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
-		plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
-	}
+//	if (scene.objects[closest].type == 'p')
+//	{
+//		d = -1. * dot(scene.objects[closest].norm, scene.objects[closest].center);
+//		plane_vp = dot(scene.objects[closest].norm, scene.viewpoint) + d;
+//	}
 	while (++i < 10)
 	{
 		if (scene.sources[i].type == 'p' || scene.sources[i].type == 'a' || scene.sources[i].type == 'd')
@@ -180,21 +180,25 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 			else
 			{
 					// plane correction
-				if (scene.objects[closest].type == 'p')
-				{
-					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0. && scene.sources[i].type != 'd')
-					{
-						s.intensities.x = 0.0f;
-						s.intensities.y = 0.0f;
-						s.intensities.z = 0.0f;
-					}
-					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp > 0. && scene.sources[i].type == 'd')
-					{
-						s.intensities.x = 0.0f;
-						s.intensities.y = 0.0f;
-						s.intensities.z = 0.0f;
-					}
-				}
+//				if (scene.objects[closest].type == 'p')
+//				{
+//					if (root2 == INF)
+//						scene.objects[closest].norm *= -1;
+//					if ((dot(scene.objects[closest].norm, s.position) + d) * plane_vp < 0. && scene.sources[i].type != 'd')
+//					{
+//						s.intensities.x = 0.0f;
+//						s.intensities.y = 0.0f;
+//						s.intensities.z = 0.0f;
+//					}
+//					if ((dot(scene.objects[closest].norm, s.position) + d) *
+//					plane_vp < 0. && scene.sources[i].type == 'd')
+//					{
+//						s.intensities.x = 0.0f;
+//						s.intensities.y = 0.0f;
+//						s.intensities.z = 0.0f;
+//					}
+//				}
+
 				// plane correction
 
 				pl.d = get_big_l(s, pn);
@@ -216,8 +220,8 @@ float3		compute_lighting(t_ray pn, float3 md, t_scene scene, int specular, int c
 				if (dot(pn.d, pl.d) > 0.0f)
 					intensities += s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
 				// plane correction
-				if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
-					intensities -= s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
+//				if (dot(pn.d, pl.d) < 0.0f && scene.objects[closest].type == 'p')
+//					intensities -= s.intensities * dot(pn.d, pl.d) / length(pl.d) * shadow_coef;
 				//compute shine
 				if (specular > 0)
 				{

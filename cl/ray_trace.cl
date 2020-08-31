@@ -16,6 +16,11 @@ int			get_closest(t_ray od, t_object *objects, float *dist, t_lim lim)
 	while (i < 20)
 	{
 		roots = ft_intersect_ray_obj(od.o, od.d, objects[i]);
+		if (objects[i].type == 'p')
+		{
+			if (roots.root2 == INF && roots.root1 != INF)
+				objects[i].norm *= -1;
+		}
 		if (objects[i].slice_side[0] > 0)
 			slicer(objects[i], &roots,	od.o, od.d);
 		if (roots.root1 < *dist && roots.root1 >= lim.min && roots.root1 <= lim.max)
@@ -95,7 +100,7 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		int 		me, i = 0;
 		float3		tmp_back;
 
-		back = back * (1 - scene.objects[me].reflective);
+		back = back * (1 - scene.objects[closest].reflective);
 		while (i < depth)
 		{
 			od = obj_refl(od, r1, closest, scene);
@@ -123,7 +128,8 @@ int4		ft_trace_ray(t_ray od, t_lim lim, t_scene scene, int depth)
 		depth = 4;
 		int 		me, i = 0;
 		float3		tmp_back;
-		back = back * (1 - scene.objects[me].refractive);
+		back = back * (1 - scene.objects[closest].refractive);
+
 		while (i < depth)
 		{
 			od = obj_refr(od, r1, closest, scene);

@@ -17,8 +17,8 @@ void			pencil(cl_int4 *z, int i)
 	cl_int4		*res;
 	cl_int4		*back;
 
-	back = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
-	res = (cl_int4*)malloc(sizeof(cl_int4) * C_H * C_W);
+	back = (cl_int4*)malloc(4 * C_H * C_W);
+	res = (cl_int4*)malloc(4 * C_H * C_W);
 	grayscale(z, 10);
 	back = ft_memcpy(back, z, sizeof(cl_int4) * C_H * C_W);
 	invert(back);
